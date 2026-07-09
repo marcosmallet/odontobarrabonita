@@ -100,9 +100,10 @@ export default function PrivacyPolicyPage() {
                 <h2>4. Serviços externos</h2>
                 <p>
                   Os links de WhatsApp e Google Maps seguem as políticas de
-                  privacidade das respectivas plataformas. O mapa incorporado só é
-                  carregado se você selecionar “Visualizar mapa”. Nenhum cookie de
-                  analytics é instalado por este site.
+                  privacidade das respectivas plataformas. O mapa incorporado usa o
+                  Google Maps e pode carregar recursos externos quando você se
+                  aproxima da seção de localização. Nenhum cookie de analytics é
+                  instalado por este site.
                 </p>
               </section>
 

@@ -32,6 +32,8 @@ export function Footer() {
               <li>
                 <Link
                   href="/politica-de-privacidade/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-sm transition-colors hover:text-turquoise-light focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
                 >
                   Política de Privacidade
@@ -69,7 +71,7 @@ export function Footer() {
         </div>
 
         <p className="border-t border-white/10 pt-6 text-center text-xs text-white/45">
-          © <CurrentYear /> {clinic.name}. Todos os direitos reservados.
+          © <CurrentYear /> M2 Soluções com IA. Todos os direitos reservados.
         </p>
       </div>
     </footer>
