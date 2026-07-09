@@ -6,6 +6,8 @@ import {
   MessageCircle,
   Sparkles,
 } from "lucide-react";
+import Image from "next/image";
+import consultationImage from "../../public/images/consulta-odontologica-escuta.png";
 import { WhatsAppChooserTrigger } from "./whatsapp-chooser";
 
 export function Hero() {
@@ -77,53 +79,23 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-xl" aria-hidden="true">
+        <div className="relative mx-auto w-full max-w-xl">
           <div className="absolute -inset-5 rounded-[3rem] border border-turquoise/15" />
           <div className="relative min-h-[31rem] overflow-hidden rounded-[2.5rem] border border-white/90 bg-petroleum shadow-[0_30px_80px_rgba(15,83,78,0.2)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(76,194,183,0.28),transparent_35%),radial-gradient(circle_at_20%_80%,rgba(255,255,255,0.09),transparent_40%)]" />
-            <svg
-              viewBox="0 0 540 520"
-              className="absolute inset-0 h-full w-full"
-              fill="none"
-            >
-              <path
-                d="M73 410c89-70 145-31 225-91 92-69 113-149 210-174"
-                stroke="rgba(255,255,255,.13)"
-                strokeWidth="2"
-              />
-              <path
-                d="M-20 335c118-40 139 12 251-21 109-32 137-125 300-152"
-                stroke="rgba(76,194,183,.38)"
-                strokeWidth="2"
-              />
-              <circle cx="438" cy="118" r="80" stroke="rgba(255,255,255,.1)" />
-              <circle cx="438" cy="118" r="52" stroke="rgba(76,194,183,.25)" />
-            </svg>
-
-            <div className="absolute left-7 top-7 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-turquoise-light backdrop-blur">
+            <Image
+              src={consultationImage}
+              alt="Dentista conversando com paciente em consultório odontológico claro e acolhedor"
+              fill
+              priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-petroleum/15 via-transparent to-petroleum/70" />
+            <div className="absolute left-7 top-7 rounded-full border border-white/35 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-petroleum shadow-sm backdrop-blur">
               Saúde · Cuidado · Bem-estar
             </div>
 
-            <div className="absolute left-1/2 top-[46%] grid size-48 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-white/[0.07] shadow-inner backdrop-blur-sm">
-              <svg viewBox="0 0 180 180" className="size-32 text-white">
-                <path
-                  d="M54 35c14-7 24 3 36 3s22-10 36-3c24 12 15 44 7 65-10 27-16 41-27 41-10 0-6-30-16-30s-6 30-16 30c-11 0-17-14-27-41-8-21-17-53 7-65Z"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-                <path
-                  d="M52 72c17 7 36 3 48-10"
-                  stroke="#6ed8cf"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            <div className="absolute inset-x-7 bottom-7 rounded-3xl border border-white/15 bg-white/10 p-5 text-white backdrop-blur-md">
+            <div className="absolute inset-x-5 bottom-5 rounded-3xl border border-white/30 bg-petroleum/82 p-5 text-white shadow-2xl backdrop-blur-md sm:inset-x-7 sm:bottom-7">
               <div className="flex items-start gap-4">
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-turquoise text-petroleum">
                   <Sparkles className="size-5" />
