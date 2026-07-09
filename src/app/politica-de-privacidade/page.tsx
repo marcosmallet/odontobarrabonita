@@ -72,10 +72,11 @@ export default function PrivacyPolicyPage() {
               <section>
                 <h2>2. Quais dados são coletados</h2>
                 <p>
-                  Esta versão do site não possui formulário, cadastro, área do
-                  paciente ou ferramenta própria de analytics. Portanto, o site
-                  não coleta diretamente nome, telefone, CPF, informações clínicas
-                  ou outros dados pessoais.
+                  Esta versão do site não possui formulário, cadastro ou área do
+                  paciente. O site utiliza Google Analytics para medir, de forma
+                  agregada, visitas, páginas acessadas e interações de navegação.
+                  O site não coleta diretamente nome, telefone, CPF, informações
+                  clínicas ou outros dados pessoais por meio de formulários.
                 </p>
                 <p>
                   Ao escolher falar pelo WhatsApp, você será direcionado para um
@@ -102,8 +103,9 @@ export default function PrivacyPolicyPage() {
                   Os links de WhatsApp e Google Maps seguem as políticas de
                   privacidade das respectivas plataformas. O mapa incorporado usa o
                   Google Maps e pode carregar recursos externos quando você se
-                  aproxima da seção de localização. Nenhum cookie de analytics é
-                  instalado por este site.
+                  aproxima da seção de localização. O Google Analytics também
+                  pode carregar recursos externos e usar identificadores ou cookies
+                  para gerar métricas agregadas de navegação.
                 </p>
               </section>
 

@@ -141,6 +141,12 @@ test("publica a política de privacidade", async ({ page }) => {
     page.getByRole("heading", { level: 1, name: "Política de Privacidade" }),
   ).toBeVisible();
   await expect(page.getByText(/não possui formulário, cadastro/i)).toBeVisible();
+  await expect(page.getByText(/Google Analytics para medir/i)).toBeVisible();
+  await expect(
+    page.locator(
+      'script[src="https://www.googletagmanager.com/gtag/js?id=G-7BE21XPLT4"]',
+    ),
+  ).toHaveCount(1);
   await expect(page.locator("h1")).toHaveCount(1);
 });
 

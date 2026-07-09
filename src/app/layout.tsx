@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Work_Sans } from "next/font/google";
+import Script from "next/script";
 import { WhatsAppProvider } from "@/components/whatsapp-chooser";
 import { SITE_URL } from "@/lib/site-data";
 import "./globals.css";
@@ -72,6 +73,19 @@ export default function RootLayout({
       <body>
         <WhatsAppProvider>{children}</WhatsAppProvider>
       </body>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-7BE21XPLT4"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-7BE21XPLT4');
+        `}
+      </Script>
     </html>
   );
 }
