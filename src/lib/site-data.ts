@@ -14,10 +14,10 @@ export const clinic = {
 } as const;
 
 export const mapsUrl =
-  "https://www.google.com/maps/search/?api=1&query=Av.%20das%20Am%C3%A9ricas%2019005%20Torre%202%20Sala%20403%20Recreio%20dos%20Bandeirantes%20Rio%20de%20Janeiro%20RJ";
+  "https://maps.app.goo.gl/Zp8vduD67f1ABD6h6";
 
 export const mapsEmbedUrl =
-  "https://www.google.com/maps?q=Av.%20das%20Am%C3%A9ricas%2C%2019005%20Torre%202%20Sala%20403%2C%20Recreio%20dos%20Bandeirantes%2C%20Rio%20de%20Janeiro%20RJ&output=embed";
+  "https://www.google.com/maps?q=Clinica%20Odontologica%20Barra%20Bonita%40-23.0201231%2C-43.4862014&output=embed";
 
 export type Dentist = {
   id: "carlos" | "francisco" | "marcia";

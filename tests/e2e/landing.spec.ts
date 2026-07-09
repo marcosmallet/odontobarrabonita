@@ -65,9 +65,14 @@ test("abre e fecha o seletor acessível de WhatsApp", async ({ page }) => {
 
 test("exibe o mapa incorporado sem clique intermediário", async ({ page }) => {
   await page.goto("/");
-  await expect(
-    page.locator('iframe[title="Mapa da Clínica Odontológica Barra Bonita"]'),
-  ).toBeVisible();
+  const mapFrame = page.locator(
+    'iframe[title="Mapa da Clínica Odontológica Barra Bonita"]',
+  );
+  await expect(mapFrame).toBeVisible();
+  await expect(mapFrame).toHaveAttribute(
+    "src",
+    /https:\/\/www\.google\.com\/maps\?q=Clinica%20Odontologica%20Barra%20Bonita%40-23\.0201231%2C-43\.4862014&output=embed/,
+  );
   await expect(page.getByRole("button", { name: "Visualizar mapa" })).toHaveCount(0);
 });
 
@@ -75,6 +80,10 @@ test("abre rota e política de privacidade em novas abas", async ({ page }) => {
   await page.goto("/");
 
   const directionsLink = page.getByRole("link", { name: "Como chegar" });
+  await expect(directionsLink).toHaveAttribute(
+    "href",
+    "https://maps.app.goo.gl/Zp8vduD67f1ABD6h6",
+  );
   await expect(directionsLink).toHaveAttribute("target", "_blank");
   await expect(directionsLink).toHaveAttribute("rel", "noopener noreferrer");
 
