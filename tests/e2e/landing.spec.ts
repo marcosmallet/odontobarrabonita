@@ -106,7 +106,7 @@ test("mantém os links na mesma ordem das seções", async ({ page }, testInfo) 
   await expect(
     page.locator('nav[aria-label="Navegação principal"] a'),
   ).toHaveText(expectedLabels);
-  await expect(page.locator('footer a[href^="#"]')).toHaveText(expectedLabels);
+  await expect(page.locator('footer ul a[href*="#"]')).toHaveText(expectedLabels);
 
   for (const item of navigation) {
     await expect(page.locator(item.href)).toHaveCount(1);
@@ -142,4 +142,19 @@ test("publica a política de privacidade", async ({ page }) => {
   ).toBeVisible();
   await expect(page.getByText(/não possui formulário, cadastro/i)).toBeVisible();
   await expect(page.locator("h1")).toHaveCount(1);
+});
+
+test("links rápidos da política retornam às seções da página inicial", async ({
+  page,
+}) => {
+  for (const item of navigation) {
+    await page.goto("/politica-de-privacidade/");
+    await page
+      .locator("footer")
+      .getByRole("link", { name: item.label, exact: true })
+      .click();
+
+    await expect.poll(() => page.evaluate(() => window.location.pathname)).toBe("/");
+    await expect.poll(() => page.evaluate(() => window.location.hash)).toBe(item.href);
+  }
 });

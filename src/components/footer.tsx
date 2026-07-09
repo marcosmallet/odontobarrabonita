@@ -21,12 +21,12 @@ export function Footer() {
             <ul className="mt-5 grid gap-3 text-sm text-white/65">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <a
-                    href={item.href}
+                  <Link
+                    href={`/${item.href}`}
                     className="rounded-sm transition-colors hover:text-turquoise-light focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
               <li>
