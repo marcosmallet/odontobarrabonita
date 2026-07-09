@@ -29,6 +29,11 @@ test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) 
   for (const dentist of dentists) {
     await expect(page.getByText(dentist.name, { exact: true }).first()).toBeVisible();
     await expect(page.getByText(dentist.cro, { exact: true }).first()).toBeVisible();
+    await expect(
+      page.getByRole("img", {
+        name: `Retrato profissional de ${dentist.name}`,
+      }),
+    ).toBeVisible();
   }
 
   const hasOverflow = await page.evaluate(

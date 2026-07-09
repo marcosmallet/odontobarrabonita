@@ -68,7 +68,7 @@ Enquanto não houver um telefone principal, os CTAs gerais abrem um seletor neut
 
 ## Imagens reais
 
-A foto da recepção está em `public/images/`, otimizada em WebP. O hero e os cards profissionais continuam usando composições abstratas até existirem retratos autorizados.
+A foto da recepção e os retratos dos três profissionais estão em `public/images/`, otimizados em WebP. O hero continua usando uma composição abstrata institucional.
 
 Para adicionar novas fotos:
 
@@ -100,7 +100,7 @@ Esta versão não coleta dados. Uma integração futura pode usar Resend, Formsp
 
 ## Informações ainda pendentes
 
-- Retratos autorizados dos profissionais e fotos adicionais das instalações
+- Fotos adicionais autorizadas das instalações
 - Horário de funcionamento
 - Telefone principal da clínica
 - Informações confirmadas sobre estacionamento, convênios e pagamentos

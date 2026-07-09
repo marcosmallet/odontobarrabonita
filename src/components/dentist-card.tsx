@@ -1,30 +1,33 @@
 import { ExternalLink, MessageCircle } from "lucide-react";
+import Image from "next/image";
 import type { Dentist } from "@/lib/site-data";
+import carlosPortrait from "../../public/images/profissionais/carlos-rocha.webp";
+import franciscoPortrait from "../../public/images/profissionais/francisco-calheiros.webp";
+import marciaPortrait from "../../public/images/profissionais/marcia-rocha.webp";
+
+const portraits = {
+  carlos: carlosPortrait,
+  francisco: franciscoPortrait,
+  marcia: marciaPortrait,
+} satisfies Record<Dentist["id"], typeof carlosPortrait>;
 
 export function DentistCard({ dentist }: { dentist: Dentist }) {
-  const initials = dentist.name
-    .replace(/^(Dr\.|Dra\.)\s+/, "")
-    .split(" ")
-    .filter((part) => part.length > 2)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("");
+  const portrait = portraits[dentist.id];
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-line bg-white">
-      <div className="relative grid h-52 place-items-center overflow-hidden bg-gradient-to-br from-petroleum to-petroleum-light">
-        <div
-          className="absolute inset-0 opacity-50"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 80% 20%, rgba(76,194,183,.35), transparent 28%), radial-gradient(circle at 10% 90%, rgba(255,255,255,.12), transparent 35%)",
-          }}
+      <div className="relative aspect-[4/3] overflow-hidden bg-petroleum">
+        <Image
+          src={portrait}
+          alt={`Retrato profissional de ${dentist.name}`}
+          className="h-full w-full object-cover"
+          sizes="(min-width: 1024px) 33vw, 100vw"
         />
-        <span className="relative grid size-24 place-items-center rounded-full border border-white/20 bg-white/10 font-display text-3xl font-semibold tracking-wide text-white backdrop-blur">
-          {initials}
-        </span>
-        <p className="absolute bottom-5 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white/80 backdrop-blur">
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-petroleum/70 to-transparent"
+          aria-hidden="true"
+        />
+        <p className="absolute bottom-5 left-5 rounded-full border border-white/20 bg-petroleum/80 px-4 py-2 text-xs font-medium text-white backdrop-blur">
           {dentist.cro}
         </p>
       </div>
