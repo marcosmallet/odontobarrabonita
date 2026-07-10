@@ -17,7 +17,7 @@ export const mapsUrl =
   "https://maps.app.goo.gl/Zp8vduD67f1ABD6h6";
 
 export const mapsEmbedUrl =
-  "https://www.google.com/maps?q=Clinica%20Odontologica%20Barra%20Bonita%40-23.0201231%2C-43.4862014&output=embed";
+  "https://www.google.com/maps?cid=10296742771749999210&output=embed";
 
 export type Dentist = {
   id: "carlos" | "francisco" | "marcia";

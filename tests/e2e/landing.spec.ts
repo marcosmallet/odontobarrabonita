@@ -71,7 +71,7 @@ test("exibe o mapa incorporado sem clique intermediário", async ({ page }) => {
   await expect(mapFrame).toBeVisible();
   await expect(mapFrame).toHaveAttribute(
     "src",
-    /https:\/\/www\.google\.com\/maps\?q=Clinica%20Odontologica%20Barra%20Bonita%40-23\.0201231%2C-43\.4862014&output=embed/,
+    "https://www.google.com/maps?cid=10296742771749999210&output=embed",
   );
   await expect(page.getByRole("button", { name: "Visualizar mapa" })).toHaveCount(0);
 });
