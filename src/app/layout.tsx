@@ -37,7 +37,7 @@ export const metadata: Metadata = {
       "Atendimento odontológico completo no Absolutto Business Towers, no Recreio dos Bandeirantes.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image-v2.jpg",
         width: 1200,
         height: 630,
         alt: "Clínica Odontológica Barra Bonita",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: "Clínica Odontológica Barra Bonita",
     description:
       "Cuidado odontológico completo no Recreio dos Bandeirantes.",
-    images: ["/og-image.png"],
+    images: ["/og-image-v2.jpg"],
   },
   category: "health",
 };
