@@ -60,7 +60,7 @@ export function DentistCard({ dentist }: { dentist: Dentist }) {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium text-graphite/65 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
           >
-            Ver referência profissional
+            Ver mais informações
             <ExternalLink className="size-3.5" aria-hidden="true" />
           </a>
         </div>

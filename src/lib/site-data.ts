@@ -41,21 +41,21 @@ export const dentists: Dentist[] = [
     name: "Dr. Carlos Jesus da Rocha",
     shortName: "Dr. Carlos",
     cro: "CRO/RJ 22487",
-    role: "Ortodontia, Implantodontia e Clínica Geral",
+    role: "Especialista em Ortodontia e Implantodontia",
     description:
-      "Dentista com atuação em ortodontia, implantodontia e clínica geral. Atendimento voltado ao planejamento individual e cuidado integral da saúde bucal.",
+      "Atua também em clínica geral, com prótese, endodontia, restaurações, limpeza e clareamento. Na ortodontia, possui mais de 500 casos tratados com aparelhos fixos, móveis e alinhadores.",
     phone: "(21) 99893-4620",
     phoneInternational: "+5521998934620",
     whatsappUrl: `https://wa.me/5521998934620?text=${whatsappMessage}`,
     sourceUrl:
-      "https://www.doctoralia.com.br/carlos-jesus-da-rocha/dentista/rio-de-janeiro",
+      "https://maps.app.goo.gl/YLcDUy3MAc3wN16F9",
   },
   {
     id: "francisco",
     name: "Dr. Francisco Calheiros de Carvalho Mendes",
     shortName: "Dr. Francisco",
     cro: "CRO/RJ 55471",
-    role: "Odontologia Estética e Harmonização Orofacial",
+    role: "Especialista em Endodontia e Harmonização Facial",
     description:
       "Cirurgião-dentista com atuação em odontologia estética e harmonização orofacial, sempre mediante avaliação individual.",
     phone: "(21) 97134-0807",
@@ -68,14 +68,14 @@ export const dentists: Dentist[] = [
     name: "Dra. Márcia Ribeiro da Rocha",
     shortName: "Dra. Márcia",
     cro: "CRO/RJ 20664",
-    role: "Saúde Bucal e Atendimento Humanizado",
+    role: "Especialista em Ortodontia e Implantodontia",
     description:
-      "Cirurgiã-dentista com abordagem humanizada, voltada à saúde bucal, funcionalidade, estética e bem-estar do paciente.",
+      "Atua também em clínica geral, com atenção à saúde bucal, à prevenção, à funcionalidade e à estética. Seu atendimento humanizado considera as necessidades de cada paciente e busca promover conforto, bem-estar e cuidado integral.",
     phone: "(21) 99656-4620",
     phoneInternational: "+5521996564620",
     whatsappUrl: `https://wa.me/5521996564620?text=${whatsappMessage}`,
     sourceUrl:
-      "https://www.consultacro.com.br/profissionais/uid-ced15a20-9605-11ef-a83a-0a28fc1f63ef/marcia_ribeiro_da_rocha",
+      "https://maps.app.goo.gl/LJzUNNG4ZB5F6MLJ9",
   },
 ];
 
@@ -93,6 +93,7 @@ export type Service = {
   title: string;
   description: string;
   icon: ServiceIcon;
+  whatsappDentistIds?: Dentist["id"][];
 };
 
 export const services: Service[] = [
@@ -101,18 +102,21 @@ export const services: Service[] = [
     description:
       "Planejamento com aparelhos fixos, móveis ou alinhadores, conforme as necessidades de cada paciente.",
     icon: "braces",
+    whatsappDentistIds: ["carlos", "marcia"],
   },
   {
     title: "Implantes dentários",
     description:
       "Alternativas para reabilitação oral estudadas a partir da saúde, estrutura óssea e objetivos individuais.",
     icon: "implant",
+    whatsappDentistIds: ["carlos", "marcia"],
   },
   {
     title: "Endodontia",
     description:
       "Avaliação e tratamento de alterações na parte interna do dente, com atenção à preservação da estrutura dental.",
     icon: "endodontics",
+    whatsappDentistIds: ["francisco"],
   },
   {
     title: "Restaurações",
@@ -125,6 +129,7 @@ export const services: Service[] = [
     description:
       "Soluções protéticas planejadas para recuperar função mastigatória, conforto e harmonia do sorriso.",
     icon: "prosthesis",
+    whatsappDentistIds: ["marcia"],
   },
   {
     title: "Clareamento dental",
@@ -137,12 +142,14 @@ export const services: Service[] = [
     description:
       "Uso odontológico considerado de forma responsável, após avaliação clínica e indicação profissional.",
     icon: "botox",
+    whatsappDentistIds: ["francisco"],
   },
   {
     title: "Harmonização orofacial",
     description:
       "Planejamento individualizado que considera equilíbrio facial, saúde e características de cada paciente.",
     icon: "facial",
+    whatsappDentistIds: ["francisco"],
   },
 ];
 

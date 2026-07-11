@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { dentists, navigation } from "../../src/lib/site-data";
+import { dentists, navigation, services } from "../../src/lib/site-data";
 
 test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) => {
   await page.goto("/");
@@ -40,6 +40,31 @@ test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) 
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
   expect(hasOverflow).toBe(false);
+});
+
+test("exibe as especialidades e a descrição atualizadas", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(
+    page.getByText("Especialista em Ortodontia e Implantodontia", { exact: true }),
+  ).toHaveCount(2);
+  await expect(
+    page.getByText("Especialista em Endodontia e Harmonização Facial", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Atua também em clínica geral, com prótese, endodontia, restaurações, limpeza e clareamento. Na ortodontia, possui mais de 500 casos tratados com aparelhos fixos, móveis e alinhadores.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Atua também em clínica geral, com atenção à saúde bucal, à prevenção, à funcionalidade e à estética. Seu atendimento humanizado considera as necessidades de cada paciente e busca promover conforto, bem-estar e cuidado integral.",
+      { exact: true },
+    ),
+  ).toBeVisible();
 });
 
 test("abre e fecha o seletor acessível de WhatsApp", async ({ page }) => {
@@ -144,6 +169,36 @@ test("mantém os links na mesma ordem das seções", async ({ page }, testInfo) 
   }
 });
 
+test("usa as referências profissionais atualizadas", async ({ page }) => {
+  await page.goto("/");
+
+  const expectedReferences = [
+    {
+      name: "Dr. Carlos Jesus da Rocha",
+      href: "https://maps.app.goo.gl/YLcDUy3MAc3wN16F9",
+    },
+    {
+      name: "Dr. Francisco Calheiros de Carvalho Mendes",
+      href: "https://www.instagram.com/dr.frankcalheiros/",
+    },
+    {
+      name: "Dra. Márcia Ribeiro da Rocha",
+      href: "https://maps.app.goo.gl/LJzUNNG4ZB5F6MLJ9",
+    },
+  ];
+
+  for (const reference of expectedReferences) {
+    const card = page
+      .getByRole("heading", { name: reference.name, exact: true })
+      .locator("..");
+    const link = card.getByRole("link", { name: /Ver mais informa/ });
+
+    await expect(link).toHaveAttribute("href", reference.href);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  }
+});
+
 test("publica a política de privacidade", async ({ page }) => {
   await page.goto("/politica-de-privacidade/");
   await expect(
@@ -171,5 +226,32 @@ test("links rápidos da política retornam às seções da página inicial", asy
 
     await expect.poll(() => page.evaluate(() => window.location.pathname)).toBe("/");
     await expect.poll(() => page.evaluate(() => window.location.hash)).toBe(item.href);
+  }
+});
+
+test("filtra o WhatsApp conforme o servico selecionado", async ({ page }) => {
+  await page.goto("/");
+
+  const dialog = page.getByRole("dialog");
+
+  for (const service of services) {
+    const card = page
+      .getByRole("heading", { name: service.title, exact: true })
+      .locator("..");
+    const allowedIds = service.whatsappDentistIds ?? dentists.map(({ id }) => id);
+    const expectedDentists = dentists.filter(({ id }) => allowedIds.includes(id));
+
+    await card.getByRole("button", { name: /Agendar/ }).click();
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("link")).toHaveCount(expectedDentists.length);
+
+    for (const dentist of expectedDentists) {
+      await expect(
+        dialog.getByRole("link", { name: new RegExp(dentist.shortName) }),
+      ).toHaveAttribute("href", dentist.whatsappUrl);
+    }
+
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
   }
 });

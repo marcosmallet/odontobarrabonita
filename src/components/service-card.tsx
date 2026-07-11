@@ -36,7 +36,10 @@ export function ServiceCard({ service }: { service: Service }) {
       <p className="mt-3 flex-1 text-[0.95rem] leading-7 text-graphite/75">
         {service.description}
       </p>
-      <WhatsAppChooserTrigger className="mt-6 inline-flex cursor-pointer items-center self-start rounded-lg py-1 text-sm font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise">
+      <WhatsAppChooserTrigger
+        dentistIds={service.whatsappDentistIds}
+        className="mt-6 inline-flex cursor-pointer items-center self-start rounded-lg py-1 text-sm font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
+      >
         Agendar avaliação
       </WhatsAppChooserTrigger>
     </article>
