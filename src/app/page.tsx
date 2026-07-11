@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import receptionWebp from "../../public/images/recepcao-clinica.webp";
 import { CTASection } from "@/components/cta-section";
+import { ClinicGallery } from "@/components/clinic-gallery";
 import { DentistCard } from "@/components/dentist-card";
 import { FAQ } from "@/components/faq";
 import { Footer } from "@/components/footer";
@@ -131,66 +132,73 @@ export default function Home() {
         </section>
 
         <section id="estrutura" className="section-space overflow-hidden bg-white">
-          <div className="site-container grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div className="relative">
-              <div className="aspect-[4/3] overflow-hidden rounded-[2.5rem] bg-petroleum shadow-[0_25px_70px_rgba(15,83,78,0.17)]">
-                <picture className="block h-full w-full">
-                  <img
-                    src={receptionWebp.src}
-                    alt="Recepção da Clínica Odontológica Barra Bonita no Absolutto Business Towers"
-                    width="1600"
-                    height="1200"
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                </picture>
-              </div>
-              <div className="absolute -bottom-6 -right-3 rounded-2xl border border-line bg-white p-4 shadow-xl sm:right-7">
-                <div className="flex items-center gap-3">
-                  <ShieldCheck className="size-7 text-turquoise-dark" aria-hidden="true" />
-                  <div>
-                    <p className="font-display font-semibold text-petroleum">
-                      Torre 2
-                    </p>
-                    <p className="text-sm text-graphite/65">Sala 403</p>
+          <div className="site-container">
+            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+              <div className="relative">
+                <div className="aspect-[4/3] overflow-hidden rounded-[2.5rem] bg-petroleum shadow-[0_25px_70px_rgba(15,83,78,0.17)]">
+                  <picture className="block h-full w-full">
+                    <img
+                      src={receptionWebp.src}
+                      alt="Recepção da Clínica Odontológica Barra Bonita no Absolutto Business Towers"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
+                  </picture>
+                </div>
+                <div className="absolute -bottom-6 -right-3 rounded-2xl border border-line bg-white p-4 shadow-xl sm:right-7">
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck
+                      className="size-7 text-turquoise-dark"
+                      aria-hidden="true"
+                    />
+                    <div>
+                      <p className="font-display font-semibold text-petroleum">
+                        Torre 2
+                      </p>
+                      <p className="text-sm text-graphite/65">Sala 403</p>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="eyebrow">Conheça a clínica</p>
+                <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-petroleum sm:text-4xl lg:text-5xl">
+                  Saúde e bem-estar em um espaço acolhedor
+                </h2>
+                <p className="mt-6 text-lg leading-8 text-graphite/75">
+                  A Clínica Odontológica Barra Bonita nasceu para oferecer um
+                  atendimento odontológico completo em um ambiente acolhedor,
+                  moderno e bem localizado no Recreio dos Bandeirantes. Nossa
+                  proposta é unir experiência profissional, cuidado individualizado
+                  e estrutura confortável para pacientes que buscam saúde bucal,
+                  estética e bem-estar.
+                </p>
+
+                <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                  {clinicHighlights.map((highlight) => (
+                    <div key={highlight.title} className="flex gap-4">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mist text-turquoise-dark">
+                        <highlight.icon className="size-5" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h3 className="font-display font-semibold text-petroleum">
+                          {highlight.title}
+                        </h3>
+                        <p className="mt-1 text-sm leading-6 text-graphite/70">
+                          {highlight.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div>
-              <p className="eyebrow">Conheça a clínica</p>
-              <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-petroleum sm:text-4xl lg:text-5xl">
-                Saúde e bem-estar em um espaço acolhedor
-              </h2>
-              <p className="mt-6 text-lg leading-8 text-graphite/75">
-                A Clínica Odontológica Barra Bonita nasceu para oferecer um
-                atendimento odontológico completo em um ambiente acolhedor,
-                moderno e bem localizado no Recreio dos Bandeirantes. Nossa
-                proposta é unir experiência profissional, cuidado individualizado
-                e estrutura confortável para pacientes que buscam saúde bucal,
-                estética e bem-estar.
-              </p>
-
-              <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                {clinicHighlights.map((highlight) => (
-                  <div key={highlight.title} className="flex gap-4">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mist text-turquoise-dark">
-                      <highlight.icon className="size-5" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <h3 className="font-display font-semibold text-petroleum">
-                        {highlight.title}
-                      </h3>
-                      <p className="mt-1 text-sm leading-6 text-graphite/70">
-                        {highlight.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ClinicGallery />
           </div>
         </section>
 

@@ -42,6 +42,169 @@ test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) 
   expect(hasOverflow).toBe(false);
 });
 
+test("exibe somente as fotos selecionadas na galeria da clínica", async ({ page }) => {
+  const applicationConsoleErrors: string[] = [];
+  const externalConsoleErrors: { text: string; url: string }[] = [];
+  const pageErrors: string[] = [];
+
+  page.on("console", (message) => {
+    if (message.type() !== "error") return;
+
+    const url = message.location().url;
+    if (url.startsWith("http://127.0.0.1:4173")) {
+      applicationConsoleErrors.push(message.text());
+    } else {
+      externalConsoleErrors.push({ text: message.text(), url });
+    }
+  });
+  page.on("pageerror", (error) => pageErrors.push(error.message));
+
+  await page.goto("/");
+
+  const structure = page.locator("#estrutura");
+  await expect(
+    structure.getByRole("heading", { level: 3, name: "Conheça nosso espaço" }),
+  ).toBeVisible();
+  await expect(
+    structure.getByText(
+      "Instalações modernas, organizadas e preparadas para receber você com conforto no Absolutto Business Towers.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+
+  const gallery = structure.getByTestId("clinic-gallery");
+  await expect(gallery.locator("figure")).toHaveCount(3);
+  await expect(gallery.locator("figcaption")).toHaveText([
+    "Torre 2, sala 403",
+    "Recepção confortável e acolhedora",
+    "Ambientes organizados para o atendimento",
+  ]);
+  await expect(structure.getByRole("img")).toHaveCount(4);
+
+  const expectedImages = [
+    {
+      alt: "Entrada da Clínica Odontológica Barra Bonita na sala 403",
+      src: /clinica-entrada-sala-403.*\.webp$/,
+    },
+    {
+      alt: "Recepção da Clínica Odontológica Barra Bonita no Recreio dos Bandeirantes",
+      src: /clinica-recepcao-confortavel.*\.webp$/,
+    },
+    {
+      alt: "Corredor interno e acesso aos consultórios da Clínica Odontológica Barra Bonita",
+      src: /clinica-corredor-interno.*\.webp$/,
+    },
+  ];
+
+  for (const image of expectedImages) {
+    const locator = gallery.getByRole("img", { name: image.alt });
+    await expect(locator).toBeVisible();
+    await expect(locator).toHaveAttribute("src", image.src);
+    await expect(locator).toHaveAttribute("loading", "lazy");
+  }
+
+  expect(applicationConsoleErrors).toEqual([]);
+  expect(
+    externalConsoleErrors.every(
+      (error) =>
+        error.text === "Failed to load resource: net::ERR_NAME_NOT_RESOLVED" &&
+        error.url.startsWith("https://www.google-analytics.com/"),
+    ),
+  ).toBe(true);
+  expect(pageErrors).toEqual([]);
+});
+
+test("abre, navega e fecha o lightbox acessível", async ({ page }) => {
+  await page.goto("/");
+
+  const trigger = page.getByRole("button", {
+    name: "Ampliar foto: Torre 2, sala 403",
+  });
+  await trigger.focus();
+  await trigger.press("Enter");
+
+  const dialog = page.getByRole("dialog");
+  const closeButton = dialog.getByRole("button", {
+    name: "Fechar foto ampliada",
+  });
+  const previousButton = dialog.getByRole("button", {
+    name: "Mostrar foto anterior",
+  });
+  const nextButton = dialog.getByRole("button", {
+    name: "Mostrar próxima foto",
+  });
+
+  await expect(dialog).toBeVisible();
+  await expect(closeButton).toBeFocused();
+  await expect(dialog.getByText("Foto 1 de 3", { exact: true })).toBeVisible();
+
+  await page.keyboard.press("Shift+Tab");
+  await expect(nextButton).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(closeButton).toBeFocused();
+
+  await page.keyboard.press("ArrowRight");
+  await expect(
+    dialog.getByRole("heading", {
+      level: 2,
+      name: "Recepção confortável e acolhedora",
+    }),
+  ).toBeVisible();
+  await expect(dialog.getByText("Foto 2 de 3", { exact: true })).toBeVisible();
+
+  await nextButton.click();
+  await expect(
+    dialog.getByRole("heading", {
+      level: 2,
+      name: "Ambientes organizados para o atendimento",
+    }),
+  ).toBeVisible();
+
+  await previousButton.click();
+  await expect(dialog.getByText("Foto 2 de 3", { exact: true })).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test("usa scroll manual com snap e prévia do próximo card no celular", async ({
+  page,
+}, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith("mobile"), "Cenário exclusivo para mobile");
+  await page.goto("/");
+
+  const gallery = page.getByTestId("clinic-gallery");
+  const metrics = await gallery.evaluate((element) => {
+    const items = element.querySelectorAll("li");
+    const galleryRect = element.getBoundingClientRect();
+    const galleryStyles = getComputedStyle(element);
+    const firstRect = items[0]?.getBoundingClientRect();
+    const secondRect = items[1]?.getBoundingClientRect();
+    const contentWidth =
+      element.clientWidth -
+      Number.parseFloat(galleryStyles.paddingLeft) -
+      Number.parseFloat(galleryStyles.paddingRight);
+
+    return {
+      clientWidth: element.clientWidth,
+      contentWidth,
+      scrollWidth: element.scrollWidth,
+      snapType: getComputedStyle(element).scrollSnapType,
+      firstWidth: firstRect?.width ?? 0,
+      showsNextCard: secondRect
+        ? secondRect.left < galleryRect.right && secondRect.right > galleryRect.right
+        : false,
+    };
+  });
+
+  expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
+  expect(metrics.snapType).toContain("x mandatory");
+  expect(metrics.firstWidth / metrics.contentWidth).toBeGreaterThan(0.8);
+  expect(metrics.firstWidth / metrics.contentWidth).toBeLessThan(0.84);
+  expect(metrics.showsNextCard).toBe(true);
+});
+
 test("exibe os titulos nos botoes de WhatsApp do contato", async ({ page }) => {
   await page.goto("/");
 
