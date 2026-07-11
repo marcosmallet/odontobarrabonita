@@ -42,6 +42,20 @@ test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) 
   expect(hasOverflow).toBe(false);
 });
 
+test("exibe os titulos nos botoes de WhatsApp do contato", async ({ page }) => {
+  await page.goto("/");
+
+  const contact = page.locator("#contato");
+  for (const dentist of dentists) {
+    const link = contact.getByRole("link", {
+      name: `WhatsApp ${dentist.shortName}`,
+      exact: true,
+    });
+
+    await expect(link).toHaveAttribute("href", dentist.whatsappUrl);
+  }
+});
+
 test("exibe as especialidades e a descrição atualizadas", async ({ page }) => {
   await page.goto("/");
 

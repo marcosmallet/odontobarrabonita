@@ -32,7 +32,7 @@ export function CTASection() {
                   className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise-light"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
-                  WhatsApp {dentist.shortName.replace("Dr. ", "").replace("Dra. ", "")}
+                  WhatsApp {dentist.shortName}
                 </a>
               ))}
             </div>
