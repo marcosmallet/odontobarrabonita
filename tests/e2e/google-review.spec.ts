@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { googleReviewUrl } from "../../src/lib/site-data";
 
 const reviewPageUrl = "https://odontobarrabonita.com.br/avaliar";
-const reviewImageUrl = "https://odontobarrabonita.com.br/og-avaliacao-google.png";
+const reviewImageUrl = "https://odontobarrabonita.com.br/og-avaliacao-google.jpg";
 
 test("entrega HTML 200 com metadata de avaliação sem redirect HTTP", async ({
   request,
@@ -22,6 +22,8 @@ test("entrega HTML 200 com metadata de avaliação sem redirect HTTP", async ({
     expect(html).toContain('property="og:title" content="Clínica Odontológica Barra Bonita agradece sua avaliação"');
     expect(html).toContain('property="og:description" content="Conte como foi sua experiência e deixe sua avaliação no Google."');
     expect(html).toContain(`property="og:image" content="${reviewImageUrl}"`);
+    expect(html).toContain(`property="og:image:secure_url" content="${reviewImageUrl}"`);
+    expect(html).toContain('property="og:image:type" content="image/jpeg"');
     expect(html).toContain(`property="og:url" content="${reviewPageUrl}"`);
     expect(html).toContain('property="og:locale" content="pt_BR"');
     expect(html).toContain(`href="${googleReviewUrl}"`);
@@ -31,9 +33,9 @@ test("entrega HTML 200 com metadata de avaliação sem redirect HTTP", async ({
 test("publica a imagem Open Graph e mantém o sitemap sem a rota funcional", async ({
   request,
 }) => {
-  const imageResponse = await request.get("/og-avaliacao-google.png");
+  const imageResponse = await request.get("/og-avaliacao-google.jpg");
   expect(imageResponse.status()).toBe(200);
-  expect(imageResponse.headers()["content-type"]).toMatch(/^image\/png/);
+  expect(imageResponse.headers()["content-type"]).toMatch(/^image\/jpeg/);
 
   const sitemapResponse = await request.get("/sitemap.xml");
   expect(sitemapResponse.status()).toBe(200);

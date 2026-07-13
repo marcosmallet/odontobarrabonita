@@ -5,7 +5,7 @@ import { GoogleReviewRedirect } from "@/components/google-review-redirect";
 import { googleReviewUrl, SITE_URL } from "@/lib/site-data";
 
 const reviewPageUrl = `${SITE_URL}/avaliar`;
-const reviewImageUrl = `${SITE_URL}/og-avaliacao-google.png`;
+const reviewImageUrl = `${SITE_URL}/og-avaliacao-google.jpg`;
 
 export const metadata: Metadata = {
   title: "Avalie a Clínica Odontológica Barra Bonita",
@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: reviewImageUrl,
+        secureUrl: reviewImageUrl,
+        type: "image/jpeg",
         width: 1200,
         height: 630,
         alt: "Avalie sua experiência na Clínica Odontológica Barra Bonita",
@@ -37,7 +39,15 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Clínica Odontológica Barra Bonita agradece sua avaliação",
     description: "Conte como foi sua experiência e deixe sua avaliação no Google.",
-    images: [reviewImageUrl],
+    images: [
+      {
+        url: reviewImageUrl,
+        secureUrl: reviewImageUrl,
+        type: "image/jpeg",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
