@@ -19,6 +19,9 @@ export const mapsUrl =
 export const mapsEmbedUrl =
   "https://www.google.com/maps?cid=10296742771749999210&output=embed";
 
+export const googleReviewUrl =
+  "https://g.page/r/CWrSuhX_YOWOEBM/review";
+
 export type Dentist = {
   id: "carlos" | "francisco" | "marcia";
   name: string;
