@@ -1,6 +1,7 @@
 import { ExternalLink, MessageCircle } from "lucide-react";
 import Image from "next/image";
-import type { Dentist } from "@/lib/site-data";
+import { ConversionLink } from "./conversion-link";
+import { buildWhatsappUrl, type Dentist } from "@/lib/site-data";
 import carlosPortrait from "../../public/images/profissionais/carlos-rocha.webp";
 import franciscoPortrait from "../../public/images/profissionais/francisco-calheiros.webp";
 import marciaPortrait from "../../public/images/profissionais/marcia-rocha.webp";
@@ -11,8 +12,23 @@ const portraits = {
   marcia: marciaPortrait,
 } satisfies Record<Dentist["id"], typeof carlosPortrait>;
 
-export function DentistCard({ dentist }: { dentist: Dentist }) {
+type DentistCardProps = {
+  dentist: Dentist;
+  whatsappMessage?: string;
+  trackingLocation?: string;
+  showPhoneLink?: boolean;
+};
+
+export function DentistCard({
+  dentist,
+  whatsappMessage,
+  trackingLocation,
+  showPhoneLink = false,
+}: DentistCardProps) {
   const portrait = portraits[dentist.id];
+  const whatsappUrl = whatsappMessage
+    ? buildWhatsappUrl(dentist.phoneInternational, whatsappMessage)
+    : dentist.whatsappUrl;
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-line bg-white">
@@ -45,15 +61,37 @@ export function DentistCard({ dentist }: { dentist: Dentist }) {
         </p>
 
         <div className="mt-6 flex flex-col gap-3">
-          <a
-            href={dentist.whatsappUrl}
+          <ConversionLink
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            eventName={trackingLocation ? "whatsapp_click" : undefined}
+            eventParams={
+              trackingLocation
+                ? {
+                    cta_location: trackingLocation,
+                    dentist_id: dentist.id,
+                  }
+                : undefined
+            }
             className="button-primary w-full text-sm"
           >
             <MessageCircle className="size-5" aria-hidden="true" />
             Falar pelo WhatsApp
-          </a>
+          </ConversionLink>
+          {showPhoneLink ? (
+            <ConversionLink
+              href={`tel:${dentist.phoneInternational}`}
+              eventName="phone_click"
+              eventParams={{
+                cta_location: trackingLocation ?? "professional_card",
+                dentist_id: dentist.id,
+              }}
+              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-4 text-sm font-semibold text-petroleum transition-colors hover:border-turquoise hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
+            >
+              Ligar para {dentist.shortName}
+            </ConversionLink>
+          ) : null}
           <a
             href={dentist.sourceUrl}
             target="_blank"

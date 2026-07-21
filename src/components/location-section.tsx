@@ -1,8 +1,13 @@
 import { Building2, ExternalLink, MapPin } from "lucide-react";
 import { clinic, mapsUrl } from "@/lib/site-data";
 import { MapEmbed } from "./map-embed";
+import { ConversionLink } from "./conversion-link";
 
-export function LocationSection() {
+export function LocationSection({
+  trackingLocation,
+}: {
+  trackingLocation?: string;
+} = {}) {
   return (
     <section id="localizacao" className="section-space bg-mist/55">
       <div className="site-container">
@@ -27,16 +32,25 @@ export function LocationSection() {
                 CEP: {clinic.postalCode}
               </address>
             </div>
-            <a
+            <ConversionLink
               href={mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
+              eventName={trackingLocation ? "directions_click" : undefined}
+              eventParams={
+                trackingLocation
+                  ? {
+                      cta_location: trackingLocation,
+                      destination: "google_maps",
+                    }
+                  : undefined
+              }
               className="button-primary mt-8 self-start"
             >
               <MapPin className="size-5" aria-hidden="true" />
               Como chegar
               <ExternalLink className="size-4" aria-hidden="true" />
-            </a>
+            </ConversionLink>
           </div>
           <MapEmbed />
         </div>

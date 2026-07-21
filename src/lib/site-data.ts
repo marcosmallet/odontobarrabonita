@@ -35,8 +35,16 @@ export type Dentist = {
   sourceUrl: string;
 };
 
-const whatsappMessage =
-  "Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Cl%C3%ADnica%20Odontol%C3%B3gica%20Barra%20Bonita.";
+export const defaultWhatsappMessage =
+  "Olá, gostaria de agendar uma avaliação na Clínica Odontológica Barra Bonita.";
+
+export const campaignWhatsappMessage =
+  "Olá! Encontrei a Clínica Odontológica Barra Bonita pelo Google e gostaria de agendar uma avaliação.";
+
+export function buildWhatsappUrl(phoneInternational: string, message: string) {
+  const phone = phoneInternational.replace(/\D/g, "");
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
 
 export const dentists: Dentist[] = [
   {
@@ -49,7 +57,7 @@ export const dentists: Dentist[] = [
       "Atua também em clínica geral, com prótese, endodontia, restaurações, limpeza e clareamento. Na ortodontia, possui mais de 500 casos tratados com aparelhos fixos, móveis e alinhadores.",
     phone: "(21) 99893-4620",
     phoneInternational: "+5521998934620",
-    whatsappUrl: `https://wa.me/5521998934620?text=${whatsappMessage}`,
+    whatsappUrl: buildWhatsappUrl("+5521998934620", defaultWhatsappMessage),
     sourceUrl:
       "https://maps.app.goo.gl/YLcDUy3MAc3wN16F9",
   },
@@ -63,7 +71,7 @@ export const dentists: Dentist[] = [
       "Cirurgião-dentista com atuação em odontologia estética e harmonização orofacial, sempre mediante avaliação individual.",
     phone: "(21) 97134-0807",
     phoneInternational: "+5521971340807",
-    whatsappUrl: `https://wa.me/5521971340807?text=${whatsappMessage}`,
+    whatsappUrl: buildWhatsappUrl("+5521971340807", defaultWhatsappMessage),
     sourceUrl: "https://www.instagram.com/dr.frankcalheiros/",
   },
   {
@@ -76,7 +84,7 @@ export const dentists: Dentist[] = [
       "Atua também em clínica geral, com atenção à saúde bucal, à prevenção, à funcionalidade e à estética. Seu atendimento humanizado considera as necessidades de cada paciente e busca promover conforto, bem-estar e cuidado integral.",
     phone: "(21) 99656-4620",
     phoneInternational: "+5521996564620",
-    whatsappUrl: `https://wa.me/5521996564620?text=${whatsappMessage}`,
+    whatsappUrl: buildWhatsappUrl("+5521996564620", defaultWhatsappMessage),
     sourceUrl:
       "https://maps.app.goo.gl/LJzUNNG4ZB5F6MLJ9",
   },

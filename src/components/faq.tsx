@@ -4,7 +4,9 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { faqs } from "@/lib/site-data";
 
-export function FAQ() {
+type FAQItem = (typeof faqs)[number];
+
+export function FAQ({ items = faqs }: { items?: readonly FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
@@ -22,7 +24,7 @@ export function FAQ() {
         </div>
 
         <div className="divide-y divide-line border-y border-line">
-          {faqs.map((faq, index) => {
+          {items.map((faq, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
             const buttonId = `faq-button-${index}`;

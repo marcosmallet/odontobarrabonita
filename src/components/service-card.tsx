@@ -22,7 +22,17 @@ const serviceIcons: Record<ServiceIcon, LucideIcon> = {
   facial: ScanFace,
 };
 
-export function ServiceCard({ service }: { service: Service }) {
+type ServiceCardProps = {
+  service: Service;
+  whatsappMessage?: string;
+  trackingLocation?: string;
+};
+
+export function ServiceCard({
+  service,
+  whatsappMessage,
+  trackingLocation,
+}: ServiceCardProps) {
   const Icon = serviceIcons[service.icon];
 
   return (
@@ -38,6 +48,15 @@ export function ServiceCard({ service }: { service: Service }) {
       </p>
       <WhatsAppChooserTrigger
         dentistIds={service.whatsappDentistIds}
+        message={whatsappMessage}
+        tracking={
+          trackingLocation
+            ? {
+                ctaLocation: trackingLocation,
+                serviceName: service.title,
+              }
+            : undefined
+        }
         className="mt-6 inline-flex cursor-pointer items-center self-start rounded-lg py-1 text-sm font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
       >
         Agendar avaliação

@@ -2,10 +2,25 @@
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
-import { dentists, type Dentist } from "@/lib/site-data";
+import { usePathname } from "next/navigation";
+import { trackConversion } from "@/lib/analytics";
+import {
+  buildWhatsappUrl,
+  campaignWhatsappMessage,
+  defaultWhatsappMessage,
+  dentists,
+  type Dentist,
+} from "@/lib/site-data";
+
+export type WhatsAppTrackingContext = {
+  ctaLocation: string;
+  serviceName?: string;
+};
 
 type WhatsAppChooserOptions = {
   dentistIds?: Dentist["id"][];
+  message?: string;
+  tracking?: WhatsAppTrackingContext;
   returnFocus?: HTMLElement;
 };
 
@@ -16,15 +31,26 @@ type WhatsAppContextValue = {
 const WhatsAppContext = createContext<WhatsAppContextValue | null>(null);
 
 export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDentistIds, setSelectedDentistIds] = useState<
     Dentist["id"][] | null
   >(null);
+  const [selectedMessage, setSelectedMessage] = useState(defaultWhatsappMessage);
+  const [trackingContext, setTrackingContext] =
+    useState<WhatsAppTrackingContext | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
-  function openChooser({ dentistIds, returnFocus }: WhatsAppChooserOptions = {}) {
+  function openChooser({
+    dentistIds,
+    message,
+    tracking,
+    returnFocus,
+  }: WhatsAppChooserOptions = {}) {
     setSelectedDentistIds(dentistIds ?? null);
+    setSelectedMessage(message ?? defaultWhatsappMessage);
+    setTrackingContext(tracking ?? null);
     returnFocusRef.current = returnFocus ?? null;
     setIsOpen(true);
   }
@@ -32,6 +58,8 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
   function closeChooser() {
     setIsOpen(false);
     setSelectedDentistIds(null);
+    setSelectedMessage(defaultWhatsappMessage);
+    setTrackingContext(null);
     window.setTimeout(() => returnFocusRef.current?.focus(), 0);
   }
 
@@ -73,6 +101,9 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
   const visibleDentists = selectedDentistIds
     ? dentists.filter((dentist) => selectedDentistIds.includes(dentist.id))
     : dentists;
+  const isCampaignLanding =
+    pathname === "/dentista-no-recreio" ||
+    pathname === "/dentista-no-recreio/";
 
   return (
     <WhatsAppContext.Provider value={{ openChooser }}>
@@ -80,8 +111,18 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
 
       <button
         type="button"
-        onClick={(event) => openChooser({ returnFocus: event.currentTarget })}
-        className="fixed bottom-5 right-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-whatsapp text-white shadow-[0_14px_35px_rgba(15,83,78,0.3)] transition-colors duration-200 hover:bg-whatsapp-dark focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-petroleum md:bottom-7 md:right-7 md:size-16"
+        onClick={(event) =>
+          openChooser({
+            message: isCampaignLanding ? campaignWhatsappMessage : undefined,
+            tracking: isCampaignLanding
+              ? { ctaLocation: "floating_mobile" }
+              : undefined,
+            returnFocus: event.currentTarget,
+          })
+        }
+        className={`fixed bottom-5 right-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-whatsapp text-white shadow-[0_14px_35px_rgba(15,83,78,0.3)] transition-colors duration-200 hover:bg-whatsapp-dark focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-petroleum md:bottom-7 md:right-7 md:size-16 ${
+          isCampaignLanding ? "md:hidden" : ""
+        }`}
         aria-label="Escolher profissional para falar pelo WhatsApp"
       >
         <MessageCircle className="size-7" aria-hidden="true" />
@@ -129,9 +170,20 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
               {visibleDentists.map((dentist) => (
                 <a
                   key={dentist.id}
-                  href={dentist.whatsappUrl}
+                  href={buildWhatsappUrl(
+                    dentist.phoneInternational,
+                    selectedMessage,
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    if (!trackingContext) return;
+                    trackConversion("whatsapp_click", {
+                      cta_location: trackingContext.ctaLocation,
+                      dentist_id: dentist.id,
+                      service_name: trackingContext.serviceName,
+                    });
+                  }}
                   className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-line p-4 transition-colors duration-200 hover:border-turquoise hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
                 >
                   <span className="grid size-11 shrink-0 place-items-center rounded-full bg-petroleum text-white">
@@ -159,12 +211,16 @@ type WhatsAppChooserTriggerProps = {
   children: React.ReactNode;
   className?: string;
   dentistIds?: Dentist["id"][];
+  message?: string;
+  tracking?: WhatsAppTrackingContext;
 };
 
 export function WhatsAppChooserTrigger({
   children,
   className = "",
   dentistIds,
+  message,
+  tracking,
 }: WhatsAppChooserTriggerProps) {
   const context = useContext(WhatsAppContext);
   if (!context) {
@@ -175,7 +231,12 @@ export function WhatsAppChooserTrigger({
     <button
       type="button"
       onClick={(event) =>
-        context.openChooser({ dentistIds, returnFocus: event.currentTarget })
+        context.openChooser({
+          dentistIds,
+          message,
+          tracking,
+          returnFocus: event.currentTarget,
+        })
       }
       className={className}
     >
