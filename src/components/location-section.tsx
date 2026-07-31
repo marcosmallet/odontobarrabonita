@@ -1,12 +1,23 @@
-import { Building2, ExternalLink, MapPin } from "lucide-react";
+import { Building2, ExternalLink, MapPin, MessageCircle } from "lucide-react";
+import type { ConversionEventParams } from "@/lib/analytics";
 import { clinic, mapsUrl } from "@/lib/site-data";
 import { MapEmbed } from "./map-embed";
 import { ConversionLink } from "./conversion-link";
 
 export function LocationSection({
   trackingLocation,
+  title = "Fácil de encontrar no Recreio",
+  trackingEventParams,
+  whatsappAction,
 }: {
   trackingLocation?: string;
+  title?: string;
+  trackingEventParams?: Omit<ConversionEventParams, "cta_location">;
+  whatsappAction?: {
+    href: string;
+    label: string;
+    eventParams: ConversionEventParams;
+  };
 } = {}) {
   return (
     <section id="localizacao" className="section-space bg-mist/55">
@@ -15,7 +26,7 @@ export function LocationSection({
           <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
             <p className="eyebrow">Localização</p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-petroleum sm:text-4xl">
-              Fácil de encontrar no Recreio
+              {title}
             </h2>
             <div className="mt-8 flex items-start gap-4">
               <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-mist text-petroleum">
@@ -32,25 +43,68 @@ export function LocationSection({
                 CEP: {clinic.postalCode}
               </address>
             </div>
-            <ConversionLink
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              eventName={trackingLocation ? "directions_click" : undefined}
-              eventParams={
-                trackingLocation
-                  ? {
-                      cta_location: trackingLocation,
-                      destination: "google_maps",
-                    }
-                  : undefined
-              }
-              className="button-primary mt-8 self-start"
-            >
-              <MapPin className="size-5" aria-hidden="true" />
-              Como chegar
-              <ExternalLink className="size-4" aria-hidden="true" />
-            </ConversionLink>
+            {!whatsappAction ? (
+              <ConversionLink
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                eventName={trackingLocation ? "directions_click" : undefined}
+                eventParams={
+                  trackingLocation
+                    ? {
+                        cta_location: trackingLocation,
+                        destination: "google_maps",
+                        ...trackingEventParams,
+                      }
+                    : undefined
+                }
+                className="button-primary mt-8 self-start"
+              >
+                <MapPin className="size-5" aria-hidden="true" />
+                Como chegar
+                <ExternalLink className="size-4" aria-hidden="true" />
+              </ConversionLink>
+            ) : null}
+            {whatsappAction ? (
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <ConversionLink
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  eventName={trackingLocation ? "directions_click" : undefined}
+                  eventParams={
+                    trackingLocation
+                      ? {
+                          cta_location: trackingLocation,
+                          destination: "google_maps",
+                          ...trackingEventParams,
+                        }
+                      : undefined
+                  }
+                  className="button-secondary"
+                >
+                  <MapPin className="size-5" aria-hidden="true" />
+                  Como chegar
+                  <ExternalLink className="size-4" aria-hidden="true" />
+                </ConversionLink>
+                <ConversionLink
+                  href={whatsappAction.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  eventName="whatsapp_click"
+                  eventParams={whatsappAction.eventParams}
+                  className="button-primary"
+                >
+                  <MessageCircle className="size-5" aria-hidden="true" />
+                  {whatsappAction.label}
+                </ConversionLink>
+              </div>
+            ) : null}
+            {whatsappAction ? (
+              <p className="mt-4 text-sm leading-6 text-graphite/65">
+                Atendimento mediante agendamento.
+              </p>
+            ) : null}
           </div>
           <MapEmbed />
         </div>

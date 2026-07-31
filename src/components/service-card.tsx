@@ -7,6 +7,7 @@ import {
   Sparkles,
   WandSparkles,
 } from "lucide-react";
+import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import type { Service, ServiceIcon } from "@/lib/site-data";
 import { WhatsAppChooserTrigger } from "./whatsapp-chooser";
@@ -26,12 +27,14 @@ type ServiceCardProps = {
   service: Service;
   whatsappMessage?: string;
   trackingLocation?: string;
+  showDetailsLink?: boolean;
 };
 
 export function ServiceCard({
   service,
   whatsappMessage,
   trackingLocation,
+  showDetailsLink = false,
 }: ServiceCardProps) {
   const Icon = serviceIcons[service.icon];
 
@@ -61,6 +64,14 @@ export function ServiceCard({
       >
         Agendar avaliação
       </WhatsAppChooserTrigger>
+      {showDetailsLink && service.detailsHref && service.detailsLabel ? (
+        <Link
+          href={service.detailsHref}
+          className="mt-3 inline-flex min-h-11 cursor-pointer items-center self-start rounded-lg py-2 text-sm font-semibold text-petroleum underline decoration-turquoise/35 underline-offset-4 transition-colors duration-200 hover:text-turquoise-dark focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
+        >
+          {service.detailsLabel}
+        </Link>
+      ) : null}
     </article>
   );
 }

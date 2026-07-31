@@ -4,7 +4,10 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { faqs } from "@/lib/site-data";
 
-type FAQItem = (typeof faqs)[number];
+export type FAQItem = {
+  question: string;
+  answer: string;
+};
 
 export function FAQ({ items = faqs }: { items?: readonly FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);

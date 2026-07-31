@@ -104,29 +104,34 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
   const isCampaignLanding =
     pathname === "/dentista-no-recreio" ||
     pathname === "/dentista-no-recreio/";
+  const hasDedicatedAlignersWhatsapp =
+    pathname === "/alinhadores-no-recreio" ||
+    pathname === "/alinhadores-no-recreio/";
 
   return (
     <WhatsAppContext.Provider value={{ openChooser }}>
       {children}
 
-      <button
-        type="button"
-        onClick={(event) =>
-          openChooser({
-            message: isCampaignLanding ? campaignWhatsappMessage : undefined,
-            tracking: isCampaignLanding
-              ? { ctaLocation: "floating_mobile" }
-              : undefined,
-            returnFocus: event.currentTarget,
-          })
-        }
-        className={`fixed bottom-5 right-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-whatsapp text-white shadow-[0_14px_35px_rgba(15,83,78,0.3)] transition-colors duration-200 hover:bg-whatsapp-dark focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-petroleum md:bottom-7 md:right-7 md:size-16 ${
-          isCampaignLanding ? "md:hidden" : ""
-        }`}
-        aria-label="Escolher profissional para falar pelo WhatsApp"
-      >
-        <MessageCircle className="size-7" aria-hidden="true" />
-      </button>
+      {!hasDedicatedAlignersWhatsapp ? (
+        <button
+          type="button"
+          onClick={(event) =>
+            openChooser({
+              message: isCampaignLanding ? campaignWhatsappMessage : undefined,
+              tracking: isCampaignLanding
+                ? { ctaLocation: "floating_mobile" }
+                : undefined,
+              returnFocus: event.currentTarget,
+            })
+          }
+          className={`fixed bottom-5 right-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-whatsapp text-white shadow-[0_14px_35px_rgba(15,83,78,0.3)] transition-colors duration-200 hover:bg-whatsapp-dark focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-petroleum md:bottom-7 md:right-7 md:size-16 ${
+            isCampaignLanding ? "md:hidden" : ""
+          }`}
+          aria-label="Escolher profissional para falar pelo WhatsApp"
+        >
+          <MessageCircle className="size-7" aria-hidden="true" />
+        </button>
+      ) : null}
 
       {isOpen ? (
         <div

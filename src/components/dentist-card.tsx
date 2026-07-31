@@ -1,6 +1,7 @@
 import { ExternalLink, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { ConversionLink } from "./conversion-link";
+import type { ConversionEventParams } from "@/lib/analytics";
 import { buildWhatsappUrl, type Dentist } from "@/lib/site-data";
 import carlosPortrait from "../../public/images/profissionais/carlos-rocha.webp";
 import franciscoPortrait from "../../public/images/profissionais/francisco-calheiros.webp";
@@ -17,6 +18,8 @@ type DentistCardProps = {
   whatsappMessage?: string;
   trackingLocation?: string;
   showPhoneLink?: boolean;
+  whatsappLabel?: string;
+  whatsappEventParams?: Omit<ConversionEventParams, "cta_location" | "dentist_id">;
 };
 
 export function DentistCard({
@@ -24,6 +27,8 @@ export function DentistCard({
   whatsappMessage,
   trackingLocation,
   showPhoneLink = false,
+  whatsappLabel = "Falar pelo WhatsApp",
+  whatsappEventParams,
 }: DentistCardProps) {
   const portrait = portraits[dentist.id];
   const whatsappUrl = whatsappMessage
@@ -71,13 +76,14 @@ export function DentistCard({
                 ? {
                     cta_location: trackingLocation,
                     dentist_id: dentist.id,
+                    ...whatsappEventParams,
                   }
                 : undefined
             }
             className="button-primary w-full text-sm"
           >
             <MessageCircle className="size-5" aria-hidden="true" />
-            Falar pelo WhatsApp
+            {whatsappLabel}
           </ConversionLink>
           {showPhoneLink ? (
             <ConversionLink

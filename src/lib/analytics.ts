@@ -8,6 +8,8 @@ export type ConversionEventParams = {
   dentist_id?: string;
   service_name?: string;
   destination?: string;
+  page_path?: string;
+  contact_method?: "whatsapp" | "phone" | "maps";
 };
 
 declare global {
@@ -27,4 +29,3 @@ export function trackConversion(
   if (typeof window === "undefined") return;
   window.gtag?.("event", eventName, params);
 }
-

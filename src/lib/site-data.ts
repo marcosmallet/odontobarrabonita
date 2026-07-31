@@ -41,6 +41,9 @@ export const defaultWhatsappMessage =
 export const campaignWhatsappMessage =
   "Olá! Encontrei a Clínica Odontológica Barra Bonita pelo Google e gostaria de agendar uma avaliação.";
 
+export const alignersWhatsappMessage =
+  "Olá! Encontrei a Clínica Odontológica Barra Bonita pelo Google e gostaria de agendar uma avaliação para tratamento com alinhadores transparentes.";
+
 export function buildWhatsappUrl(phoneInternational: string, message: string) {
   const phone = phoneInternational.replace(/\D/g, "");
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -105,6 +108,8 @@ export type Service = {
   description: string;
   icon: ServiceIcon;
   whatsappDentistIds?: Dentist["id"][];
+  detailsHref?: string;
+  detailsLabel?: string;
 };
 
 export const services: Service[] = [
@@ -114,6 +119,8 @@ export const services: Service[] = [
       "Planejamento com aparelhos fixos, móveis ou alinhadores, conforme as necessidades de cada paciente.",
     icon: "braces",
     whatsappDentistIds: ["carlos", "marcia"],
+    detailsHref: "/alinhadores-no-recreio/",
+    detailsLabel: "Conhecer alinhadores transparentes",
   },
   {
     title: "Implantes dentários",
