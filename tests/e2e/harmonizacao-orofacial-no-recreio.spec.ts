@@ -254,6 +254,17 @@ test("mantém o FAQ acessível e não cria overflow", async ({ page }) => {
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
     );
     expect(hasOverflow, "overflow horizontal em " + width + "px").toBe(false);
+    if (width === 390) {
+      const copyTop = await page
+        .locator("#entenda [data-introduction-copy]")
+        .evaluate((element) => element.getBoundingClientRect().top);
+      const imageTop = await page
+        .locator("#entenda [data-introduction-image]")
+        .evaluate((element) => element.getBoundingClientRect().top);
+      expect(copyTop, "o texto deve aparecer antes da segunda foto no mobile").toBeLessThan(
+        imageTop,
+      );
+    }
     await expect(
       page.getByRole("link", {
         name: "Agendar avaliação para harmonização orofacial pelo WhatsApp",

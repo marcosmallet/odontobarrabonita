@@ -402,17 +402,7 @@ export default function HarmonizacaoOrofacialNoRecreioPage() {
 
         <section id="entenda" data-harmonization-section="introduction" className="section-space bg-white">
           <div className="site-container grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-            <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-[2.25rem] bg-mist shadow-[0_22px_60px_rgba(15,83,78,0.1)]">
-              <Image
-                src={evaluationImage}
-                alt="Pessoa em contexto institucional de avaliação facial para harmonização orofacial"
-                width={1448}
-                height={1086}
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="h-auto w-full object-cover"
-              />
-            </div>
-            <div>
+            <div data-introduction-copy className="order-1 lg:order-2">
               <p className="eyebrow">Planejamento individual</p>
               <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-petroleum sm:text-4xl lg:text-5xl">
                 O que é Harmonização Orofacial?
@@ -442,6 +432,16 @@ export default function HarmonizacaoOrofacialNoRecreioPage() {
                 <MessageCircle className="size-5" aria-hidden="true" />
                 Conversar sobre uma avaliação
               </ConversionLink>
+            </div>
+            <div data-introduction-image className="order-2 relative mx-auto w-full max-w-xl overflow-hidden rounded-[2.25rem] bg-mist shadow-[0_22px_60px_rgba(15,83,78,0.1)] lg:order-1">
+              <Image
+                src={evaluationImage}
+                alt="Pessoa em contexto institucional de avaliação facial para harmonização orofacial"
+                width={1448}
+                height={1086}
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="h-auto w-full object-cover"
+              />
             </div>
           </div>
         </section>
