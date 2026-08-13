@@ -16,7 +16,7 @@ import {
   Sparkles,
   Stethoscope,
 } from "lucide-react";
-import carlosPortrait from "../../../public/images/profissionais/carlos-rocha.webp";
+import alignersHeroImage from "../../../public/images/alinhadores-hero.webp";
 import { ClinicGallery } from "@/components/clinic-gallery";
 import { ConversionLink } from "@/components/conversion-link";
 import { DentistCard } from "@/components/dentist-card";
@@ -396,8 +396,8 @@ export default function AlinhadoresNoRecreioPage() {
                 <div className="absolute -inset-5 rounded-[3rem] border border-turquoise/15" />
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/90 bg-petroleum shadow-[0_30px_80px_rgba(15,83,78,0.2)]">
                   <Image
-                    src={carlosPortrait}
-                    alt="Dr. Carlos Jesus da Rocha, cirurgião-dentista responsável por avaliações ortodônticas na Clínica Barra Bonita"
+                    src={alignersHeroImage}
+                    alt="Mulher adulta sorrindo em consultório odontológico enquanto segura um alinhador transparente"
                     fill
                     priority
                     sizes="(min-width: 1024px) 42vw, 100vw"

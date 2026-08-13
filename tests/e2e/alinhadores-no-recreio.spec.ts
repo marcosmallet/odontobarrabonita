@@ -34,6 +34,20 @@ test("publica conteúdo, metadados e schemas específicos", async ({
     }),
   ).toBeVisible();
   await expect(page.locator("h1")).toHaveCount(1);
+  const heroImage = page.locator('[data-aligners-section="hero"] img');
+  await expect(heroImage).toHaveCount(1);
+  await expect(heroImage).toHaveAttribute(
+    "alt",
+    "Mulher adulta sorrindo em consultório odontológico enquanto segura um alinhador transparente",
+  );
+  await expect
+    .poll(() =>
+      heroImage.evaluate((image) => ({
+        width: (image as HTMLImageElement).naturalWidth,
+        height: (image as HTMLImageElement).naturalHeight,
+      })),
+    )
+    .toEqual({ width: 896, height: 1120 });
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     pageUrl,

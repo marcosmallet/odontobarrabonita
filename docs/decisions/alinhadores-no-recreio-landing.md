@@ -15,6 +15,7 @@
 - A home recebe apenas um link contextual no card de Ortodontia; menu e rodapé permanecem inalterados.
 - O GA4 existente registra `whatsapp_click` e `directions_click` com contexto operacional, sem texto clínico, UTM ou dados de saúde.
 - O JSON-LD usa um único `@graph` com `MedicalWebPage`, `FAQPage`, `BreadcrumbList` e `Dentist`, sem entidades ou qualificações redundantes.
+- O hero usa uma fotografia original gerada a partir da referência visual enviada, com uma modelo adulta fictícia segurando um alinhador transparente. A imagem não contém texto, logotipo, marca, watermark ou promessa de resultado; a foto real do Dr. Carlos permanece exclusiva no cartão profissional.
 
 ## Requisitos não funcionais
 
