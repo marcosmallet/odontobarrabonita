@@ -1,6 +1,7 @@
 import {
   Activity,
   CircleDot,
+  BrushCleaning,
   ScanFace,
   ShieldPlus,
   Smile,
@@ -19,6 +20,7 @@ const serviceIcons: Record<ServiceIcon, LucideIcon> = {
   restoration: ShieldPlus,
   prosthesis: ScanFace,
   whitening: Sparkles,
+  cleaning: BrushCleaning,
   botox: WandSparkles,
   facial: ScanFace,
 };

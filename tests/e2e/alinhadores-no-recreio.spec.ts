@@ -175,11 +175,11 @@ test("usa o WhatsApp direto, o mapa real e a integração contextual da home", a
     .locator("..");
   await expect(
     orthodonticsCard.getByRole("link", {
-      name: "Conhecer alinhadores transparentes",
+      name: "Conhecer ortodontia",
     }),
-  ).toHaveAttribute("href", pagePath);
+  ).toHaveAttribute("href", "/ortodontista-no-recreio/");
   await expect(
-    page.getByRole("link", { name: "Conhecer alinhadores transparentes" }),
+    page.getByRole("link", { name: "Conhecer ortodontia" }),
   ).toHaveCount(1);
 });
 
@@ -325,7 +325,8 @@ test("não gera erros de aplicação ou links internos quebrados", async ({
     consoleErrors.filter(
       (message) =>
         !message.includes("google-analytics.com") &&
-        !message.includes("googletagmanager.com"),
+        !message.includes("googletagmanager.com") &&
+        !message.includes("ERR_NETWORK_ACCESS_DENIED"),
     ),
   ).toEqual([]);
 

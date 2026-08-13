@@ -103,6 +103,7 @@ export type ServiceIcon =
   | "restoration"
   | "prosthesis"
   | "whitening"
+  | "cleaning"
   | "botox"
   | "facial";
 
@@ -122,8 +123,8 @@ export const services: Service[] = [
       "Planejamento com aparelhos fixos, móveis ou alinhadores, conforme as necessidades de cada paciente.",
     icon: "braces",
     whatsappDentistIds: ["carlos", "marcia"],
-    detailsHref: "/alinhadores-no-recreio/",
-    detailsLabel: "Conhecer alinhadores transparentes",
+    detailsHref: "/ortodontista-no-recreio/",
+    detailsLabel: "Conhecer ortodontia",
   },
   {
     title: "Implantes dentários",
@@ -131,6 +132,8 @@ export const services: Service[] = [
       "Alternativas para reabilitação oral estudadas a partir da saúde, estrutura óssea e objetivos individuais.",
     icon: "implant",
     whatsappDentistIds: ["carlos", "marcia"],
+    detailsHref: "/implante-dentario-no-recreio/",
+    detailsLabel: "Conhecer implantes dentários",
   },
   {
     title: "Endodontia",
@@ -138,12 +141,17 @@ export const services: Service[] = [
       "Avaliação e tratamento de alterações na parte interna do dente, com atenção à preservação da estrutura dental.",
     icon: "endodontics",
     whatsappDentistIds: ["francisco"],
+    detailsHref: "/tratamento-de-canal-no-recreio/",
+    detailsLabel: "Conhecer tratamento de canal",
   },
   {
     title: "Restaurações",
     description:
       "Recuperação de dentes afetados por cáries ou desgastes, respeitando função, anatomia e saúde bucal.",
     icon: "restoration",
+    whatsappDentistIds: ["francisco"],
+    detailsHref: "/restauracao-dentaria-no-recreio/",
+    detailsLabel: "Conhecer restaurações",
   },
   {
     title: "Prótese",
@@ -151,12 +159,26 @@ export const services: Service[] = [
       "Soluções protéticas planejadas para recuperar função mastigatória, conforto e harmonia do sorriso.",
     icon: "prosthesis",
     whatsappDentistIds: ["marcia"],
+    detailsHref: "/protese-dentaria-no-recreio/",
+    detailsLabel: "Conhecer prótese dentária",
   },
   {
     title: "Clareamento dental",
     description:
       "Clareamento conduzido com orientação profissional e indicação definida após avaliação da saúde bucal.",
     icon: "whitening",
+    whatsappDentistIds: ["francisco"],
+    detailsHref: "/clareamento-dental-no-recreio/",
+    detailsLabel: "Conhecer clareamento dental",
+  },
+  {
+    title: "Limpeza dental",
+    description:
+      "Prevenção, controle do biofilme e avaliação da saúde gengival com periodicidade definida individualmente.",
+    icon: "cleaning",
+    whatsappDentistIds: ["francisco"],
+    detailsHref: "/limpeza-dental-no-recreio/",
+    detailsLabel: "Conhecer limpeza dental",
   },
   {
     title: "Toxina botulínica",

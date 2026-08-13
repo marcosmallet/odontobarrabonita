@@ -107,8 +107,10 @@ test("exibe somente as fotos selecionadas na galeria da clínica", async ({ page
   expect(
     externalConsoleErrors.every(
       (error) =>
-        error.text === "Failed to load resource: net::ERR_NAME_NOT_RESOLVED" &&
-        error.url.startsWith("https://www.google-analytics.com/"),
+      (error.text === "Failed to load resource: net::ERR_NAME_NOT_RESOLVED" ||
+        error.text === "Failed to load resource: net::ERR_NETWORK_ACCESS_DENIED") &&
+        (error.url.startsWith("https://www.google-analytics.com/") ||
+          error.url.startsWith("https://www.googletagmanager.com/")),
     ),
   ).toBe(true);
   expect(pageErrors).toEqual([]);

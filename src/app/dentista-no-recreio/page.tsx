@@ -210,11 +210,19 @@ export default function DentistaNoRecreioPage() {
                   service={service}
                   whatsappMessage={campaignWhatsappMessage}
                   trackingLocation="service_card"
+                  showDetailsLink
                 />
               ))}
             </div>
             <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-6 text-graphite/70">
-              Para conhecer melhor a proposta de avaliação em harmonização orofacial,{" "}
+              Para conhecer melhor os tratamentos, consulte as páginas de serviço. Para limpeza dental e profilaxia,{" "}
+              <Link
+                href="/limpeza-dental-no-recreio/"
+                className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
+              >
+                veja a orientação específica
+              </Link>{" "}
+              ou{" "}
               <Link
                 href="/harmonizacao-orofacial-no-recreio/"
                 className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"

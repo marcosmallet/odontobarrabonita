@@ -29,6 +29,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...[
+      "implante-dentario-no-recreio",
+      "tratamento-de-canal-no-recreio",
+      "clareamento-dental-no-recreio",
+      "ortodontista-no-recreio",
+      "protese-dentaria-no-recreio",
+      "restauracao-dentaria-no-recreio",
+      "limpeza-dental-no-recreio",
+    ].map((slug) => ({
+      url: `${SITE_URL}/${slug}/`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     {
       url: `${SITE_URL}/politica-de-privacidade/`,
       lastModified: new Date(),
