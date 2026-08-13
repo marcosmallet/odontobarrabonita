@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Building2,
   CheckCircle2,
@@ -212,6 +213,16 @@ export default function DentistaNoRecreioPage() {
                 />
               ))}
             </div>
+            <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-6 text-graphite/70">
+              Para conhecer melhor a proposta de avaliação em harmonização orofacial,{" "}
+              <Link
+                href="/harmonizacao-orofacial-no-recreio/"
+                className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
+              >
+                acesse a página específica do serviço
+              </Link>
+              .
+            </p>
           </div>
         </section>
 
@@ -305,4 +316,3 @@ export default function DentistaNoRecreioPage() {
     </>
   );
 }
-

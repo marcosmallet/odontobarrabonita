@@ -19,6 +19,7 @@ type DentistCardProps = {
   trackingLocation?: string;
   showPhoneLink?: boolean;
   whatsappLabel?: string;
+  sourceLabel?: string;
   whatsappEventParams?: Omit<ConversionEventParams, "cta_location" | "dentist_id">;
 };
 
@@ -28,6 +29,7 @@ export function DentistCard({
   trackingLocation,
   showPhoneLink = false,
   whatsappLabel = "Falar pelo WhatsApp",
+  sourceLabel = "Ver mais informações",
   whatsappEventParams,
 }: DentistCardProps) {
   const portrait = portraits[dentist.id];
@@ -104,7 +106,7 @@ export function DentistCard({
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium text-graphite/65 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
           >
-            Ver mais informações
+            {sourceLabel}
             <ExternalLink className="size-3.5" aria-hidden="true" />
           </a>
         </div>

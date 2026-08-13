@@ -44,6 +44,9 @@ export const campaignWhatsappMessage =
 export const alignersWhatsappMessage =
   "Olá! Encontrei a Clínica Odontológica Barra Bonita pelo Google e gostaria de agendar uma avaliação para tratamento com alinhadores transparentes.";
 
+export const harmonizationWhatsappMessage =
+  "Olá! Encontrei a Clínica Odontológica Barra Bonita pelo Google e gostaria de agendar uma avaliação para Harmonização Orofacial no Recreio.";
+
 export function buildWhatsappUrl(phoneInternational: string, message: string) {
   const phone = phoneInternational.replace(/\D/g, "");
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -168,6 +171,8 @@ export const services: Service[] = [
       "Planejamento individualizado que considera equilíbrio facial, saúde e características de cada paciente.",
     icon: "facial",
     whatsappDentistIds: ["francisco"],
+    detailsHref: "/harmonizacao-orofacial-no-recreio/",
+    detailsLabel: "Conhecer Harmonização Orofacial",
   },
 ];
 

@@ -107,12 +107,18 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
   const hasDedicatedAlignersWhatsapp =
     pathname === "/alinhadores-no-recreio" ||
     pathname === "/alinhadores-no-recreio/";
+  const hasDedicatedHarmonizationWhatsapp =
+    pathname === "/harmonizacao-orofacial-no-recreio" ||
+    pathname === "/harmonizacao-orofacial-no-recreio/";
+
+  const hasDedicatedServiceWhatsapp =
+    hasDedicatedAlignersWhatsapp || hasDedicatedHarmonizationWhatsapp;
 
   return (
     <WhatsAppContext.Provider value={{ openChooser }}>
       {children}
 
-      {!hasDedicatedAlignersWhatsapp ? (
+      {!hasDedicatedServiceWhatsapp ? (
         <button
           type="button"
           onClick={(event) =>
