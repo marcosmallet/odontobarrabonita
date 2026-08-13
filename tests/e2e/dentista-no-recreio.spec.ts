@@ -33,6 +33,7 @@ test("publica o funil enxuto com metadados e seções na ordem correta", async (
   await expect(page.locator("#servicos article")).toHaveCount(6);
   await expect(page.locator("#profissionais article")).toHaveCount(3);
   await expect(page.locator("#faq h3")).toHaveCount(4);
+  await expect(page.getByRole("link", { name: "conheça a página de toxina botulínica", exact: true })).toHaveAttribute("href", "/toxina-botulinica-no-recreio/");
 
   const sectionOrder = await page
     .locator("[data-landing-section]")

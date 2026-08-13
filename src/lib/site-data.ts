@@ -186,6 +186,8 @@ export const services: Service[] = [
       "Uso odontológico considerado de forma responsável, após avaliação clínica e indicação profissional.",
     icon: "botox",
     whatsappDentistIds: ["francisco"],
+    detailsHref: "/toxina-botulinica-no-recreio/",
+    detailsLabel: "Conhecer toxina botulínica",
   },
   {
     title: "Harmonização orofacial",

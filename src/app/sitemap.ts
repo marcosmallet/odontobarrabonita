@@ -37,6 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "protese-dentaria-no-recreio",
       "restauracao-dentaria-no-recreio",
       "limpeza-dental-no-recreio",
+      "toxina-botulinica-no-recreio",
     ].map((slug) => ({
       url: `${SITE_URL}/${slug}/`,
       lastModified: new Date(),

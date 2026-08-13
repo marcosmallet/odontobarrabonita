@@ -157,11 +157,12 @@ test("usa o WhatsApp do Dr. Francisco e o mapa real", async ({ page }) => {
       name: "Conhecer Harmonização Orofacial",
     }),
   ).toHaveAttribute("href", pagePath);
+  const toxinCard = page
+    .getByRole("heading", { name: "Toxina botulínica", exact: true })
+    .locator("..");
   await expect(
-    page.getByRole("heading", { name: "Toxina botulínica", exact: true })
-      .locator("..")
-      .getByRole("link"),
-  ).toHaveCount(0);
+    toxinCard.getByRole("link", { name: "Conhecer toxina botulínica", exact: true }),
+  ).toHaveAttribute("href", "/toxina-botulinica-no-recreio/");
 });
 
 test("registra conversões sem duplicar e funciona sem analytics", async ({

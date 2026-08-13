@@ -45,6 +45,10 @@ import limpezaHero from "../../public/images/limpeza/limpeza-dental-recreio-hero
 import limpezaAvaliacao from "../../public/images/limpeza/limpeza-dental-avaliacao.webp";
 import limpezaPlanejamento from "../../public/images/limpeza/limpeza-dental-planejamento.webp";
 import limpezaCta from "../../public/images/limpeza/limpeza-dental-recreio-cta.webp";
+import toxinaHero from "../../public/images/toxina/toxina-botulinica-recreio-hero.webp";
+import toxinaAvaliacao from "../../public/images/toxina/toxina-botulinica-avaliacao.webp";
+import toxinaPlanejamento from "../../public/images/toxina/toxina-botulinica-planejamento.webp";
+import toxinaCta from "../../public/images/toxina/toxina-botulinica-recreio-cta.webp";
 
 export type ServiceLandingId =
   | "implante"
@@ -53,7 +57,8 @@ export type ServiceLandingId =
   | "ortodontia"
   | "protese"
   | "restauracao"
-  | "limpeza";
+  | "limpeza"
+  | "toxina";
 
 export type ServiceLandingImage = {
   src: StaticImageData;
@@ -163,6 +168,7 @@ const messages = {
   protese: "Olá, Dra. Márcia. Encontrei a Clínica Barra Bonita pelo site e gostaria de agendar uma avaliação para prótese dentária.",
   restauracao: "Olá, Dr. Francisco. Encontrei a Clínica Barra Bonita pelo site e gostaria de agendar uma avaliação para restauração dentária.",
   limpeza: "Olá, Dr. Francisco. Encontrei a Clínica Barra Bonita pelo site e gostaria de agendar uma avaliação para limpeza dental.",
+  toxina: "Olá, Dr. Francisco. Encontrei a Clínica Barra Bonita pelo site e gostaria de agendar uma avaliação para toxina botulínica.",
 } as const;
 
 const page = (config: ServiceLandingConfig) => config;
@@ -333,6 +339,31 @@ export const serviceLandingPages = {
       { question: "Com que frequência devo fazer limpeza dental?", answer: "O intervalo varia conforme higiene, histórico, risco e saúde gengival. O dentista define uma periodicidade individual." }, { question: "Limpeza dental clareia os dentes?", answer: "Ela pode remover depósitos e manchas externas, mas não é o mesmo que um clareamento dental." }, { question: "Limpeza dental dói?", answer: "A sensibilidade varia conforme a condição da gengiva e os depósitos. Avise o profissional sobre qualquer desconforto." }, { question: "Sangramento na escovação é normal?", answer: "Sangramento persistente merece avaliação, pois pode estar relacionado à inflamação gengival ou a outras condições." }, { question: "Como agendar com Dr. Francisco?", answer: "Use o WhatsApp desta página para falar diretamente com Dr. Francisco e marcar sua avaliação." }, { question: "Onde fica a clínica?", answer: "A Clínica Odontológica Barra Bonita fica no Absolutto Business Towers, Av. das Américas, 19005, Torre 2, Sala 403, no Recreio." },
     ],
     final: { eyebrow: "Próximo passo", title: "Quer colocar a prevenção em dia?", description: "Agende uma avaliação de limpeza dental no Recreio e receba orientação compatível com a sua saúde bucal." }, relatedLinks: [{ href: "/clareamento-dental-no-recreio/", label: "Conhecer clareamento dental" }, { href: "/tratamento-de-canal-no-recreio/", label: "Conhecer tratamento de canal" }],
+  }),
+  toxina: page({
+    id: "toxina", slug: "toxina-botulinica-no-recreio", pagePath: "/toxina-botulinica-no-recreio/", serviceName: "toxina", professionalId: "francisco", whatsappMessage: messages.toxina,
+    title: "Toxina Botulínica no Recreio | Clínica Barra Bonita", h1: "Toxina Botulínica no Recreio dos Bandeirantes", eyebrow: "Toxina botulínica no Recreio",
+    description: "Toxina botulínica no Recreio dos Bandeirantes com avaliação individual para linhas de expressão e equilíbrio facial na Clínica Barra Bonita.",
+    keywords: ["toxina botulínica no Recreio", "toxina botulínica facial", "linhas de expressão no Recreio", "estética facial", "Clínica Barra Bonita", "Recreio dos Bandeirantes"],
+    heroImage: image(toxinaHero, "/images/toxina/toxina-botulinica-recreio-hero.webp", "Dr. Francisco em consulta sobre toxina botulínica no Recreio"),
+    evaluationImage: image(toxinaAvaliacao, "/images/toxina/toxina-botulinica-avaliacao.webp", "Avaliação da dinâmica facial antes de considerar toxina botulínica"),
+    planningImage: image(toxinaPlanejamento, "/images/toxina/toxina-botulinica-planejamento.webp", "Dr. Francisco explica o planejamento individual para toxina botulínica"),
+    ctaImage: image(toxinaCta, "/images/toxina/toxina-botulinica-recreio-cta.webp", "Paciente em contexto de cuidado facial responsável"),
+    introduction: { eyebrow: "Avaliação individual", title: "O que é toxina botulínica?", paragraphs: ["A toxina botulínica é uma substância que pode reduzir temporariamente a atividade de músculos selecionados. Em alguns casos, pode ser considerada para linhas de expressão, sempre após avaliação profissional.", "A consulta ajuda a compreender a dinâmica facial, o histórico de saúde, os objetivos e as possibilidades adequadas. Nenhuma indicação ou resultado deve ser presumido antes do exame individual."] },
+    evaluation: { eyebrow: "O olhar profissional", title: "O que entra na avaliação?", intro: "A decisão responsável considera saúde, expressão facial e informações sobre cuidados anteriores.", cards: [
+      { icon: Activity, title: "Dinâmica facial", description: "Movimentos e contrações musculares são observados para compreender as características de cada pessoa." }, { icon: ClipboardCheck, title: "Histórico de saúde", description: "Condições de saúde, medicamentos e aplicações anteriores entram na conversa clínica." }, { icon: Smile, title: "Objetivos realistas", description: "A consulta alinha expectativas e explica o que pode ou não ser considerado no caso." }, { icon: ShieldCheck, title: "Indicação e contraindicações", description: "O profissional verifica fatores que podem contraindicar ou adiar qualquer procedimento." },
+    ], note: "A toxina botulínica só deve ser considerada após avaliação por profissional habilitado, em serviço autorizado e com produto regularizado." },
+    details: { eyebrow: "Cuidado responsável", title: "Toxina botulínica não é igual para todos", paragraphs: ["A resposta depende da anatomia, da movimentação facial, do histórico e dos objetivos de cada pessoa. Por isso, a avaliação vem antes de qualquer planejamento.", "Quando houver indicação, o profissional explica as possibilidades, os cuidados e as limitações. O uso deve respeitar as orientações da bula e as regras de segurança aplicáveis ao produto e ao serviço."], cards: [
+      { icon: HeartHandshake, title: "Respeitar a expressão", description: "O planejamento considera a dinâmica facial e expectativas compatíveis com cada caso." }, { icon: ShieldCheck, title: "Produto e serviço regulares", description: "A aplicação deve usar medicamento registrado e ocorrer em serviço autorizado, com profissional habilitado." },
+    ] },
+    process: { eyebrow: "Como funciona", title: "Quatro etapas para uma decisão bem orientada", intro: "A conversa é organizada com informação clara, tempo para dúvidas e acompanhamento compatível com o cuidado indicado.", steps: [
+      { title: "Conversa inicial", description: "Você conta seus objetivos, histórico e aplicações anteriores, quando houver." }, { title: "Avaliação facial", description: "O profissional observa a dinâmica facial e verifica possibilidades e contraindicações." }, { title: "Planejamento e orientação", description: "Quando indicado, são explicados cuidados, limites e orientações do produto." }, { title: "Acompanhamento", description: "As orientações posteriores e eventuais retornos são definidos de acordo com o caso." },
+    ] },
+    care: commonCare("a toxina botulínica"), professional: { eyebrow: "Profissional responsável", title: "Avaliação com Dr. Francisco", description: "Converse com Dr. Francisco para entender se a toxina botulínica é uma possibilidade compatível com seus objetivos após a avaliação." }, clinic: commonClinic("Toxina botulínica"), locationTitle: "Toxina botulínica no Recreio",
+    faqs: [
+      { question: "O que é toxina botulínica?", answer: "É uma substância que pode reduzir temporariamente a atividade de músculos selecionados. A indicação depende de avaliação individual." }, { question: "A toxina botulínica é indicada para qualquer pessoa?", answer: "Não. Histórico de saúde, medicamentos, aplicações anteriores e outros fatores precisam ser avaliados pelo profissional habilitado." }, { question: "Quais linhas de expressão podem ser avaliadas?", answer: "A avaliação observa a dinâmica facial e as características individuais. Não é adequado presumir regiões ou indicações antes da consulta." }, { question: "É possível prever o resultado ou a duração?", answer: "Não. A resposta e o acompanhamento variam entre pessoas e não devem ser garantidos antes da avaliação." }, { question: "Por que informar aplicações anteriores e respeitar os intervalos?", answer: "Essas informações ajudam o profissional a avaliar a segurança do cuidado e orientar intervalos conforme o produto e a bula." }, { question: "Quais cuidados de segurança observar e como agendar com Dr. Francisco?", answer: "Procure profissional habilitado, serviço autorizado e produto registrado. Use o WhatsApp desta página para conversar com Dr. Francisco." },
+    ],
+    final: { eyebrow: "Próximo passo", title: "Quer conversar sobre toxina botulínica?", description: "Agende uma avaliação no Recreio para entender as possibilidades e os cuidados compatíveis com o seu caso." }, relatedLinks: [{ href: "/harmonizacao-orofacial-no-recreio/", label: "Conhecer harmonização orofacial" }, { href: "/dentista-no-recreio/", label: "Conhecer a clínica e os profissionais" }],
   }),
 } satisfies Record<ServiceLandingId, ServiceLandingConfig>;
 

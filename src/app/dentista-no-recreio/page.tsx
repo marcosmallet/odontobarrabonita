@@ -228,6 +228,12 @@ export default function DentistaNoRecreioPage() {
                 className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
               >
                 acesse a página específica do serviço
+              </Link>{", "}
+              <Link
+                href="/toxina-botulinica-no-recreio/"
+                className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 transition-colors hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
+              >
+                conheça a página de toxina botulínica
               </Link>
               .
             </p>

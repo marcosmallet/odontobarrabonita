@@ -1,6 +1,12 @@
 import { expect, test } from "@playwright/test";
 import { dentists, navigation, services } from "../../src/lib/site-data";
 
+test("oferece o link editorial de toxina botulínica no card da home", async ({ page }) => {
+  await page.goto("/");
+  const card = page.getByRole("heading", { name: "Toxina botulínica", exact: true }).locator("..");
+  await expect(card.getByRole("link", { name: "Conhecer toxina botulínica", exact: true })).toHaveAttribute("href", "/toxina-botulinica-no-recreio/");
+});
+
 test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) => {
   await page.goto("/");
 

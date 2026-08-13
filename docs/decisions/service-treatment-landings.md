@@ -1,5 +1,11 @@
 # Landing pages de tratamentos locais
 
+## Oitava rota: toxina botulínica
+
+A rota `/toxina-botulinica-no-recreio/` usa o catálogo tipado e o mesmo `ServiceLandingPage`, com Dr. Francisco como profissional responsável. O foco editorial é estética responsável, avaliação individual, expectativas realistas e segurança integrada aos cards e FAQs, sem preços, doses, técnicas, promessas ou indicações presumidas.
+
+Foram adicionados quatro WebPs exclusivos da rota (hero, avaliação, planejamento e CTA), a URL no sitemap e links contextuais na home e em `/dentista-no-recreio/`. A página de harmonização permanece isolada, visual e semanticamente inalterada.
+
 ## Entendimento
 
 O site continua sendo uma exportação estática do Next.js, com páginas institucionais para sete intenções de busca no Recreio dos Bandeirantes: implante, tratamento de canal, clareamento, ortodontia, prótese, restauração e limpeza dental. O benchmark visual e semântico de harmonização permanece isolado e intacto.
