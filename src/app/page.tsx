@@ -17,6 +17,7 @@ import { Hero } from "@/components/hero";
 import { LocationSection } from "@/components/location-section";
 import { ServiceCard } from "@/components/service-card";
 import { TrustStrip } from "@/components/trust-strip";
+import { TeamSection } from "@/components/team-section";
 import { clinic, dentists, services, SITE_URL } from "@/lib/site-data";
 
 const clinicHighlights = [
@@ -54,6 +55,7 @@ const jsonLd = {
   legalName: clinic.legalName,
   url: SITE_URL,
   telephone: dentists.map((dentist) => dentist.phoneInternational),
+  image: `${SITE_URL}/images/equipe-clinica-odontologica-barra-bonita-recreio.webp`,
   medicalSpecialty: "https://schema.org/Dentistry",
   address: {
     "@type": "PostalAddress",
@@ -205,6 +207,8 @@ export default function Home() {
             <ClinicGallery />
           </div>
         </section>
+
+        <TeamSection />
 
         <section id="profissionais" className="section-space bg-mist/55">
           <div className="site-container">

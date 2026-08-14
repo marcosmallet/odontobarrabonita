@@ -27,6 +27,7 @@ export type CtaLocation =
   | "services"
   | "floating"
   | "location"
+  | "team_section"
   | "faq"
   | "footer"
   | "final_cta";
@@ -273,6 +274,7 @@ function normalizeCtaLocation(value: string | undefined): CtaLocation {
     case "services":
     case "floating":
     case "location":
+    case "team_section":
     case "faq":
     case "footer":
     case "final_cta":

@@ -48,6 +48,120 @@ test("exibe o conteúdo institucional essencial sem overflow", async ({ page }) 
   expect(hasOverflow).toBe(false);
 });
 
+test("apresenta a equipe entre a estrutura e os profissionais", async ({ page }) => {
+  await page.goto("/");
+
+  const team = page.locator("#equipe");
+  const teamImage = team.getByRole("img", {
+    name: "Equipe da Cl\u00ednica Odontol\u00f3gica Barra Bonita no Recreio dos Bandeirantes",
+  });
+
+  await expect(team).toBeVisible();
+  await expect(
+    team.getByRole("heading", {
+      level: 2,
+      name: "Cuidado realizado por profissionais experientes",
+    }),
+  ).toBeVisible();
+  await expect(
+    team.getByText(/tratamentos odontol.gicos no Recreio dos Bandeirantes/),
+  ).toBeVisible();
+  await expect(teamImage).toBeVisible();
+  await expect(teamImage).toHaveAttribute(
+    "src",
+    /equipe-clinica-odontologica-barra-bonita-recreio.*\.webp$/,
+  );
+  await expect(teamImage).toHaveAttribute(
+    "alt",
+    "Equipe da Cl\u00ednica Odontol\u00f3gica Barra Bonita no Recreio dos Bandeirantes",
+  );
+  await expect(teamImage).toHaveAttribute("width", "1122");
+  await expect(teamImage).toHaveAttribute("height", "1402");
+  await expect(teamImage).toHaveAttribute("loading", "lazy");
+
+  const sectionOrder = await page.evaluate(() => ({
+    structureNext: document.querySelector("#estrutura")?.nextElementSibling?.id,
+    teamNext: document.querySelector("#equipe")?.nextElementSibling?.id,
+  }));
+  expect(sectionOrder).toEqual({
+    structureNext: "equipe",
+    teamNext: "profissionais",
+  });
+
+  const structuredData = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ?? "{}",
+  );
+  expect(await page.locator('script[type="application/ld+json"]').count()).toBe(1);
+  expect(structuredData["@type"]).toBe("Dentist");
+  expect(structuredData.image).toBe(
+    "https://odontobarrabonita.com.br/images/equipe-clinica-odontologica-barra-bonita-recreio.webp",
+  );
+});
+
+test("mantém a seção da equipe responsiva sem overflow nos breakpoints principais", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith("desktop"), "Cenário executado uma vez no Chromium desktop");
+
+  for (const width of [360, 390, 430, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+
+    const metrics = await page.locator("#equipe img").evaluate((image) => {
+      const rect = image.getBoundingClientRect();
+      return {
+        imageWidth: rect.width,
+        imageHeight: rect.height,
+        viewportWidth: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      };
+    });
+
+    expect(metrics.imageWidth).toBeGreaterThan(0);
+    expect(metrics.imageHeight).toBeGreaterThan(0);
+    expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.viewportWidth);
+  }
+});
+
+test("abre o WhatsApp da equipe com tracking contextual e devolve o foco", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => {
+    const target = window as unknown as { dataLayer: unknown[] };
+    target.dataLayer = [];
+  });
+
+  const teamButton = page
+    .locator("#equipe")
+    .getByRole("button", { name: "Agendar uma avalia\u00e7\u00e3o", exact: true });
+  await teamButton.click();
+
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("link")).toHaveCount(3);
+  for (const dentist of dentists) {
+    await expect(
+      dialog.getByRole("link", { name: new RegExp(dentist.shortName) }),
+    ).toHaveAttribute("href", dentist.whatsappUrl);
+  }
+
+  await dialog.getByRole("link").first().click({ noWaitAfter: true });
+  const eventPayload = await page.evaluate(() => {
+    const target = window as unknown as { dataLayer: ArrayLike<unknown>[] };
+    const event = target.dataLayer
+      .map((entry) => Array.from(entry))
+      .find((entry) => entry[0] === "event" && entry[1] === "whatsapp_click");
+    return event?.[2];
+  });
+
+  expect(eventPayload).toMatchObject({
+    cta_location: "team_section",
+    service: "geral",
+    service_name: "geral",
+    dentist_id: dentists[0].id,
+  });
+
+  await page.keyboard.press("Escape");
+  await expect(teamButton).toBeFocused();
+});
+
 test("exibe somente as fotos selecionadas na galeria da clínica", async ({ page }) => {
   const applicationConsoleErrors: string[] = [];
   const externalConsoleErrors: { text: string; url: string }[] = [];
@@ -117,6 +231,8 @@ test("exibe somente as fotos selecionadas na galeria da clínica", async ({ page
         error.text === "Failed to load resource: net::ERR_NETWORK_ACCESS_DENIED") &&
         (error.url.startsWith("https://www.google-analytics.com/") ||
           error.url.startsWith("https://www.googletagmanager.com/") ||
+          error.url.startsWith("https://analytics.google.com/") ||
+          error.url.startsWith("https://stats.g.doubleclick.net/") ||
           error.url.startsWith("https://fonts.googleapis.com/") ||
           error.url.startsWith("https://fonts.gstatic.com/")),
     ),
