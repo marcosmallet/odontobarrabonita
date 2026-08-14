@@ -16,7 +16,7 @@ template compartilhado
         └── RSS
 ```
 
-O conteúdo é compilado pelo `@next/mdx` no build. O App Router usa `generateStaticParams()` e static export. Em produção somente `published + review.approved + publishedAt + reviewedAt` gera rota. O desenvolvimento pode exibir drafts com `noindex`.
+O conteúdo é compilado pelo `@next/mdx` no build. O App Router usa `generateStaticParams()` e static export. Em produção somente `published + publishedAt` gera rota; a revisão não é um bloqueio. O desenvolvimento pode exibir drafts com `noindex`.
 
 `src/lib/blog/services.ts` é o registry relacional do blog; `src/lib/site-data.ts` continua sendo a fonte institucional dos profissionais e contatos. A API central impede que sitemap, RSS, relacionados e componentes implementem filtros divergentes.
 

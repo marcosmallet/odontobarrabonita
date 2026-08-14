@@ -6,7 +6,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 - Nunca crie uma página React para um artigo; use apenas `content/blog/{slug}.mdx`.
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
-- O comando explícito de aprovação recebido no fluxo (por exemplo, `aprovado`) é suficiente para liberar a publicação; nunca invente ou antecipe esse comando.
+- Não existe etapa obrigatória de aprovação no fluxo. Depois de conteúdo, imagem, fontes e validações concluídos, o artigo pode ser publicado diretamente.
 - Não exiba no cabeçalho dos artigos nem nos cards do índice as datas de publicação/atualização ou a linha de revisor; essas informações permanecem apenas nos metadados estruturados e nos artefatos técnicos.
 - A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
@@ -25,11 +25,11 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 8. Escrever para pessoas, responder cedo e usar H2/H3; não exigir contagem fixa de palavras.
 9. Adicionar somente links contextuais reais.
 10. Executar `npm run blog:validate`, lint, typecheck, testes e build.
-11. Manter `status: review` ou `draft` e `review.status: pending` até receber o comando explícito de aprovação. Ao recebê-lo, registrar `status: published`, `review.status: approved`, `publishedAt` e `reviewedAt` com as datas da operação; o revisor continua sendo o profissional derivado do serviço.
+11. Manter `status: draft` ou `review` enquanto o conteúdo estiver incompleto. Depois de `npm run blog:validate`, lint, typecheck, testes e build passarem, registrar `status: published` e `publishedAt`; `review.status` não bloqueia a publicação.
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão; o dentista aparece como revisor quando aprovado.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão; os campos de revisão são apenas informativos e não bloqueiam a publicação.
 
 ## Imagem e conteúdo médico
 
@@ -43,7 +43,7 @@ Se o agente não tiver uma ferramenta de geração/otimização de imagem, não 
 Fotografia editorial realista, horizontal 16:9, 1600x900, do profissional oficial relacionado ao serviço conversando e orientando um paciente em consultório odontológico, usando a foto oficial como referência de identidade, iluminação natural, sem texto, sem logotipos, sem sangue, sem antes/depois e sem substituir o rosto por uma pessoa aleatória.
 ```
 
-Mantenha `status: draft`, `review.status: pending` e a imagem pendente até o arquivo WebP/AVIF otimizado existir e passar por `npm run blog:validate`.
+Mantenha `status: draft` e a imagem pendente até o arquivo WebP/AVIF otimizado existir e passar por `npm run blog:validate`; depois publique diretamente, sem etapa de aprovação.
 
 ## Como solicitar um novo artigo
 
@@ -76,4 +76,4 @@ Mesmo com prompt curto, a IA deve descobrir registries, imagem, links, schema, C
 
 ## Exemplo não publicado
 
-O `_template.mdx` é um exemplo estrutural e nunca pode ser publicado. Não use aprovação fictícia para transformar exemplo em artigo público.
+O `_template.mdx` é um exemplo estrutural e nunca pode ser publicado. Publique apenas arquivos de artigo completos e validados.

@@ -9,7 +9,7 @@
 - [ ] Links internos contextuais
 - [ ] Imagem WebP/AVIF e alt descritivo
 - [ ] Fontes clínicas verificadas quando necessárias
-- [ ] Revisão humana pendente ou aprovada corretamente
+- [ ] Conteúdo e imagem completos; revisão é opcional e não bloqueia a publicação
 - [ ] Metadata, canonical e Open Graph gerados
 - [ ] BlogPosting e breadcrumb válidos
 - [ ] Sitemap/RSS derivados do estado publicado

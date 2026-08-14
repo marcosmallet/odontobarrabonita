@@ -53,15 +53,12 @@ export type BlogPost = BlogFrontmatter & {
   readingTimeMinutes: number;
 };
 
-export function isPublishedPost(post: Pick<BlogPost, "status" | "review" | "publishedAt">) {
-  return post.status === "published" && post.review.status === "approved" && Boolean(post.publishedAt) && Boolean(post.review.reviewedAt);
+export function isPublishedPost(post: Pick<BlogPost, "status" | "publishedAt">) {
+  return post.status === "published" && Boolean(post.publishedAt);
 }
 
 export function validatePublicationState(frontmatter: BlogFrontmatter) {
   const errors: string[] = [];
-  if (frontmatter.status === "published" && frontmatter.review.status !== "approved") {
-    errors.push("status published exige review.status approved.");
-  }
   if (frontmatter.status === "published" && !frontmatter.publishedAt) {
     errors.push("status published exige publishedAt.");
   }

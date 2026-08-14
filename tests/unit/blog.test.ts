@@ -42,13 +42,13 @@ test("aceita frontmatter válido e rejeita categoria inexistente", () => {
   assert.equal(blogFrontmatterSchema.safeParse({ ...post(), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
 });
 
-test("bloqueia publicação sem revisão e data", () => {
-  const draft = post({ status: "published", review: { status: "pending", reviewer: "francisco", reviewedAt: null }, publishedAt: null, featuredImage: "/images/blog/tratamento-de-canal-doi.webp" });
-  assert.deepEqual(validatePublicationState(draft), [
-    "status published exige review.status approved.",
-    "status published exige publishedAt.",
-  ]);
-  assert.equal(isPublishedPost(draft), false);
+test("publicação não exige aprovação, mas exige publishedAt", () => {
+  const published = post({ status: "published", review: { status: "pending", reviewer: "francisco", reviewedAt: null } });
+  assert.deepEqual(validatePublicationState(published), []);
+  assert.equal(isPublishedPost(published), true);
+  const incomplete = post({ status: "published", review: { status: "pending", reviewer: "francisco", reviewedAt: null }, publishedAt: null, featuredImage: "/images/blog/tratamento-de-canal-doi.webp" });
+  assert.deepEqual(validatePublicationState(incomplete), ["status published exige publishedAt."]);
+  assert.equal(isPublishedPost(incomplete), false);
 });
 
 test("relaciona explícitos, serviço e categoria sem repetir o próprio artigo", () => {
