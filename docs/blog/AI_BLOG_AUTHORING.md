@@ -6,7 +6,8 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 - Nunca crie uma página React para um artigo; use apenas `content/blog/{slug}.mdx`.
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
-- Nunca marque uma revisão como aprovada sem confirmação humana explícita de um cirurgião-dentista.
+- O comando explícito de aprovação recebido no fluxo (por exemplo, `aprovado`) é suficiente para liberar a publicação; nunca invente ou antecipe esse comando.
+- Não exiba no cabeçalho dos artigos nem nos cards do índice as datas de publicação/atualização ou a linha de revisor; essas informações permanecem apenas nos metadados estruturados e nos artefatos técnicos.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
 - Slugs publicados são imutáveis no GitHub Pages; uma mudança futura exige solução de redirect HTTP real antes de remover a URL antiga.
@@ -23,7 +24,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 8. Escrever para pessoas, responder cedo e usar H2/H3; não exigir contagem fixa de palavras.
 9. Adicionar somente links contextuais reais.
 10. Executar `npm run blog:validate`, lint, typecheck, testes e build.
-11. Manter `status: review` ou `draft` e `review.status: pending` até aprovação humana.
+11. Manter `status: review` ou `draft` e `review.status: pending` até receber o comando explícito de aprovação. Ao recebê-lo, registrar `status: published`, `review.status: approved`, `publishedAt` e `reviewedAt` com as datas da operação; o revisor continua sendo o profissional derivado do serviço.
 
 ## Frontmatter mínimo
 

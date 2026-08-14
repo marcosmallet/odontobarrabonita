@@ -72,13 +72,13 @@ test("rejeita MDX inseguro e H1 no corpo", () => {
   assert.equal(errors.length, 4);
 });
 
-test("sitemap e RSS incluem o índice mesmo sem artigos publicados", async () => {
+test("sitemap e RSS incluem o índice e artigos publicados", async () => {
   const entries = sitemap();
   assert.equal(entries.some((entry) => entry.url === "https://odontobarrabonita.com.br/blog/"), true);
-  assert.equal(entries.some((entry) => entry.url?.includes("/blog/tratamento-de-canal-doi/")), false);
+  assert.equal(entries.some((entry) => entry.url?.includes("/blog/tratamento-de-canal-doi/")), true);
   const feed = await getFeed();
   assert.equal(feed.headers.get("content-type"), "application/rss+xml; charset=utf-8");
   const feedText = await feed.text();
   assert.match(feedText, /<channel>/);
-  assert.doesNotMatch(feedText, /tratamento-de-canal-doi/);
+  assert.match(feedText, /tratamento-de-canal-doi/);
 });

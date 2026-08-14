@@ -15,7 +15,6 @@ export function BlogCard({ post }: { post: BlogPost }) {
           <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-petroleum">{post.title}</h2>
           <p className="mt-3 line-clamp-3 text-sm leading-7 text-graphite/75">{post.description}</p>
           <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-graphite/60">
-            <time dateTime={post.publishedAt ?? undefined}>{post.publishedAt ? new Date(`${post.publishedAt}T12:00:00`).toLocaleDateString("pt-BR") : "Prévia"}</time>
             <span>{post.readingTimeMinutes} min de leitura</span>
           </div>
         </div>

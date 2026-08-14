@@ -33,7 +33,7 @@ export function BlogArticle({ post, children }: { post: BlogPost; children: Reac
               <p className="eyebrow">{blogCategories[post.category].label}</p>
               <h1 className="mt-4 max-w-4xl font-display text-4xl font-semibold tracking-tight text-petroleum sm:text-5xl lg:text-6xl">{post.title}</h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-graphite/75">{post.description}</p>
-              <div className="mt-6 flex flex-wrap gap-4 text-sm text-graphite/60"><time dateTime={post.publishedAt ?? undefined}>{post.publishedAt ? `Publicado em ${new Date(`${post.publishedAt}T12:00:00`).toLocaleDateString("pt-BR")}` : "Prévia local"}</time>{post.updatedAt ? <time dateTime={post.updatedAt}>Atualizado em {new Date(`${post.updatedAt}T12:00:00`).toLocaleDateString("pt-BR")}</time> : null}<span>{post.readingTimeMinutes} min de leitura</span></div>
+              <div className="mt-6 flex flex-wrap gap-4 text-sm text-graphite/60"><span>{post.readingTimeMinutes} min de leitura</span></div>
               <div className="mt-6"><BlogAuthor post={post} /></div>
             </header>
             <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-[2rem] bg-mist"><Image src={post.featuredImage} alt={post.featuredImageAlt} fill priority sizes="(max-width: 1024px) 100vw, 896px" className="object-cover" /></div>

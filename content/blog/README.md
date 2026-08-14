@@ -7,7 +7,9 @@ Cada artigo é um arquivo `.mdx` com uma imagem WebP/AVIF em `public/images/blog
 3. Escolha um serviço do registry; categoria, profissional, landing e CTA são derivados dele.
 4. Adicione a imagem com o mesmo slug e preencha o alt text.
 5. Execute `npm run blog:validate`.
-6. Mantenha `review.status: pending` até uma aprovação odontológica humana real.
+6. Mantenha `review.status: pending` até receber o comando explícito `aprovado`; nesse momento, registre a aprovação e as datas no frontmatter.
+
+O cabeçalho dos artigos e os cards do índice exibem apenas autoria e/ou tempo estimado de leitura; datas e revisão não são apresentados como blocos visuais.
 
 Drafts e artigos em revisão não entram no índice, sitemap, RSS, relacionados ou produção.
 
