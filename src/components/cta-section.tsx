@@ -1,4 +1,5 @@
 import { MessageCircle } from "lucide-react";
+import { ConversionLink } from "./conversion-link";
 import { dentists } from "@/lib/site-data";
 
 export function CTASection() {
@@ -24,16 +25,24 @@ export function CTASection() {
             </div>
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               {dentists.map((dentist) => (
-                <a
+                <ConversionLink
                   key={dentist.id}
                   href={dentist.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="whatsapp_click"
+                  eventParams={{
+                    service: "geral",
+                    dentist: dentist.id,
+                    cta_location: "final_cta",
+                    cta_type: "appointment",
+                    cta_text: `WhatsApp ${dentist.shortName}`,
+                  }}
                   className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise-light"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
                   WhatsApp {dentist.shortName}
-                </a>
+                </ConversionLink>
               ))}
             </div>
           </div>

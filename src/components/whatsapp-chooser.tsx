@@ -3,7 +3,12 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { trackConversion } from "@/lib/analytics";
+import {
+  initializeLeadSource,
+  trackWhatsappClick,
+  type CtaType,
+  type DentalService,
+} from "@/lib/analytics";
 import {
   buildWhatsappUrl,
   campaignWhatsappMessage,
@@ -14,6 +19,9 @@ import {
 
 export type WhatsAppTrackingContext = {
   ctaLocation: string;
+  ctaType?: CtaType;
+  ctaText?: string;
+  service?: DentalService;
   serviceName?: string;
 };
 
@@ -41,6 +49,10 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
     useState<WhatsAppTrackingContext | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    initializeLeadSource();
+  }, []);
 
   function openChooser({
     dentistIds,
@@ -124,9 +136,7 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
           onClick={(event) =>
             openChooser({
               message: isCampaignLanding ? campaignWhatsappMessage : undefined,
-              tracking: isCampaignLanding
-                ? { ctaLocation: "floating_mobile" }
-                : undefined,
+              tracking: { ctaLocation: "floating_mobile", ctaType: "appointment", ctaText: "Agendar avaliação pelo WhatsApp" },
               returnFocus: event.currentTarget,
             })
           }
@@ -189,8 +199,11 @@ export function WhatsAppProvider({ children }: { children: React.ReactNode }) {
                   rel="noopener noreferrer"
                   onClick={() => {
                     if (!trackingContext) return;
-                    trackConversion("whatsapp_click", {
+                    trackWhatsappClick({
                       cta_location: trackingContext.ctaLocation,
+                      cta_type: trackingContext.ctaType ?? "appointment",
+                      cta_text: trackingContext.ctaText,
+                      service: trackingContext.service,
                       dentist_id: dentist.id,
                       service_name: trackingContext.serviceName,
                     });

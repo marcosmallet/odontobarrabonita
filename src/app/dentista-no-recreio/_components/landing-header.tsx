@@ -34,7 +34,7 @@ export function LandingHeader({
   ) : (
     <WhatsAppChooserTrigger
       message={campaignWhatsappMessage}
-      tracking={{ ctaLocation: "header" }}
+      tracking={{ ctaLocation: "header", ctaType: "appointment", ctaText: "Agendar avaliação" }}
       className="button-primary h-11 px-4 text-sm sm:px-5"
     >
       <MessageCircle className="hidden size-4 sm:block" aria-hidden="true" />
@@ -55,6 +55,8 @@ export function LandingHeader({
             eventName="directions_click"
             eventParams={{
               cta_location: "header",
+              cta_type: "directions",
+              cta_text: "Como chegar",
               destination: "google_maps",
               ...mapsEventParams,
             }}

@@ -31,7 +31,7 @@ export function Header() {
           </nav>
 
           <div className="hidden sm:block">
-            <WhatsAppChooserTrigger className="button-primary h-11 px-5 text-sm">
+            <WhatsAppChooserTrigger tracking={{ ctaLocation: "header", ctaType: "appointment", ctaText: "Agendar avaliação" }} className="button-primary h-11 px-5 text-sm">
               Agendar avaliação
             </WhatsAppChooserTrigger>
           </div>
@@ -71,7 +71,7 @@ export function Header() {
                 </li>
               ))}
             </ul>
-            <WhatsAppChooserTrigger className="button-primary mt-4 w-full sm:hidden">
+            <WhatsAppChooserTrigger tracking={{ ctaLocation: "header", ctaType: "appointment", ctaText: "Agendar avaliação" }} className="button-primary mt-4 w-full sm:hidden">
               Agendar avaliação
             </WhatsAppChooserTrigger>
           </nav>

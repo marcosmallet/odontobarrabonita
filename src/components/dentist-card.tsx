@@ -77,6 +77,8 @@ export function DentistCard({
               trackingLocation
                 ? {
                     cta_location: trackingLocation,
+                    cta_type: "appointment",
+                    cta_text: whatsappLabel,
                     dentist_id: dentist.id,
                     ...whatsappEventParams,
                   }
@@ -93,6 +95,8 @@ export function DentistCard({
               eventName="phone_click"
               eventParams={{
                 cta_location: trackingLocation ?? "professional_card",
+                cta_type: "phone",
+                cta_text: `Ligar para ${dentist.shortName}`,
                 dentist_id: dentist.id,
               }}
               className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-4 text-sm font-semibold text-petroleum transition-colors hover:border-turquoise hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"

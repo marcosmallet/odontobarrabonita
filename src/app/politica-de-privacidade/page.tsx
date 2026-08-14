@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, MessageCircle, ShieldCheck } from "lucide-react";
 import { ClinicLogo } from "@/components/clinic-logo";
 import { Footer } from "@/components/footer";
+import { ConversionLink } from "@/components/conversion-link";
 import { clinic, dentists, SITE_URL } from "@/lib/site-data";
 
 export const metadata: Metadata = {
@@ -74,7 +75,12 @@ export default function PrivacyPolicyPage() {
                 <p>
                   Esta versão do site não possui formulário, cadastro ou área do
                   paciente. O site utiliza Google Analytics para medir, de forma
-                  agregada, visitas, páginas acessadas e interações de navegação.
+                  agregada, visitas, páginas acessadas e interações de navegação,
+                  incluindo cliques em WhatsApp, telefone e direções. Para
+                  preservar a origem da visita durante a navegação interna, uma
+                  classificação técnica não identificável é mantida no
+                  armazenamento de sessão do navegador; ela não contém nome,
+                  telefone, e-mail ou dados clínicos.
                   O site não coleta diretamente nome, telefone, CPF, informações
                   clínicas ou outros dados pessoais por meio de formulários.
                 </p>
@@ -130,16 +136,24 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="not-prose mt-6 grid gap-3 sm:grid-cols-3">
                   {dentists.map((dentist) => (
-                    <a
+                    <ConversionLink
                       key={dentist.id}
                       href={dentist.whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      eventName="whatsapp_click"
+                      eventParams={{
+                        service: "geral",
+                        dentist: dentist.id,
+                        cta_location: "content",
+                        cta_type: "information",
+                        cta_text: dentist.shortName,
+                      }}
                       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line px-4 text-sm font-semibold text-petroleum transition-colors hover:border-turquoise hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise"
                     >
                       <MessageCircle className="size-4" aria-hidden="true" />
                       {dentist.shortName}
-                    </a>
+                    </ConversionLink>
                   ))}
                 </div>
               </section>

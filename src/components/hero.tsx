@@ -50,7 +50,7 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <WhatsAppChooserTrigger className="button-primary">
+            <WhatsAppChooserTrigger tracking={{ ctaLocation: "hero", ctaType: "appointment", ctaText: "Agendar pelo WhatsApp" }} className="button-primary">
               <MessageCircle className="size-5" aria-hidden="true" />
               Agendar pelo WhatsApp
             </WhatsAppChooserTrigger>

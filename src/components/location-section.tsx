@@ -53,6 +53,8 @@ export function LocationSection({
                   trackingLocation
                     ? {
                         cta_location: trackingLocation,
+                        cta_type: "directions",
+                        cta_text: "Como chegar",
                         destination: "google_maps",
                         ...trackingEventParams,
                       }
@@ -76,6 +78,8 @@ export function LocationSection({
                     trackingLocation
                       ? {
                           cta_location: trackingLocation,
+                          cta_type: "directions",
+                          cta_text: "Como chegar",
                           destination: "google_maps",
                           ...trackingEventParams,
                         }
@@ -92,7 +96,7 @@ export function LocationSection({
                   target="_blank"
                   rel="noopener noreferrer"
                   eventName="whatsapp_click"
-                  eventParams={whatsappAction.eventParams}
+                  eventParams={{ cta_text: whatsappAction.label, cta_type: "appointment", ...whatsappAction.eventParams }}
                   className="button-primary"
                 >
                   <MessageCircle className="size-5" aria-hidden="true" />

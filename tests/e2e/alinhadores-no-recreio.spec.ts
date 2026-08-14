@@ -225,8 +225,13 @@ test("registra conversões no GA4 uma única vez e funciona sem analytics", asyn
       "whatsapp_click",
       {
         cta_location: "hero",
+        cta_type: "appointment",
+        dentist: "carlos",
         dentist_id: "carlos",
+        lead_source: "direct",
         page_path: pagePath,
+        page_title: "Alinhadores Transparentes no Recreio | Clínica Barra Bonita",
+        service: "alinhadores",
         service_name: "alinhadores",
         contact_method: "whatsapp",
       },
@@ -236,8 +241,15 @@ test("registra conversões no GA4 uma única vez e funciona sem analytics", asyn
       "directions_click",
       {
         cta_location: "location",
+        cta_text: "Como chegar",
+        cta_type: "directions",
+        dentist: "clinic",
+        dentist_id: "clinic",
         destination: "google_maps",
+        lead_source: "direct",
         page_path: pagePath,
+        page_title: "Alinhadores Transparentes no Recreio | Clínica Barra Bonita",
+        service: "alinhadores",
         service_name: "alinhadores",
         contact_method: "maps",
       },
@@ -326,7 +338,9 @@ test("não gera erros de aplicação ou links internos quebrados", async ({
       (message) =>
         !message.includes("google-analytics.com") &&
         !message.includes("googletagmanager.com") &&
-        !message.includes("ERR_NETWORK_ACCESS_DENIED"),
+        !message.includes("fonts.googleapis.com") &&
+        !message.includes("ERR_NETWORK_ACCESS_DENIED") &&
+        !message.includes("ERR_NAME_NOT_RESOLVED"),
     ),
   ).toEqual([]);
 

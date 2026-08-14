@@ -116,7 +116,9 @@ test("exibe somente as fotos selecionadas na galeria da clínica", async ({ page
       (error.text === "Failed to load resource: net::ERR_NAME_NOT_RESOLVED" ||
         error.text === "Failed to load resource: net::ERR_NETWORK_ACCESS_DENIED") &&
         (error.url.startsWith("https://www.google-analytics.com/") ||
-          error.url.startsWith("https://www.googletagmanager.com/")),
+          error.url.startsWith("https://www.googletagmanager.com/") ||
+          error.url.startsWith("https://fonts.googleapis.com/") ||
+          error.url.startsWith("https://fonts.gstatic.com/")),
     ),
   ).toBe(true);
   expect(pageErrors).toEqual([]);

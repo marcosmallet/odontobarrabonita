@@ -22,12 +22,9 @@ export function ConversionLink({
     <a
       {...props}
       onClick={(event) => {
-        if (eventName && eventParams) {
-          trackConversion(eventName, eventParams);
-        }
+        if (eventName) trackConversion(eventName, eventParams ?? {});
         onClick?.(event);
       }}
     />
   );
 }
-

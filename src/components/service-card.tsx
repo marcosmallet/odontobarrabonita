@@ -58,6 +58,8 @@ export function ServiceCard({
           trackingLocation
             ? {
                 ctaLocation: trackingLocation,
+                ctaType: "appointment",
+                ctaText: "Agendar avaliação",
                 serviceName: service.title,
               }
             : undefined

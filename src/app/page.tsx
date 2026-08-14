@@ -223,7 +223,7 @@ export default function Home() {
 
             <div className="mt-12 grid gap-6 lg:grid-cols-3">
               {dentists.map((dentist) => (
-                <DentistCard key={dentist.id} dentist={dentist} />
+                <DentistCard key={dentist.id} dentist={dentist} trackingLocation="professional" />
               ))}
             </div>
           </div>
