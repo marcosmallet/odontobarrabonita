@@ -8,6 +8,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
 - O comando explícito de aprovação recebido no fluxo (por exemplo, `aprovado`) é suficiente para liberar a publicação; nunca invente ou antecipe esse comando.
 - Não exiba no cabeçalho dos artigos nem nos cards do índice as datas de publicação/atualização ou a linha de revisor; essas informações permanecem apenas nos metadados estruturados e nos artefatos técnicos.
+- A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
 - Slugs publicados são imutáveis no GitHub Pages; uma mudança futura exige solução de redirect HTTP real antes de remover a URL antiga.
@@ -20,7 +21,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 4. Verificar se a intenção já é atendida; prefira atualizar artigo existente quando houver canibalização.
 5. Definir intenção, query principal, serviço e fontes confiáveis quando houver afirmações clínicas.
 6. Criar o MDX com `npm run blog:new` ou `_template.mdx`.
-7. Gerar/verificar visualmente a imagem e salvar `public/images/blog/{slug}.webp` ou `.avif`; use `npm run blog:image` para otimizar.
+7. Gerar/verificar visualmente uma cena de atendimento com o profissional relacionado ao serviço e salvar `public/images/blog/{slug}.webp` ou `.avif`; use `npm run blog:image -- --slug={slug} --service={service} --input=<imagem-gerada> --reference=public<foto-oficial>`. O script exige a referência oficial correspondente.
 8. Escrever para pessoas, responder cedo e usar H2/H3; não exigir contagem fixa de palavras.
 9. Adicionar somente links contextuais reais.
 10. Executar `npm run blog:validate`, lint, typecheck, testes e build.
@@ -32,14 +33,14 @@ Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissio
 
 ## Imagem e conteúdo médico
 
-Prefira fotografia institucional realista, sem texto, marca d'água, sangue, anatomia impossível, promessa visual ou antes/depois artificial. O alt deve descrever a cena, nunca repetir keywords. Sem acesso a fontes, escreva de forma conservadora e marque o artigo para revisão; nunca fabrique referências.
+Gere uma fotografia institucional realista de atendimento, com o profissional oficial relacionado ao serviço conversando ou orientando um paciente. Use a foto oficial apenas como referência de identidade; o arquivo final deve mostrar uma situação de atendimento, ser WebP/AVIF otimizado e não conter texto ou marca d'água. O alt deve descrever a cena, nunca repetir keywords. Sem acesso a fontes, escreva de forma conservadora e marque o artigo para revisão; nunca fabrique referências.
 
 ### Fallback sem geração de imagem
 
 Se o agente não tiver uma ferramenta de geração/otimização de imagem, não invente um arquivo nem publique o artigo. Gere um prompt para produção posterior, por exemplo:
 
 ```text
-Fotografia editorial realista, horizontal 16:9, 1600x900, consultório odontológico acolhedor no Recreio dos Bandeirantes, paciente adulto conversando com cirurgião-dentista, iluminação natural, sem texto, sem logotipos, sem sangue, sem antes/depois e sem características clínicas identificáveis.
+Fotografia editorial realista, horizontal 16:9, 1600x900, do profissional oficial relacionado ao serviço conversando e orientando um paciente em consultório odontológico, usando a foto oficial como referência de identidade, iluminação natural, sem texto, sem logotipos, sem sangue, sem antes/depois e sem substituir o rosto por uma pessoa aleatória.
 ```
 
 Mantenha `status: draft`, `review.status: pending` e a imagem pendente até o arquivo WebP/AVIF otimizado existir e passar por `npm run blog:validate`.

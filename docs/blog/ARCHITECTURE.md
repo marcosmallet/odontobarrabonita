@@ -20,6 +20,8 @@ O conteúdo é compilado pelo `@next/mdx` no build. O App Router usa `generateSt
 
 `src/lib/blog/services.ts` é o registry relacional do blog; `src/lib/site-data.ts` continua sendo a fonte institucional dos profissionais e contatos. A API central impede que sitemap, RSS, relacionados e componentes implementem filtros divergentes.
 
+O mesmo vínculo `service → professionalId` define a foto oficial usada como referência de identidade na cena gerada da imagem destacada. `scripts/prepare-blog-image.ts` exige essa referência e gera o arquivo final por slug em `public/images/blog/`.
+
 O MDX v1 é Markdown-only: imports, exports, expressões, HTML e JSX são rejeitados. Componentes estruturais vivem em `src/components/blog/`.
 
 O Analytics reutiliza a única instalação GA4 e o helper existente. CTAs de artigo enviam `whatsapp_click`, `service`, `dentist`, `cta_location=blog_article`, `content_slug`, aliases legados e dados de origem, sem PII ou texto clínico.

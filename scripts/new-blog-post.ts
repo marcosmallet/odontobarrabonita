@@ -3,6 +3,7 @@ import path from "node:path";
 import { getAllPosts } from "@/lib/blog/posts";
 import { getDentalService, dentalServices, type DentalServiceId } from "@/lib/blog/services";
 import { blogCategories } from "@/lib/blog/categories";
+import { getDentist } from "@/lib/blog/authors";
 
 function slugify(value: string) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -72,7 +73,9 @@ Escreva aqui uma resposta clara e responsável à dúvida principal. Este scaffo
 `;
 fs.writeFileSync(outputPath, body, "utf8");
 console.log(`Draft criado: ${outputPath}`);
-console.log(`Categoria: ${category.label}; revisor: ${config.professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
+const professional = getDentist(config.professionalId)!;
+console.log(`Categoria: ${category.label}; profissional da imagem/revisor: ${config.professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
+console.log(`Gere uma cena de atendimento usando ${professional.shortName} como referência: npm run blog:image -- --slug=${slug} --service=${service} --input=<imagem-gerada> --reference=public${professional.photoPath}`);
 }
 
 void main();
