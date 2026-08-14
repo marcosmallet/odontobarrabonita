@@ -44,10 +44,22 @@ export function getAllPosts() {
   return sourceFiles().map(parseBlogFile);
 }
 
+function publishedAtTimestamp(value: string | null) {
+  if (!value) return Number.NEGATIVE_INFINITY;
+  const timestamp = Date.parse(value);
+  return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
+}
+
+export function comparePublishedPosts(a: Pick<BlogPost, "publishedAt" | "slug">, b: Pick<BlogPost, "publishedAt" | "slug">) {
+  const byTimestamp = publishedAtTimestamp(b.publishedAt) - publishedAtTimestamp(a.publishedAt);
+  if (byTimestamp !== 0) return byTimestamp;
+  return a.slug.localeCompare(b.slug);
+}
+
 export function getPublishedPosts() {
   return getAllPosts()
     .filter((post) => isPublishedPost(post))
-    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
+    .sort(comparePublishedPosts);
 }
 
 export function getPostBySlug(slug: string) {

@@ -21,8 +21,8 @@ function errorFor(post: BlogPost, message: string) {
 
 function isRealDate(value: string | null) {
   if (!value) return true;
-  const parsed = new Date(`${value}T12:00:00Z`);
-  return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().startsWith(value);
+  const parsed = new Date(value);
+  return !Number.isNaN(parsed.valueOf());
 }
 
 function internalLinks(content: string) {

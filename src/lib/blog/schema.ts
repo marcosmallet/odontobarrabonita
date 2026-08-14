@@ -2,10 +2,22 @@ import { z } from "zod";
 import { blogCategories, type BlogCategoryId } from "./categories";
 import { dentalServices, type DentalServiceId } from "./services";
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use a data ISO YYYY-MM-DD.");
+const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+const isoDateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/;
+
+function isValidCalendarDate(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
 const isoDateValue = z.preprocess(
-  (value) => value instanceof Date ? value.toISOString().slice(0, 10) : value,
-  isoDate.nullable(),
+  (value) => value instanceof Date ? value.toISOString() : value,
+  z.string().refine((value) => {
+    if (isoDatePattern.test(value)) return isValidCalendarDate(value);
+    if (!isoDateTimePattern.test(value) || !isValidCalendarDate(value.slice(0, 10))) return false;
+    return !Number.isNaN(Date.parse(value));
+  }, "Use uma data ISO YYYY-MM-DD ou um horário ISO-8601 com fuso.").nullable(),
 );
 
 export const blogStatusSchema = z.enum(["draft", "review", "published"]);

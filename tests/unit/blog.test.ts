@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { blogFrontmatterSchema, isPublishedPost, validatePublicationState, type BlogPost } from "../../src/lib/blog/schema";
-import { selectRelatedPosts } from "../../src/lib/blog/posts";
+import { comparePublishedPosts, selectRelatedPosts } from "../../src/lib/blog/posts";
 import { getBlogPostJsonLd, getBlogPostMetadata } from "../../src/lib/blog/seo";
 import { validateMdxSyntax } from "../../scripts/validate-blog";
 import sitemap from "../../src/app/sitemap";
@@ -40,6 +40,14 @@ test("aceita frontmatter válido e rejeita categoria inexistente", () => {
   assert.equal(blogFrontmatterSchema.safeParse({ ...post(), category: "categoria-inventada" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...post(), service: "servico-inventado" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...post(), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...post(), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
+});
+
+test("ordena artigos pelo horário publicado e usa o slug como desempate", () => {
+  const newer = { publishedAt: "2026-08-14T15:17:04-03:00", slug: "mais-novo" } as const;
+  const older = { publishedAt: "2026-08-14T12:19:31-03:00", slug: "mais-velho" } as const;
+  assert.equal(comparePublishedPosts(newer, older) < 0, true);
+  assert.equal(comparePublishedPosts({ publishedAt: "2026-08-14", slug: "a" }, { publishedAt: "2026-08-14", slug: "b" }) < 0, true);
 });
 
 test("publicação não exige aprovação, mas exige publishedAt", () => {

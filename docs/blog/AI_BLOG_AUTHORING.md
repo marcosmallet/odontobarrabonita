@@ -29,7 +29,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão; os campos de revisão são apenas informativos e não bloqueiam a publicação.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão; os campos de revisão são apenas informativos e não bloqueiam a publicação. Para novos artigos publicados, registre `publishedAt` como horário ISO-8601 com fuso, por exemplo `"2026-08-14T15:17:04-03:00"`; datas `YYYY-MM-DD` antigas continuam válidas. O índice ordena pelo instante mais recente e usa o slug como desempate.
 
 ## Imagem e conteúdo médico
 
