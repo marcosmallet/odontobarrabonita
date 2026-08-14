@@ -30,6 +30,9 @@ export function Footer() {
                 </li>
               ))}
               <li>
+                <Link href="/blog/" className="rounded-sm transition-colors hover:text-turquoise-light focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-turquoise">Blog</Link>
+              </li>
+              <li>
                 <Link
                   href="/politica-de-privacidade/"
                   target="_blank"

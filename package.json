@@ -4,22 +4,37 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/normalize-review-metadata.mjs",
+    "prebuild": "npm run blog:validate",
+    "build": "next build && node scripts/normalize-review-metadata.mjs && node scripts/remove-blog-sentinel.mjs",
     "preview": "serve out -l 4173",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run build",
-    "test:e2e": "npm run build && playwright test"
+    "test": "tsx --test tests/unit/blog.test.ts tests/unit/blog-validate.test.ts",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "blog:new": "tsx scripts/new-blog-post.ts",
+    "blog:image": "tsx scripts/prepare-blog-image.ts",
+    "blog:validate": "tsx scripts/validate-blog-cli.ts",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:blog": "node scripts/run-blog-e2e.mjs"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/mdx": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.2.10",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^1.23.0",
     "next": "16.2.10",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "remark-frontmatter": "^5.0.0",
+    "sharp": "^0.35.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
+    "@types/mdx": "^2.0.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -27,6 +42,7 @@
     "eslint-config-next": "16.2.10",
     "serve": "^14.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }

@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
+import { getPublishedPosts } from "@/lib/blog/posts";
 import { SITE_URL } from "@/lib/site-data";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const publishedPosts = getPublishedPosts();
   return [
     {
       url: SITE_URL,
@@ -50,5 +52,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${SITE_URL}/blog/`,
+      changeFrequency: "weekly",
+      priority: 0.7,
+      ...(publishedPosts[0]?.publishedAt ? { lastModified: publishedPosts[0].updatedAt ?? publishedPosts[0].publishedAt } : {}),
+    },
+    ...publishedPosts.map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}/`,
+      lastModified: post.updatedAt ?? post.publishedAt!,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ];
 }

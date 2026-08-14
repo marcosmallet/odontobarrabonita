@@ -455,7 +455,8 @@ test("mantém os links na mesma ordem das seções", async ({ page }, testInfo) 
       const mobileNavigation = page.getByRole("navigation", {
         name: "Navegação para dispositivos móveis",
       });
-      await expect(mobileNavigation.getByRole("link")).toHaveText(expectedLabels);
+      await expect(mobileNavigation.getByRole("link")).toHaveText([...expectedLabels, "Blog"]);
+      await expect(mobileNavigation.getByRole("link", { name: "Blog", exact: true })).toHaveAttribute("href", "/blog/");
       await mobileNavigation.getByRole("link", { name: item.label, exact: true }).click();
       await expect.poll(() => page.evaluate(() => window.location.hash)).toBe(item.href);
     }

@@ -7,6 +7,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { ClinicGallery } from "@/components/clinic-gallery";
+import { BlogRelatedService } from "@/components/blog/blog-related-service";
 import { ConversionLink } from "@/components/conversion-link";
 import { DentistCard } from "@/components/dentist-card";
 import { FAQ } from "@/components/faq";
@@ -113,6 +114,7 @@ export function ServiceLandingPage({ config }: { config: ServiceLandingConfig })
         <section id="contato" data-service-section="final-cta" className="section-space bg-white"><div className="site-container"><div className="relative overflow-hidden rounded-[2.5rem] bg-petroleum text-white shadow-[0_24px_70px_rgba(15,83,78,0.16)]"><div className="grid items-stretch lg:grid-cols-[1fr_0.72fr]"><div className="relative z-10 px-6 py-12 sm:px-10 sm:py-16 lg:px-16"><p className="text-xs font-bold uppercase tracking-[0.18em] text-turquoise-light">{config.final.eyebrow}</p><h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">{config.final.title}</h2><p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">{config.final.description}</p><ConversionLink href={whatsappUrl} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" eventParams={eventParams("final_cta")} className="mt-8 inline-flex min-h-13 cursor-pointer items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-petroleum transition-colors duration-200 hover:bg-mist focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-turquoise"><MessageCircle className="size-5" aria-hidden="true" />Agendar pelo WhatsApp</ConversionLink></div><div className="relative min-h-64 overflow-hidden lg:min-h-0"><Image data-service-image="cta" src={config.ctaImage.src} alt={config.ctaImage.alt} fill sizes="(min-width: 1024px) 35vw, 100vw" className="object-cover object-center lg:object-[center_38%]" /></div></div></div></div></section>
 
         <section data-service-section="related" className="border-b border-line bg-mist/60 py-8"><div className="site-container text-center"><p className="text-sm leading-6 text-graphite/75">Conteúdos relacionados: {config.relatedLinks.map((link, index) => <span key={link.href}>{index > 0 ? " · " : ""}<Link href={link.href} className="font-semibold text-turquoise-dark underline decoration-turquoise/35 underline-offset-4 hover:text-petroleum">{link.label}</Link></span>)}</p></div></section>
+        <BlogRelatedService service={config.id} />
         <section data-service-section="legal" className="border-b border-line bg-mist/60 py-7"><div className="site-container flex flex-col items-center justify-center gap-3 text-center sm:flex-row"><CheckCircle2 className="size-6 shrink-0 text-turquoise-dark" aria-hidden="true" /><p className="text-sm leading-6 text-graphite/75">Este conteúdo tem caráter informativo. A indicação de tratamento depende de avaliação individual realizada por cirurgião-dentista.</p></div></section>
       </main>
       <Footer />

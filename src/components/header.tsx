@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { ClinicLogo } from "./clinic-logo";
 import { WhatsAppChooserTrigger } from "./whatsapp-chooser";
@@ -8,6 +10,8 @@ import { navigation } from "@/lib/site-data";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const sectionHref = (href: string) => pathname === "/" ? href : `/${href}`;
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
@@ -20,7 +24,7 @@ export function Header() {
               {navigation.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={`/${item.href}`}
                     className="rounded-full px-3 py-2 text-sm font-medium text-graphite/80 transition-colors duration-200 hover:bg-mist hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
                   >
                     {item.label}
@@ -28,7 +32,9 @@ export function Header() {
                 </li>
               ))}
             </ul>
-          </nav>
+            </nav>
+
+          <Link href="/blog/" prefetch={false} className="hidden rounded-full px-3 py-2 text-sm font-medium text-graphite/80 transition-colors duration-200 hover:bg-mist hover:text-petroleum focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise lg:inline-flex">Blog</Link>
 
           <div className="hidden sm:block">
             <WhatsAppChooserTrigger tracking={{ ctaLocation: "header", ctaType: "appointment", ctaText: "Agendar avaliação" }} className="button-primary h-11 px-5 text-sm">
@@ -62,7 +68,7 @@ export function Header() {
               {navigation.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={sectionHref(item.href)}
                     onClick={() => setIsOpen(false)}
                     className="block rounded-xl px-4 py-3 font-medium text-graphite transition-colors hover:bg-mist focus-visible:outline-2 focus-visible:outline-turquoise"
                   >
@@ -70,6 +76,16 @@ export function Header() {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/blog/"
+                  prefetch={false}
+                  onClick={() => setIsOpen(false)}
+                  className="block rounded-xl px-4 py-3 font-medium text-graphite transition-colors hover:bg-mist focus-visible:outline-2 focus-visible:outline-turquoise"
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
             <WhatsAppChooserTrigger tracking={{ ctaLocation: "header", ctaType: "appointment", ctaText: "Agendar avaliação" }} className="button-primary mt-4 w-full sm:hidden">
               Agendar avaliação

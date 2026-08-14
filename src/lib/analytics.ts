@@ -1,21 +1,12 @@
+import type { DentalServiceId } from "@/lib/blog/services";
+
 export type ConversionEventName =
   | "whatsapp_click"
   | "phone_click"
   | "directions_click"
   | "appointment_click";
 
-export type DentalService =
-  | "implante"
-  | "canal"
-  | "clareamento"
-  | "ortodontia"
-  | "protese"
-  | "restauracao"
-  | "limpeza"
-  | "alinhadores"
-  | "harmonizacao"
-  | "toxina"
-  | "geral";
+export type DentalService = DentalServiceId | "geral";
 
 export type DentistId = "carlos" | "francisco" | "marcia" | "clinic";
 
@@ -30,7 +21,8 @@ export type CtaLocation =
   | "team_section"
   | "faq"
   | "footer"
-  | "final_cta";
+  | "final_cta"
+  | "blog_article";
 
 export type CtaType =
   | "contact"
@@ -62,6 +54,7 @@ export type ConversionEventParams = {
   lead_source?: LeadSource;
   page_path?: string;
   page_title?: string;
+  content_slug?: string;
 
   // Legacy parameters kept for compatibility with existing components and GA4 dimensions.
   dentist_id?: string;
@@ -278,6 +271,7 @@ function normalizeCtaLocation(value: string | undefined): CtaLocation {
     case "faq":
     case "footer":
     case "final_cta":
+    case "blog_article":
       return value;
     case "service_card":
       return "services";
@@ -299,6 +293,12 @@ function normalizeCtaText(value: string | undefined) {
   if (!value) return undefined;
   const text = value.replace(/\s+/g, " ").trim().slice(0, 100);
   return text || undefined;
+}
+
+function normalizeContentSlug(value: string | undefined) {
+  if (!value) return undefined;
+  const slug = value.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 100);
+  return slug || undefined;
 }
 
 function normalizeParams(
@@ -333,6 +333,8 @@ function normalizeParams(
   };
 
   if (pageTitle) payload.page_title = pageTitle;
+  const contentSlug = normalizeContentSlug(params.content_slug);
+  if (contentSlug) payload.content_slug = contentSlug;
   const ctaText = normalizeCtaText(params.cta_text);
   if (ctaText) payload.cta_text = ctaText;
   if (params.destination) payload.destination = params.destination;

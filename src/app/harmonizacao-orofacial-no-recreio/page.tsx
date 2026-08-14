@@ -18,6 +18,7 @@ import evaluationImage from "../../../public/images/harmonizacao/avaliacao-facia
 import planningImage from "../../../public/images/harmonizacao/planejamento-harmonizacao.webp";
 import ctaImage from "../../../public/images/harmonizacao/cta-harmonizacao-natural.webp";
 import { ClinicGallery } from "@/components/clinic-gallery";
+import { BlogRelatedService } from "@/components/blog/blog-related-service";
 import { ConversionLink } from "@/components/conversion-link";
 import { DentistCard } from "@/components/dentist-card";
 import { FAQ, type FAQItem } from "@/components/faq";
@@ -670,6 +671,7 @@ export default function HarmonizacaoOrofacialNoRecreioPage() {
           </div>
         </section>
       </main>
+      <BlogRelatedService service="harmonizacao" />
       <Footer />
       <ConversionLink
         href={whatsappUrl}

@@ -33,6 +33,7 @@ export type Dentist = {
   phoneInternational: string;
   whatsappUrl: string;
   sourceUrl: string;
+  photoPath: string;
 };
 
 export const defaultWhatsappMessage =
@@ -66,6 +67,7 @@ export const dentists: Dentist[] = [
     whatsappUrl: buildWhatsappUrl("+5521998934620", defaultWhatsappMessage),
     sourceUrl:
       "https://maps.app.goo.gl/YLcDUy3MAc3wN16F9",
+    photoPath: "/images/profissionais/carlos-rocha.webp",
   },
   {
     id: "francisco",
@@ -79,6 +81,7 @@ export const dentists: Dentist[] = [
     phoneInternational: "+5521971340807",
     whatsappUrl: buildWhatsappUrl("+5521971340807", defaultWhatsappMessage),
     sourceUrl: "https://www.instagram.com/dr.frankcalheiros/",
+    photoPath: "/images/profissionais/francisco-calheiros.webp",
   },
   {
     id: "marcia",
@@ -93,6 +96,7 @@ export const dentists: Dentist[] = [
     whatsappUrl: buildWhatsappUrl("+5521996564620", defaultWhatsappMessage),
     sourceUrl:
       "https://maps.app.goo.gl/LJzUNNG4ZB5F6MLJ9",
+    photoPath: "/images/profissionais/marcia-rocha.webp",
   },
 ];
 

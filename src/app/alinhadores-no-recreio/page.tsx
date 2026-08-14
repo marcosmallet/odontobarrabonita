@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import alignersHeroImage from "../../../public/images/alinhadores-hero.webp";
 import { ClinicGallery } from "@/components/clinic-gallery";
+import { BlogRelatedService } from "@/components/blog/blog-related-service";
 import { ConversionLink } from "@/components/conversion-link";
 import { DentistCard } from "@/components/dentist-card";
 import { FAQ, type FAQItem } from "@/components/faq";
@@ -728,6 +729,7 @@ export default function AlinhadoresNoRecreioPage() {
         </section>
       </main>
 
+      <BlogRelatedService service="alinhadores" />
       <Footer />
 
       <ConversionLink
