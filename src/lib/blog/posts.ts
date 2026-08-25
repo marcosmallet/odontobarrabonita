@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { isPublishedPost, blogFrontmatterSchema, type BlogPost } from "./schema";
+import { blogFrontmatterSchema, type BlogPost } from "./schema";
 
 export const BLOG_CONTENT_DIR = path.join(process.cwd(), "content", "blog");
 
@@ -44,8 +44,7 @@ export function getAllPosts() {
   return sourceFiles().map(parseBlogFile);
 }
 
-function publishedAtTimestamp(value: string | null) {
-  if (!value) return Number.NEGATIVE_INFINITY;
+function publishedAtTimestamp(value: string) {
   const timestamp = Date.parse(value);
   return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
 }
@@ -58,7 +57,6 @@ export function comparePublishedPosts(a: Pick<BlogPost, "publishedAt" | "slug">,
 
 export function getPublishedPosts() {
   return getAllPosts()
-    .filter((post) => isPublishedPost(post))
     .sort(comparePublishedPosts);
 }
 

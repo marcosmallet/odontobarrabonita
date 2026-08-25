@@ -9,7 +9,7 @@ import { getBlogPostJsonLd, blogPostUrl } from "@/lib/blog/seo";
 import { blogCategories } from "@/lib/blog/categories";
 import { getDentalService } from "@/lib/blog/services";
 import { getRelatedPosts } from "@/lib/blog/posts";
-import { isPublishedPost, type BlogPost } from "@/lib/blog/schema";
+import { type BlogPost } from "@/lib/blog/schema";
 import { SITE_URL } from "@/lib/site-data";
 
 export function BlogArticle({ post, children }: { post: BlogPost; children: ReactNode }) {
@@ -49,12 +49,6 @@ export function BlogArticle({ post, children }: { post: BlogPost; children: Reac
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
     </>
-  );
-}
-
-export function blogPreviewBanner(post: BlogPost) {
-  return isPublishedPost(post) ? null : (
-    <p className="fixed inset-x-0 bottom-0 z-50 bg-petroleum px-4 py-3 text-center text-sm font-semibold text-white">Prévia local — este artigo não está publicado.</p>
   );
 }
 

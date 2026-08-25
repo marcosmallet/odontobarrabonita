@@ -7,11 +7,11 @@ Cada artigo é um arquivo `.mdx` com uma imagem WebP/AVIF em `public/images/blog
 3. Escolha um serviço do registry; categoria, profissional, landing e CTA são derivados dele.
 4. Gere uma cena de atendimento com o profissional do serviço usando a foto oficial como referência: `npm run blog:image -- --slug={slug} --service={service} --input=<imagem-gerada> --reference=public<foto-oficial>`. Não use pessoa aleatória.
 5. Execute `npm run blog:validate`.
-6. Mantenha o scaffold como `draft` enquanto estiver incompleto; após a validação, use `status: published` e `publishedAt` como horário ISO-8601 com fuso, por exemplo `"2026-08-14T15:17:04-03:00"`. Datas `YYYY-MM-DD` antigas continuam válidas. Não há etapa obrigatória de aprovação.
+6. Todo artigo válido é publicado automaticamente. `publishedAt` é gerado pelo `npm run blog:new` e serve somente para ordenar os artigos pelo horário, com o slug como desempate. Não existem `status`, `updatedAt`, `review` ou modo rascunho.
 
 O cabeçalho dos artigos e os cards do índice exibem apenas autoria e/ou tempo estimado de leitura; datas e revisão não são apresentados como blocos visuais.
 
-Drafts e artigos em revisão não entram no índice, sitemap, RSS, relacionados ou produção.
+Todos os artigos carregados entram no índice, sitemap, RSS, relacionados e produção; apenas `_template.mdx` e o fixture opcional ficam fora do catálogo padrão.
 
 `fixture-blog.mdx` e sua imagem só são carregados em testes quando
 `BLOG_INCLUDE_FIXTURES=1`; nunca use esse modo no deploy.

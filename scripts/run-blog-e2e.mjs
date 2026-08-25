@@ -2,9 +2,18 @@ import { spawnSync } from "node:child_process";
 
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const environment = { ...process.env, BLOG_INCLUDE_FIXTURES: "1" };
+const spawnOptions = { stdio: "inherit", env: environment, shell: process.platform === "win32" };
 
-const build = spawnSync(npm, ["run", "build"], { stdio: "inherit", env: environment });
-if (build.status !== 0) process.exit(build.status ?? 1);
+function run(args) {
+  const result = spawnSync(npm, args, spawnOptions);
+  if (result.error) {
+    console.error(`Failed to start ${npm}: ${result.error.message}`);
+    return 1;
+  }
+  return result.status ?? 1;
+}
 
-const tests = spawnSync(npm, ["exec", "playwright", "test"], { stdio: "inherit", env: environment });
-process.exit(tests.status ?? 1);
+const buildStatus = run(["run", "build"]);
+if (buildStatus !== 0) process.exit(buildStatus);
+
+process.exit(run(["exec", "playwright", "test"]));

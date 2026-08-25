@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import sharp from "sharp";
 import { getAllPosts } from "@/lib/blog/posts";
 import { dentalServices } from "@/lib/blog/services";
-import { isPublishedPost, validatePublicationState, type BlogPost } from "@/lib/blog/schema";
+import { type BlogPost } from "@/lib/blog/schema";
 
 export type BlogValidationResult = { errors: string[]; warnings: string[] };
 
@@ -19,7 +19,7 @@ function errorFor(post: BlogPost, message: string) {
   return `${path.relative(process.cwd(), post.sourcePath)}: ${message}`;
 }
 
-function isRealDate(value: string | null) {
+function isRealDate(value: string) {
   if (!value) return true;
   const parsed = new Date(value);
   return !Number.isNaN(parsed.valueOf());
@@ -80,17 +80,18 @@ export async function validateBlog(): Promise<BlogValidationResult> {
   const slugs = new Map<string, BlogPost>();
   const queries = new Map<string, BlogPost>();
   for (const post of posts) {
-    result.errors.push(...validatePublicationState(post).map((message) => errorFor(post, message)));
     const service = dentalServices[post.service];
     if (service.category !== post.category) result.errors.push(errorFor(post, `categoria ${post.category} não corresponde ao serviço ${post.service}.`));
-    if (!isRealDate(post.publishedAt) || !isRealDate(post.updatedAt) || !isRealDate(post.review.reviewedAt)) result.errors.push(errorFor(post, "data de frontmatter inválida."));
+    if (!isRealDate(post.publishedAt)) result.errors.push(errorFor(post, "data de frontmatter inválida."));
+    if (post.featuredImage !== `/images/blog/${post.slug}.webp` && post.featuredImage !== `/images/blog/${post.slug}.avif`) {
+      result.errors.push(errorFor(post, "featuredImage deve corresponder ao slug e usar WebP ou AVIF."));
+    }
     if (slugs.has(post.slug)) result.errors.push(errorFor(post, `slug duplicado com ${slugs.get(post.slug)!.sourcePath}.`));
     slugs.set(post.slug, post);
     const queryKey = post.primaryQuery.trim().toLocaleLowerCase("pt-BR");
     if (queries.has(queryKey)) {
       const previous = queries.get(queryKey)!;
-      const message = isPublishedPost(post) && isPublishedPost(previous) ? "primaryQuery duplicada entre artigos publicados." : "primaryQuery duplicada; revisar possível canibalização.";
-      result.errors.push(errorFor(post, `${message} Também aparece em ${previous.sourcePath}.`));
+      result.errors.push(errorFor(post, `primaryQuery duplicada entre artigos publicados. Também aparece em ${previous.sourcePath}.`));
     }
     queries.set(queryKey, post);
     for (const other of posts) {
@@ -103,14 +104,12 @@ export async function validateBlog(): Promise<BlogValidationResult> {
       related.add(slug);
       const relatedPost = posts.find((candidate) => candidate.slug === slug);
       if (!relatedPost) result.errors.push(errorFor(post, `related post inexistente: ${slug}.`));
-      if (isPublishedPost(post) && relatedPost && !isPublishedPost(relatedPost)) result.errors.push(errorFor(post, `artigo publicado não pode relacionar draft/review: ${slug}.`));
     }
     for (const link of internalLinks(post.content)) {
       if (link.startsWith("/blog/")) {
         const target = link.replace(/^\/blog\//, "").replace(/\/$/, "");
         const targetPost = posts.find((candidate) => candidate.slug === target);
         if (!targetPost) result.errors.push(errorFor(post, `link de blog inexistente: ${link}.`));
-        if (isPublishedPost(post) && targetPost && !isPublishedPost(targetPost)) result.errors.push(errorFor(post, `link público aponta para draft/review: ${link}.`));
       } else if (!publicStaticPaths.has(link)) {
         result.warnings.push(errorFor(post, `link interno não catalogado: ${link}.`));
       }

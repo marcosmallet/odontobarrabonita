@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { blogFrontmatterSchema, isPublishedPost, validatePublicationState, type BlogPost } from "../../src/lib/blog/schema";
-import { comparePublishedPosts, selectRelatedPosts } from "../../src/lib/blog/posts";
+import { blogFrontmatterSchema, type BlogPost } from "../../src/lib/blog/schema";
+import { comparePublishedPosts, getPublishedPosts, selectRelatedPosts } from "../../src/lib/blog/posts";
 import { getBlogPostJsonLd, getBlogPostMetadata } from "../../src/lib/blog/seo";
 import { validateMdxSyntax } from "../../scripts/validate-blog";
 import sitemap from "../../src/app/sitemap";
@@ -12,16 +12,13 @@ function post(overrides: Partial<BlogPost> = {}): BlogPost {
     title: "Tratamento de canal dói?",
     slug: "tratamento-de-canal-doi",
     description: "Entenda como funciona a avaliação.",
-    status: "published",
     publishedAt: "2026-08-01",
-    updatedAt: null,
     category: "endodontia",
     service: "canal",
     searchIntent: "informational",
     primaryQuery: "tratamento de canal dói",
     secondaryQueries: [],
     author: "clinic",
-    review: { status: "approved", reviewer: "francisco", reviewedAt: "2026-08-02" },
     featuredImage: "/images/blog/tratamento-de-canal-doi.webp",
     featuredImageAlt: "Dentista conversando com paciente",
     relatedPosts: [],
@@ -35,12 +32,24 @@ function post(overrides: Partial<BlogPost> = {}): BlogPost {
   };
 }
 
+function frontmatter(value: BlogPost) {
+  const result: Record<string, unknown> = { ...value };
+  delete result.content;
+  delete result.sourcePath;
+  delete result.isFixture;
+  delete result.readingTimeMinutes;
+  return result;
+}
+
 test("aceita frontmatter válido e rejeita categoria inexistente", () => {
-  assert.equal(blogFrontmatterSchema.safeParse(post()).success, true);
-  assert.equal(blogFrontmatterSchema.safeParse({ ...post(), category: "categoria-inventada" }).success, false);
-  assert.equal(blogFrontmatterSchema.safeParse({ ...post(), service: "servico-inventado" }).success, false);
-  assert.equal(blogFrontmatterSchema.safeParse({ ...post(), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
-  assert.equal(blogFrontmatterSchema.safeParse({ ...post(), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse(frontmatter(post())).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), category: "categoria-inventada" }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), service: "servico-inventado" }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), status: "published" }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: null }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), review: { status: "approved" } }).success, false);
 });
 
 test("ordena artigos pelo horário publicado e usa o slug como desempate", () => {
@@ -50,13 +59,16 @@ test("ordena artigos pelo horário publicado e usa o slug como desempate", () =>
   assert.equal(comparePublishedPosts({ publishedAt: "2026-08-14", slug: "a" }, { publishedAt: "2026-08-14", slug: "b" }) < 0, true);
 });
 
-test("publicação não exige aprovação, mas exige publishedAt", () => {
-  const published = post({ status: "published", review: { status: "pending", reviewer: "francisco", reviewedAt: null } });
-  assert.deepEqual(validatePublicationState(published), []);
-  assert.equal(isPublishedPost(published), true);
-  const incomplete = post({ status: "published", review: { status: "pending", reviewer: "francisco", reviewedAt: null }, publishedAt: null, featuredImage: "/images/blog/tratamento-de-canal-doi.webp" });
-  assert.deepEqual(validatePublicationState(incomplete), ["status published exige publishedAt."]);
-  assert.equal(isPublishedPost(incomplete), false);
+test("todo artigo válido é público e publishedAt é obrigatório apenas para ordenação", () => {
+  const withoutPublishedAt = frontmatter(post());
+  delete withoutPublishedAt.publishedAt;
+  assert.equal(blogFrontmatterSchema.safeParse(withoutPublishedAt).success, false);
+  assert.equal(getPublishedPosts().length, 3);
+  assert.deepEqual(getPublishedPosts().map((item) => item.slug), [
+    "protese-dentaria-tipos-e-indicacoes",
+    "aparelho-transparente-ou-aparelho-fixo",
+    "tratamento-de-canal-doi",
+  ]);
 });
 
 test("relaciona explícitos, serviço e categoria sem repetir o próprio artigo", () => {
@@ -69,10 +81,13 @@ test("relaciona explícitos, serviço e categoria sem repetir o próprio artigo"
 
 test("gera metadata e BlogPosting derivados do post", () => {
   const current = post();
-  assert.equal(getBlogPostMetadata(current).alternates?.canonical, "https://odontobarrabonita.com.br/blog/tratamento-de-canal-doi/");
+  const metadata = getBlogPostMetadata(current);
+  assert.equal(metadata.alternates?.canonical, "https://odontobarrabonita.com.br/blog/tratamento-de-canal-doi/");
+  assert.equal("publishedTime" in (metadata.openGraph ?? {}), false);
+  assert.equal("modifiedTime" in (metadata.openGraph ?? {}), false);
   const jsonLd = getBlogPostJsonLd(current);
   assert.equal(jsonLd["@graph"][0]["@type"], "BlogPosting");
-  assert.equal(jsonLd["@graph"][0].datePublished, "2026-08-01");
+  assert.equal((jsonLd["@graph"][0] as Record<string, unknown>).datePublished, undefined);
 });
 
 test("rejeita MDX inseguro e H1 no corpo", () => {
@@ -89,4 +104,7 @@ test("sitemap e RSS incluem o índice e artigos publicados", async () => {
   const feedText = await feed.text();
   assert.match(feedText, /<channel>/);
   assert.match(feedText, /tratamento-de-canal-doi/);
+  assert.doesNotMatch(feedText, /<pubDate>/);
+  const articleEntry = entries.find((entry) => entry.url?.includes("/blog/tratamento-de-canal-doi/"));
+  assert.equal(articleEntry?.lastModified, undefined);
 });

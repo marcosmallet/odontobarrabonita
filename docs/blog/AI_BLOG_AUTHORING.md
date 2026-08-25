@@ -6,8 +6,8 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 - Nunca crie uma página React para um artigo; use apenas `content/blog/{slug}.mdx`.
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
-- Não existe etapa obrigatória de aprovação no fluxo. Depois de conteúdo, imagem, fontes e validações concluídos, o artigo pode ser publicado diretamente.
-- Não exiba no cabeçalho dos artigos nem nos cards do índice as datas de publicação/atualização ou a linha de revisor; essas informações permanecem apenas nos metadados estruturados e nos artefatos técnicos.
+- Todo artigo MDX válido é publicado automaticamente; não existem modo rascunho, campo `status` ou etapa de aprovação/revisão.
+- `publishedAt` é preenchido automaticamente e usado somente para ordenar o índice; não é exibido nem replicado em SEO, RSS ou sitemap.
 - A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
@@ -25,25 +25,25 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 8. Escrever para pessoas, responder cedo e usar H2/H3; não exigir contagem fixa de palavras.
 9. Adicionar somente links contextuais reais.
 10. Executar `npm run blog:validate`, lint, typecheck, testes e build.
-11. Manter `status: draft` ou `review` enquanto o conteúdo estiver incompleto. Depois de `npm run blog:validate`, lint, typecheck, testes e build passarem, registrar `status: published` e `publishedAt`; `review.status` não bloqueia a publicação.
+11. Completar conteúdo, imagem e fontes e executar `npm run blog:validate`, lint, typecheck, testes e build. Se algum gate falhar, corrigir o arquivo; não criar ou restaurar estados de rascunho/revisão.
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão; os campos de revisão são apenas informativos e não bloqueiam a publicação. Para novos artigos publicados, registre `publishedAt` como horário ISO-8601 com fuso, por exemplo `"2026-08-14T15:17:04-03:00"`; datas `YYYY-MM-DD` antigas continuam válidas. O índice ordena pelo instante mais recente e usa o slug como desempate.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão. O gerador registra `publishedAt` automaticamente como horário ISO-8601; esse campo existe apenas para ordenar pelo instante mais recente, usando o slug como desempate.
 
 ## Imagem e conteúdo médico
 
-Gere uma fotografia institucional realista de atendimento, com o profissional oficial relacionado ao serviço conversando ou orientando um paciente. Use a foto oficial apenas como referência de identidade; o arquivo final deve mostrar uma situação de atendimento, ser WebP/AVIF otimizado e não conter texto ou marca d'água. O alt deve descrever a cena, nunca repetir keywords. Sem acesso a fontes, escreva de forma conservadora e marque o artigo para revisão; nunca fabrique referências.
+Gere uma fotografia institucional realista de atendimento, com o profissional oficial relacionado ao serviço conversando ou orientando um paciente. Use a foto oficial apenas como referência de identidade; o arquivo final deve mostrar uma situação de atendimento, ser WebP/AVIF otimizado e não conter texto ou marca d'água. O alt deve descrever a cena, nunca repetir keywords. Sem acesso a fontes, escreva de forma conservadora e nunca fabrique referências.
 
 ### Fallback sem geração de imagem
 
-Se o agente não tiver uma ferramenta de geração/otimização de imagem, não invente um arquivo nem publique o artigo. Gere um prompt para produção posterior, por exemplo:
+Se o agente não tiver uma ferramenta de geração/otimização de imagem, não invente um arquivo. Gere um prompt para produção posterior, por exemplo:
 
 ```text
 Fotografia editorial realista, horizontal 16:9, 1600x900, do profissional oficial relacionado ao serviço conversando e orientando um paciente em consultório odontológico, usando a foto oficial como referência de identidade, iluminação natural, sem texto, sem logotipos, sem sangue, sem antes/depois e sem substituir o rosto por uma pessoa aleatória.
 ```
 
-Mantenha `status: draft` e a imagem pendente até o arquivo WebP/AVIF otimizado existir e passar por `npm run blog:validate`; depois publique diretamente, sem etapa de aprovação.
+O arquivo continuará sujeito ao `npm run blog:validate` e não será aceito pelo build enquanto o arquivo WebP/AVIF otimizado não existir; não há estado editorial intermediário.
 
 ## Como solicitar um novo artigo
 
@@ -72,8 +72,8 @@ Search intent: informational
 Siga docs/blog/AI_BLOG_AUTHORING.md.
 ```
 
-Mesmo com prompt curto, a IA deve descobrir registries, imagem, links, schema, CTA, Analytics, validação e revisão pelo repositório. Não deve perguntar novamente dados já cadastrados.
+Mesmo com prompt curto, a IA deve descobrir registries, imagem, links, schema, CTA, Analytics e validação pelo repositório. Não deve perguntar novamente dados já cadastrados.
 
 ## Exemplo não publicado
 
-O `_template.mdx` é um exemplo estrutural e nunca pode ser publicado. Publique apenas arquivos de artigo completos e validados.
+O `_template.mdx` é um exemplo estrutural excluído do catálogo. Os demais arquivos só entram no build quando estiverem completos e tecnicamente validados.

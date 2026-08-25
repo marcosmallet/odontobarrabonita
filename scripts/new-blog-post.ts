@@ -43,23 +43,18 @@ fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 const category = blogCategories[config.category];
 const escapedTitle = title.replaceAll('"', '\\"');
 const escapedQuery = query.replaceAll('"', '\\"');
+const publishedAt = new Date().toISOString();
 const body = `---
 title: "${escapedTitle}"
 slug: "${slug}"
 description: ""
-status: draft
-publishedAt: null
-updatedAt: null
+publishedAt: "${publishedAt}"
 category: "${category.id}"
 service: "${service}"
 searchIntent: "${intent}"
 primaryQuery: "${escapedQuery}"
 secondaryQueries: []
 author: clinic
-review:
-  status: pending
-  reviewer: "${config.professionalId}"
-  reviewedAt: null
 featuredImage: "/images/blog/${slug}.webp"
 featuredImageAlt: ""
 relatedPosts: []
@@ -72,9 +67,9 @@ references: []
 Escreva aqui uma resposta clara e responsável à dúvida principal. Este scaffold não gera conteúdo clínico automaticamente.
 `;
 fs.writeFileSync(outputPath, body, "utf8");
-console.log(`Draft criado: ${outputPath}`);
+console.log(`Artigo criado para publicação automática: ${outputPath}`);
 const professional = getDentist(config.professionalId)!;
-console.log(`Categoria: ${category.label}; profissional da imagem/revisor: ${config.professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
+console.log(`Categoria: ${category.label}; profissional vinculado: ${config.professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
 console.log(`Gere uma cena de atendimento usando ${professional.shortName} como referência: npm run blog:image -- --slug=${slug} --service=${service} --input=<imagem-gerada> --reference=public${professional.photoPath}`);
 }
 
