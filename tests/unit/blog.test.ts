@@ -63,8 +63,9 @@ test("todo artigo válido é público e publishedAt é obrigatório apenas para 
   const withoutPublishedAt = frontmatter(post());
   delete withoutPublishedAt.publishedAt;
   assert.equal(blogFrontmatterSchema.safeParse(withoutPublishedAt).success, false);
-  assert.equal(getPublishedPosts().length, 3);
+  assert.equal(getPublishedPosts().length, 4);
   assert.deepEqual(getPublishedPosts().map((item) => item.slug), [
+    "clareamento-dental-estraga-os-dentes",
     "protese-dentaria-tipos-e-indicacoes",
     "aparelho-transparente-ou-aparelho-fixo",
     "tratamento-de-canal-doi",
