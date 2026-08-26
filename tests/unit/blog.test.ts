@@ -6,6 +6,8 @@ import { getBlogPostJsonLd, getBlogPostMetadata } from "../../src/lib/blog/seo";
 import { validateMdxSyntax } from "../../scripts/validate-blog";
 import sitemap from "../../src/app/sitemap";
 import { GET as getFeed } from "../../src/app/blog/feed.xml/route";
+import { buildSitemap } from "../../src/lib/seo-pages";
+import { services } from "../../src/lib/site-data";
 
 function post(overrides: Partial<BlogPost> = {}): BlogPost {
   return {
@@ -49,6 +51,9 @@ test("aceita frontmatter válido e rejeita categoria inexistente", () => {
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), status: "published" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: null }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: "2026-08-02" }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: "2026-07-31" }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: "2026-02-30" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), review: { status: "approved" } }).success, false);
 });
 
@@ -63,13 +68,11 @@ test("todo artigo válido é público e publishedAt é obrigatório apenas para 
   const withoutPublishedAt = frontmatter(post());
   delete withoutPublishedAt.publishedAt;
   assert.equal(blogFrontmatterSchema.safeParse(withoutPublishedAt).success, false);
-  assert.equal(getPublishedPosts().length, 4);
-  assert.deepEqual(getPublishedPosts().map((item) => item.slug), [
-    "clareamento-dental-estraga-os-dentes",
-    "protese-dentaria-tipos-e-indicacoes",
-    "aparelho-transparente-ou-aparelho-fixo",
-    "tratamento-de-canal-doi",
-  ]);
+  const posts = getPublishedPosts();
+  assert.equal(posts.length >= 4, true);
+  assert.equal(posts.every((item) => !item.isFixture), true);
+  assert.equal(posts.some((item) => item.slug === "tratamento-de-canal-doi"), true);
+  assert.equal(posts.some((item) => item.slug === "protese-dentaria-tipos-e-indicacoes"), true);
 });
 
 test("relaciona explícitos, serviço e categoria sem repetir o próprio artigo", () => {
@@ -107,5 +110,24 @@ test("sitemap e RSS incluem o índice e artigos publicados", async () => {
   assert.match(feedText, /tratamento-de-canal-doi/);
   assert.doesNotMatch(feedText, /<pubDate>/);
   const articleEntry = entries.find((entry) => entry.url?.includes("/blog/tratamento-de-canal-doi/"));
-  assert.equal(articleEntry?.lastModified, undefined);
+  assert.equal(articleEntry?.lastModified instanceof Date, true);
+  assert.equal(entries.every((entry) => !("priority" in entry) && !("changeFrequency" in entry)), true);
+  assert.equal(new Set(entries.map((entry) => entry.url)).size, entries.length);
+  for (const service of services) {
+    if (service.detailsHref) {
+      assert.equal(entries.filter((entry) => entry.url?.endsWith(service.detailsHref!)).length, 1);
+    }
+  }
+  assert.equal(entries.some((entry) => entry.url?.endsWith("/avaliar/")), false);
+});
+
+test("sitemap usa updatedAt quando disponível e publishedAt como fallback", () => {
+  const withUpdate = buildSitemap([
+    post({ publishedAt: "2026-08-01", updatedAt: "2026-08-05", slug: "artigo-atualizado" }),
+  ], [], []);
+  const withoutUpdate = buildSitemap([
+    post({ publishedAt: "2026-08-01", slug: "artigo-sem-atualizacao" }),
+  ], [], []);
+  assert.equal(new Date(withUpdate[0].lastModified as string | Date).toISOString(), "2026-08-05T00:00:00.000Z");
+  assert.equal(new Date(withoutUpdate[0].lastModified as string | Date).toISOString(), "2026-08-01T00:00:00.000Z");
 });

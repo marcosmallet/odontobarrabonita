@@ -42,7 +42,7 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Build static site
+      - name: Build static site and validate SEO export
         run: npm run build
 
       - name: Upload Pages artifact

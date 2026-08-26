@@ -12,11 +12,17 @@ template compartilhado
         ├── BlogPosting + BreadcrumbList
         ├── CTA → serviço → profissional → landing
         ├── relacionados e FAQ visual
-        ├── sitemap
+        ├── sitemap (páginas institucionais + serviços + artigos)
         └── RSS
 ```
 
-O conteúdo é compilado pelo `@next/mdx` no build. O App Router usa `generateStaticParams()` e static export. Todo MDX válido gera rota e é indexável; não existem drafts, revisão ou filtro de publicação. `publishedAt` é usado somente para ordenar o catálogo.
+O conteúdo é compilado pelo `@next/mdx` no build. O App Router usa `generateStaticParams()` e static export. Todo MDX válido gera rota e é indexável; não existem drafts, revisão ou filtro de publicação. `publishedAt` representa a publicação e ordena o catálogo; `updatedAt` opcional representa uma alteração editorial posterior.
+
+`src/lib/seo-pages.ts` centraliza as páginas institucionais, deriva landings de `services[].detailsHref`, incorpora `getPublishedPosts()` e normaliza URLs. `/avaliar/` é explicitamente não indexável. O sitemap omite `lastmod` de páginas estáticas e usa `updatedAt ?? publishedAt` nos artigos.
+
+Ao criar uma nova landing de serviço, basta manter o `detailsHref` no item correspondente de `src/lib/site-data.ts`. Uma nova página institucional que não seja serviço deve ser adicionada a `staticIndexablePages`; em ambos os casos, o build confirma que a rota exportada tem canonical indexável e aparece exatamente uma vez no sitemap.
+
+Depois do build, `npm run seo:validate` inspeciona o XML, o HTML exportado, `robots.txt` e o feed RSS. A validação bloqueia URLs duplicadas ou malformadas, páginas indexáveis ausentes, canonical divergente, `noindex` no sitemap e datas editoriais incorretas. Um novo build não altera `lastmod` de páginas cujo conteúdo não mudou.
 
 `src/lib/blog/services.ts` é o registry relacional do blog; `src/lib/site-data.ts` continua sendo a fonte institucional dos profissionais e contatos. A API central impede que sitemap, RSS, relacionados e componentes implementem filtros divergentes.
 

@@ -22,11 +22,12 @@ const isoDateValue = z.preprocess(
 
 export const searchIntentSchema = z.enum(["informational", "commercial", "commercial-local"]);
 
-export const blogFrontmatterSchema = z.strictObject({
+const blogFrontmatterFields = {
   title: z.string().trim().min(1),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug deve usar lowercase e hífens."),
   description: z.string().trim().min(1).max(320),
   publishedAt: isoDateValue,
+  updatedAt: isoDateValue.optional(),
   category: z.string().refine((value): value is BlogCategoryId => value in blogCategories, "Categoria inexistente."),
   service: z.string().refine((value): value is DentalServiceId => value in dentalServices, "Serviço inexistente."),
   searchIntent: searchIntentSchema,
@@ -42,6 +43,19 @@ export const blogFrontmatterSchema = z.strictObject({
     publisher: z.string().trim().min(1),
     url: z.string().url().refine((value) => value.startsWith("https://"), "Referência deve usar HTTPS."),
   })).default([]),
+};
+
+export const blogFrontmatterSchema = z.strictObject(blogFrontmatterFields).superRefine((value, context) => {
+  if (!value.updatedAt) return;
+  const publishedTimestamp = Date.parse(value.publishedAt);
+  const updatedTimestamp = Date.parse(value.updatedAt);
+  if (updatedTimestamp < publishedTimestamp) {
+    context.addIssue({
+      code: "custom",
+      path: ["updatedAt"],
+      message: "updatedAt não pode ser anterior a publishedAt.",
+    });
+  }
 });
 
 export type BlogFrontmatter = z.infer<typeof blogFrontmatterSchema>;

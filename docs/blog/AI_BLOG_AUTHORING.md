@@ -7,7 +7,8 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 - Nunca crie uma página React para um artigo; use apenas `content/blog/{slug}.mdx`.
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
 - Todo artigo MDX válido é publicado automaticamente; não existem modo rascunho, campo `status` ou etapa de aprovação/revisão.
-- `publishedAt` é preenchido automaticamente e usado somente para ordenar o índice; não é exibido nem replicado em SEO, RSS ou sitemap.
+- `publishedAt` representa a data real de publicação e é usado para ordenar o índice e informar o `lastmod` inicial do sitemap; não é exibido na interface, RSS ou Schema.org.
+- `updatedAt` é opcional, aceita `YYYY-MM-DD` ou ISO-8601 completo com fuso e só deve ser atualizado após uma alteração editorial significativa. Ele substitui `publishedAt` no `lastmod`; nunca é atualizado automaticamente por build ou deploy e não pode ser anterior à publicação.
 - A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
@@ -29,7 +30,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão. O gerador registra `publishedAt` automaticamente como horário ISO-8601; esse campo existe apenas para ordenar pelo instante mais recente, usando o slug como desempate.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão. O gerador registra `publishedAt` como horário ISO-8601; esse campo representa a publicação real, ordena pelo instante mais recente e alimenta o `lastmod` enquanto `updatedAt` não existir. Um novo deploy não representa uma mudança de conteúdo.
 
 ## Imagem e conteúdo médico
 
@@ -76,4 +77,4 @@ Mesmo com prompt curto, a IA deve descobrir registries, imagem, links, schema, C
 
 ## Exemplo não publicado
 
-O `_template.mdx` é um exemplo estrutural excluído do catálogo. Os demais arquivos só entram no build quando estiverem completos e tecnicamente validados.
+O `_template.mdx` é um exemplo estrutural excluído do catálogo. Todo outro MDX presente no diretório, quando completo e tecnicamente validado, é considerado publicado automaticamente; não existem drafts, status ou agendamento.

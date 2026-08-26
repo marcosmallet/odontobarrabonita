@@ -12,6 +12,10 @@
 - [ ] Conteúdo e imagem completos; revisão é opcional e não bloqueia a publicação
 - [ ] Metadata, canonical e Open Graph gerados
 - [ ] BlogPosting e breadcrumb válidos
-- [ ] Sitemap/RSS derivados do estado publicado
+- [ ] `publishedAt` representa a publicação real
+- [ ] `updatedAt` só existe após alteração editorial relevante e não é anterior a `publishedAt`
+- [ ] Sitemap/RSS derivados de todos os artigos presentes no catálogo
+- [ ] Sitemap sem datas artificiais de build, sem duplicatas, URLs externas ou páginas `noindex`
 - [ ] `npm run blog:validate`
+- [ ] `npm run seo:validate`
 - [ ] lint, typecheck, testes e build
