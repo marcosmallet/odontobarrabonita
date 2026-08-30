@@ -20,13 +20,24 @@ const isoDateValue = z.preprocess(
   }, "Use uma data ISO YYYY-MM-DD ou um horário ISO-8601 com fuso."),
 );
 
+const isoDateTimeValue = z.preprocess(
+  (value) => value instanceof Date ? value.toISOString() : value,
+  z.string().refine(
+    (value) =>
+      isoDateTimePattern.test(value) &&
+      isValidCalendarDate(value.slice(0, 10)) &&
+      !Number.isNaN(Date.parse(value)),
+    "Use um horário ISO-8601 completo com fuso.",
+  ),
+);
+
 export const searchIntentSchema = z.enum(["informational", "commercial", "commercial-local"]);
 
 const blogFrontmatterFields = {
   title: z.string().trim().min(1),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug deve usar lowercase e hífens."),
   description: z.string().trim().min(1).max(320),
-  publishedAt: isoDateValue,
+  publishedAt: isoDateTimeValue,
   updatedAt: isoDateValue.optional(),
   category: z.string().refine((value): value is BlogCategoryId => value in blogCategories, "Categoria inexistente."),
   service: z.string().refine((value): value is DentalServiceId => value in dentalServices, "Serviço inexistente."),

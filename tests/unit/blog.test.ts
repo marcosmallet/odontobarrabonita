@@ -14,7 +14,7 @@ function post(overrides: Partial<BlogPost> = {}): BlogPost {
     title: "Tratamento de canal dói?",
     slug: "tratamento-de-canal-doi",
     description: "Entenda como funciona a avaliação.",
-    publishedAt: "2026-08-01",
+    publishedAt: "2026-08-01T00:00:00.000Z",
     category: "endodontia",
     service: "canal",
     searchIntent: "informational",
@@ -49,6 +49,7 @@ test("aceita frontmatter válido e rejeita categoria inexistente", () => {
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), service: "servico-inventado" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), status: "published" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: null }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), updatedAt: "2026-08-02" }).success, true);
@@ -61,10 +62,10 @@ test("ordena artigos pelo horário publicado e usa o slug como desempate", () =>
   const newer = { publishedAt: "2026-08-14T15:17:04-03:00", slug: "mais-novo" } as const;
   const older = { publishedAt: "2026-08-14T12:19:31-03:00", slug: "mais-velho" } as const;
   assert.equal(comparePublishedPosts(newer, older) < 0, true);
-  assert.equal(comparePublishedPosts({ publishedAt: "2026-08-14", slug: "a" }, { publishedAt: "2026-08-14", slug: "b" }) < 0, true);
+  assert.equal(comparePublishedPosts({ publishedAt: "2026-08-14T00:00:00.000Z", slug: "a" }, { publishedAt: "2026-08-14T00:00:00.000Z", slug: "b" }) < 0, true);
 });
 
-test("todo artigo válido é público e publishedAt é obrigatório apenas para ordenação", () => {
+test("todo artigo válido é público e publishedAt é obrigatório para publicação e ordenação", () => {
   const withoutPublishedAt = frontmatter(post());
   delete withoutPublishedAt.publishedAt;
   assert.equal(blogFrontmatterSchema.safeParse(withoutPublishedAt).success, false);
@@ -123,10 +124,10 @@ test("sitemap e RSS incluem o índice e artigos publicados", async () => {
 
 test("sitemap usa updatedAt quando disponível e publishedAt como fallback", () => {
   const withUpdate = buildSitemap([
-    post({ publishedAt: "2026-08-01", updatedAt: "2026-08-05", slug: "artigo-atualizado" }),
+    post({ publishedAt: "2026-08-01T00:00:00.000Z", updatedAt: "2026-08-05", slug: "artigo-atualizado" }),
   ], [], []);
   const withoutUpdate = buildSitemap([
-    post({ publishedAt: "2026-08-01", slug: "artigo-sem-atualizacao" }),
+    post({ publishedAt: "2026-08-01T00:00:00.000Z", slug: "artigo-sem-atualizacao" }),
   ], [], []);
   assert.equal(new Date(withUpdate[0].lastModified as string | Date).toISOString(), "2026-08-05T00:00:00.000Z");
   assert.equal(new Date(withoutUpdate[0].lastModified as string | Date).toISOString(), "2026-08-01T00:00:00.000Z");
