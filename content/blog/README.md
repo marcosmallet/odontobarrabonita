@@ -13,7 +13,7 @@ O cabeçalho dos artigos e os cards do índice exibem apenas autoria e/ou tempo 
 
 Todos os artigos carregados entram no índice, sitemap, RSS, relacionados e produção; apenas `_template.mdx` e o fixture opcional ficam fora do catálogo padrão.
 
-`publishedAt` aceita uma data `YYYY-MM-DD` ou um timestamp ISO-8601 com fuso. `updatedAt` usa os mesmos formatos, não pode ser anterior à publicação e não deve ser alterado por causa de um novo build ou deploy. No sitemap, artigos usam `updatedAt` quando informado e, caso contrário, `publishedAt`; páginas estáticas não recebem uma data artificial de build.
+`publishedAt` exige um timestamp ISO-8601 completo com horário e fuso, pois representa o instante real de publicação. `updatedAt` aceita uma data `YYYY-MM-DD` ou um timestamp ISO-8601 com fuso, não pode ser anterior à publicação e não deve ser alterado por causa de um novo build ou deploy. No sitemap, artigos usam `updatedAt` quando informado e, caso contrário, `publishedAt`; páginas estáticas não recebem uma data artificial de build.
 
 `fixture-blog.mdx` e sua imagem só são carregados em testes quando
 `BLOG_INCLUDE_FIXTURES=1`; nunca use esse modo no deploy.

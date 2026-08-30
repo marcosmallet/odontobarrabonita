@@ -7,7 +7,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 - Nunca crie uma página React para um artigo; use apenas `content/blog/{slug}.mdx`.
 - Nunca duplique dados de profissional, serviço, CTA, Analytics ou landing page.
 - Todo artigo MDX válido é publicado automaticamente; não existem modo rascunho, campo `status` ou etapa de aprovação/revisão.
-- `publishedAt` representa a data real de publicação e é usado para ordenar o índice e informar o `lastmod` inicial do sitemap; não é exibido na interface, RSS ou Schema.org.
+- `publishedAt` representa o instante real de publicação, deve usar timestamp ISO-8601 completo com horário e fuso e é usado para ordenar o índice e informar o `lastmod` inicial do sitemap; não é exibido na interface, RSS ou Schema.org.
 - `updatedAt` é opcional, aceita `YYYY-MM-DD` ou ISO-8601 completo com fuso e só deve ser atualizado após uma alteração editorial significativa. Ele substitui `publishedAt` no `lastmod`; nunca é atualizado automaticamente por build ou deploy e não pode ser anterior à publicação.
 - A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
