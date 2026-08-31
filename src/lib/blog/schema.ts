@@ -44,7 +44,7 @@ const blogFrontmatterFields = {
   searchIntent: searchIntentSchema,
   primaryQuery: z.string().trim().min(1),
   secondaryQueries: z.array(z.string().trim().min(1)).default([]),
-  author: z.enum(["clinic", "carlos", "francisco", "marcia"]),
+  author: z.literal("clinic"),
   featuredImage: z.string().regex(/^\/images\/blog\/[a-z0-9-]+\.(?:webp|avif)$/),
   featuredImageAlt: z.string().trim().min(8).max(180),
   relatedPosts: z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)).default([]),

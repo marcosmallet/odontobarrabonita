@@ -30,7 +30,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é o padrão. O gerador registra `publishedAt` como horário ISO-8601; esse campo representa a publicação real, ordena pelo instante mais recente e alimenta o `lastmod` enquanto `updatedAt` não existir. Um novo deploy não representa uma mudança de conteúdo.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é obrigatório e é o único valor aceito; ele exibe **Clínica Odontológica Barra Bonita**. Não substitua esse campo por um profissional ou outro identificador. O gerador registra `publishedAt` como horário ISO-8601; esse campo representa a publicação real, ordena pelo instante mais recente e alimenta o `lastmod` enquanto `updatedAt` não existir. Um novo deploy não representa uma mudança de conteúdo.
 
 ## Imagem e conteúdo médico
 

@@ -9,6 +9,8 @@ Cada artigo é um arquivo `.mdx` com uma imagem WebP/AVIF em `public/images/blog
 5. Execute `npm run blog:validate`.
 6. Todo artigo válido é publicado automaticamente. `publishedAt` representa a publicação real e é usado para ordenar os artigos pelo horário, com o slug como desempate. `updatedAt` é opcional e só deve ser preenchido após uma alteração editorial relevante; não existem `status`, `review` ou modo rascunho.
 
+O campo `author` é fixo em `clinic`, que corresponde a **Clínica Odontológica Barra Bonita**. Outros valores são rejeitados pela validação do frontmatter.
+
 O cabeçalho dos artigos e os cards do índice exibem apenas autoria e/ou tempo estimado de leitura; datas e revisão não são apresentados como blocos visuais.
 
 Todos os artigos carregados entram no índice, sitemap, RSS, relacionados e produção; apenas `_template.mdx` e o fixture opcional ficam fora do catálogo padrão.

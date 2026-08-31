@@ -47,6 +47,7 @@ test("aceita frontmatter válido e rejeita categoria inexistente", () => {
   assert.equal(blogFrontmatterSchema.safeParse(frontmatter(post())).success, true);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), category: "categoria-inventada" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), service: "servico-inventado" }).success, false);
+  assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), author: "francisco" }).success, false);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: new Date("2026-08-01T00:00:00Z") }).success, true);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14T15:17:04-03:00" }).success, true);
   assert.equal(blogFrontmatterSchema.safeParse({ ...frontmatter(post()), publishedAt: "2026-08-14" }).success, false);
@@ -71,6 +72,7 @@ test("todo artigo válido é público e publishedAt é obrigatório para publica
   assert.equal(blogFrontmatterSchema.safeParse(withoutPublishedAt).success, false);
   const posts = getPublishedPosts();
   assert.equal(posts.length >= 4, true);
+  assert.equal(posts.every((item) => item.author === "clinic"), true);
   assert.equal(posts.every((item) => !item.isFixture), true);
   assert.equal(posts.some((item) => item.slug === "tratamento-de-canal-doi"), true);
   assert.equal(posts.some((item) => item.slug === "protese-dentaria-tipos-e-indicacoes"), true);
