@@ -12,6 +12,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 - A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
+- Em links externos inline, deixe clicável apenas o nome da fonte ou o título do documento; mantenha a afirmação fora do link. Links internos podem usar rótulos contextuais.
 - Slugs publicados são imutáveis no GitHub Pages; uma mudança futura exige solução de redirect HTTP real antes de remover a URL antiga.
 
 ## Fluxo obrigatório
