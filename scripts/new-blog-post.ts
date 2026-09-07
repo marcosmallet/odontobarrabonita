@@ -31,6 +31,8 @@ const slug = slugify(input.slug || await ask("Slug", slugify(title)));
 const service = (input.service || await ask(`Service (${Object.keys(dentalServices).join(", ")})`)) as DentalServiceId;
 const config = getDentalService(service);
 if (!config) throw new Error(`Service inexistente: ${service}`);
+const professionalId = input.professional || config.professionalId;
+if (!getDentist(professionalId)) throw new Error(`Profissional inexistente: ${professionalId}`);
 const query = input.query || await ask("Primary query", title.toLocaleLowerCase("pt-BR"));
 const intent = input.intent || await ask("Search intent", "informational");
 if (!/^(informational|commercial|commercial-local)$/.test(intent)) throw new Error(`Search intent inválido: ${intent}`);
@@ -51,7 +53,7 @@ description: ""
 publishedAt: "${publishedAt}"
 category: "${category.id}"
 service: "${service}"
-searchIntent: "${intent}"
+${input.professional ? `professionalId: "${professionalId}"\n` : ""}searchIntent: "${intent}"
 primaryQuery: "${escapedQuery}"
 secondaryQueries: []
 author: clinic
@@ -68,8 +70,8 @@ Escreva aqui uma resposta clara e responsável à dúvida principal. Este scaffo
 `;
 fs.writeFileSync(outputPath, body, "utf8");
 console.log(`Artigo criado para publicação automática: ${outputPath}`);
-const professional = getDentist(config.professionalId)!;
-console.log(`Categoria: ${category.label}; profissional vinculado: ${config.professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
+const professional = getDentist(professionalId)!;
+console.log(`Categoria: ${category.label}; profissional vinculado: ${professionalId}; imagem esperada: /public/images/blog/${slug}.webp`);
 console.log(`Gere uma cena de atendimento usando ${professional.shortName} como referência: npm run blog:image -- --slug=${slug} --service=${service} --input=<imagem-gerada> --reference=public${professional.photoPath}`);
 }
 

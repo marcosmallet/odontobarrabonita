@@ -9,7 +9,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 - Todo artigo MDX válido é publicado automaticamente; não existem modo rascunho, campo `status` ou etapa de aprovação/revisão.
 - `publishedAt` representa o instante real de publicação, deve usar timestamp ISO-8601 completo com horário e fuso e é usado para ordenar o índice e informar o `lastmod` inicial do sitemap; não é exibido na interface, RSS ou Schema.org.
 - `updatedAt` é opcional, aceita `YYYY-MM-DD` ou ISO-8601 completo com fuso e só deve ser atualizado após uma alteração editorial significativa. Ele substitui `publishedAt` no `lastmod`; nunca é atualizado automaticamente por build ou deploy e não pode ser anterior à publicação.
-- A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional relacionado ao `service` no registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
+- A imagem destacada deve ser uma cena gerada de atendimento em que aparece o profissional resolvido para o artigo: use `professionalId` quando a pauta indicar um profissional diferente do padrão do `service`; caso contrário, use o profissional do registry. Use a foto oficial de `src/lib/site-data.ts` como referência de identidade; nunca use pessoa aleatória, banco de imagem ou profissional diferente.
 - Nunca invente diagnóstico, eficácia, porcentagem, prognóstico, contraindicação, referência, DOI, CRO, telefone, preço ou resultado.
 - Não crie tags ou páginas para cada variação de keyword. Verifique intenção e canibalização antes de criar.
 - Em links externos inline, deixe clicável apenas o nome da fonte ou o título do documento; mantenha a afirmação fora do link. Links internos podem usar rótulos contextuais.
@@ -23,7 +23,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 4. Verificar se a intenção já é atendida; prefira atualizar artigo existente quando houver canibalização.
 5. Definir intenção, query principal, serviço e fontes confiáveis quando houver afirmações clínicas.
 6. Criar o MDX com `npm run blog:new` ou `_template.mdx`.
-7. Gerar/verificar visualmente uma cena de atendimento com o profissional relacionado ao serviço e salvar `public/images/blog/{slug}.webp` ou `.avif`; use `npm run blog:image -- --slug={slug} --service={service} --input=<imagem-gerada> --reference=public<foto-oficial>`. O script exige a referência oficial correspondente.
+7. Gerar/verificar visualmente uma cena de atendimento com o profissional resolvido para o artigo e salvar `public/images/blog/{slug}.webp` ou `.avif`; use `npm run blog:image -- --slug={slug} --service={service} --input=<imagem-gerada> --reference=public<foto-oficial>`. O script exige a referência oficial correspondente.
 8. Escrever para pessoas, responder cedo e usar H2/H3; não exigir contagem fixa de palavras.
 9. Adicionar somente links contextuais reais.
 10. Executar `npm run blog:validate`, lint, typecheck, testes e build.
@@ -31,7 +31,7 @@ Este documento é a fonte de verdade para criação e edição de artigos do blo
 
 ## Frontmatter mínimo
 
-Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `author: clinic` é obrigatório e é o único valor aceito; ele exibe **Clínica Odontológica Barra Bonita**. Não substitua esse campo por um profissional ou outro identificador. O gerador registra `publishedAt` como horário ISO-8601; esse campo representa a publicação real, ordena pelo instante mais recente e alimenta o `lastmod` enquanto `updatedAt` não existir. Um novo deploy não representa uma mudança de conteúdo.
+Use os campos de `_template.mdx`. `canonical`, metadata, JSON-LD, CTA, profissional, relacionados, sitemap, RSS e Analytics são automáticos. `professionalId` é opcional e deve usar somente um ID já cadastrado quando a issue indicar um profissional diferente do padrão do serviço. `author: clinic` é obrigatório e é o único valor aceito; ele exibe **Clínica Odontológica Barra Bonita**. Não substitua esse campo por um profissional ou outro identificador. O gerador registra `publishedAt` como horário ISO-8601; esse campo representa a publicação real, ordena pelo instante mais recente e alimenta o `lastmod` enquanto `updatedAt` não existir. Um novo deploy não representa uma mudança de conteúdo.
 
 ## Imagem e conteúdo médico
 

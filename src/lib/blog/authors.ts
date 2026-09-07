@@ -19,6 +19,6 @@ export function getBlogAuthor(id: BlogAuthorId) {
   return blogAuthors[id];
 }
 
-export function getDentist(id: Dentist["id"]) {
+export function getDentist(id: string) {
   return dentists.find((dentist) => dentist.id === id);
 }
