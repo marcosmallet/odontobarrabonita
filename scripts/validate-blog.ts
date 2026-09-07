@@ -10,6 +10,7 @@ export type BlogValidationResult = { errors: string[]; warnings: string[] };
 
 const publicStaticPaths = new Set([
   "/",
+  "/dentista-no-recreio/",
   "/blog/",
   "/politica-de-privacidade/",
   ...Object.values(dentalServices).map((service) => service.landingPage),
