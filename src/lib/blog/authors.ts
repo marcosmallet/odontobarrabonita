@@ -19,6 +19,10 @@ export function getBlogAuthor(id: BlogAuthorId) {
   return blogAuthors[id];
 }
 
-export function getDentist(id: Dentist["id"]) {
+export function isDentistId(value: string): value is Dentist["id"] {
+  return dentists.some((dentist) => dentist.id === value);
+}
+
+export function getDentist(id: string) {
   return dentists.find((dentist) => dentist.id === id);
 }

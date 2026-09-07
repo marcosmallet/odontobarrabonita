@@ -7,7 +7,8 @@ import { buildWhatsappUrl } from "@/lib/site-data";
 
 export function BlogCTA({ post }: { post: BlogPost }) {
   const service = getDentalService(post.service)!;
-  const dentist = getDentist(service.professionalId)!;
+  const professionalId = post.featuredProfessional ?? service.professionalId;
+  const dentist = getDentist(professionalId)!;
   const href = buildWhatsappUrl(dentist.phoneInternational, service.whatsappMessage);
   return (
     <section className="blog-cta mt-16 overflow-hidden rounded-[2rem] bg-petroleum px-6 py-10 text-white sm:px-10 sm:py-12" aria-labelledby="blog-cta-title">
@@ -16,7 +17,7 @@ export function BlogCTA({ post }: { post: BlogPost }) {
         <h2 id="blog-cta-title" className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{service.ctaTitle}</h2>
         <p className="mt-4 max-w-xl leading-7 text-white/75">{service.ctaDescription}</p>
         <div className="mt-7 flex flex-wrap gap-3">
-          <ConversionLink href={href} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" eventParams={{ service: post.service, dentist: service.professionalId, cta_location: "blog_article", cta_type: "appointment", cta_text: "Agendar uma avaliação", content_slug: post.slug, contact_method: "whatsapp" }} className="button-primary bg-white text-petroleum hover:bg-mist">
+        <ConversionLink href={href} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" eventParams={{ service: post.service, dentist: professionalId, cta_location: "blog_article", cta_type: "appointment", cta_text: "Agendar uma avaliação", content_slug: post.slug, contact_method: "whatsapp" }} className="button-primary bg-white text-petroleum hover:bg-mist">
             <MessageCircle className="size-5" aria-hidden="true" /> Agendar uma avaliação
           </ConversionLink>
           <a href={service.landingPage} className="button-secondary border-white/30 bg-transparent text-white hover:border-white hover:bg-white/10">{service.ctaLinkLabel}</a>

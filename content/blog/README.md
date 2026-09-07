@@ -5,7 +5,7 @@ Cada artigo é um arquivo `.mdx` com uma imagem WebP/AVIF em `public/images/blog
 1. Leia [`docs/blog/AI_BLOG_AUTHORING.md`](../../docs/blog/AI_BLOG_AUTHORING.md).
 2. Use `_template.mdx` ou `npm run blog:new`.
 3. Escolha um serviço do registry; categoria, profissional, landing e CTA são derivados dele.
-4. Gere uma cena de atendimento com o profissional do serviço usando a foto oficial como referência: `npm run blog:image -- --slug={slug} --service={service} --input=<imagem-gerada> --reference=public<foto-oficial>`. Não use pessoa aleatória.
+4. Gere uma cena de atendimento com o profissional do serviço usando a foto oficial como referência; se o artigo declarar `featuredProfessional`, use o profissional cadastrado nesse campo: `npm run blog:image -- --slug={slug} --service={service} [--professional={featuredProfessional}] --input=<imagem-gerada> --reference=public<foto-oficial>`. Não use pessoa aleatória.
 5. Execute `npm run blog:validate`.
 6. Todo artigo válido é publicado automaticamente. `publishedAt` representa a publicação real e é usado para ordenar os artigos pelo horário, com o slug como desempate. `updatedAt` é opcional e só deve ser preenchido após uma alteração editorial relevante; não existem `status`, `review` ou modo rascunho.
 
