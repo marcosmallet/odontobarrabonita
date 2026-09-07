@@ -13,13 +13,14 @@ function value(name: string) {
 async function main() {
   const slug = value("slug");
   const serviceId = value("service") as DentalServiceId | undefined;
+  const professionalId = value("professional");
   const input = value("input");
   const reference = value("reference");
   if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Use --slug=slug-valido.");
   if (!serviceId || !getDentalService(serviceId)) throw new Error("Use --service=servico-do-catalogo.");
   if (!input) throw new Error("Use --input=caminho-da-imagem-gerada.");
   const service = getDentalService(serviceId)!;
-  const professional = getDentist(service.professionalId);
+  const professional = getDentist(professionalId ?? service.professionalId);
   if (!professional) throw new Error(`Profissional não encontrado para o serviço: ${serviceId}.`);
   const officialReferencePath = path.resolve(process.cwd(), "public", professional.photoPath.replace(/^\//, ""));
   if (!reference || path.resolve(reference) !== officialReferencePath) {

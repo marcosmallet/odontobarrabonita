@@ -26,7 +26,7 @@ Depois do build, `npm run seo:validate` inspeciona o XML, o HTML exportado, `rob
 
 `src/lib/blog/services.ts` é o registry relacional do blog; `src/lib/site-data.ts` continua sendo a fonte institucional dos profissionais e contatos. A API central impede que sitemap, RSS, relacionados e componentes implementem filtros divergentes.
 
-O mesmo vínculo `service → professionalId` define a foto oficial usada como referência de identidade na cena gerada da imagem destacada. `scripts/prepare-blog-image.ts` exige essa referência e gera o arquivo final por slug em `public/images/blog/`.
+O vínculo `service → professionalId` define o profissional padrão e a foto oficial usada como referência de identidade na cena gerada da imagem destacada. Um artigo pode declarar `featuredProfessional` com outro ID já cadastrado quando a pauta editorial exigir um profissional específico; nesse caso, CTA, Analytics e imagem usam esse profissional apenas para o artigo. `scripts/prepare-blog-image.ts` exige essa referência e gera o arquivo final por slug em `public/images/blog/`.
 
 O MDX v1 é Markdown-only: imports, exports, expressões, HTML e JSX são rejeitados. Componentes estruturais vivem em `src/components/blog/`.
 
