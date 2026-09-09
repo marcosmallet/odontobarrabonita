@@ -3,6 +3,7 @@ import path from "node:path";
 import sharp from "sharp";
 import { getDentalService, type DentalServiceId } from "@/lib/blog/services";
 import { getDentist } from "@/lib/blog/authors";
+import { getPostBySlug } from "@/lib/blog/posts";
 
 function value(name: string) {
   const prefix = `--${name}=`;
@@ -19,7 +20,9 @@ async function main() {
   if (!serviceId || !getDentalService(serviceId)) throw new Error("Use --service=servico-do-catalogo.");
   if (!input) throw new Error("Use --input=caminho-da-imagem-gerada.");
   const service = getDentalService(serviceId)!;
-  const professional = getDentist(service.professionalId);
+  const post = getPostBySlug(slug);
+  const professionalId = post?.professionalId ?? service.professionalId;
+  const professional = getDentist(professionalId);
   if (!professional) throw new Error(`Profissional não encontrado para o serviço: ${serviceId}.`);
   const officialReferencePath = path.resolve(process.cwd(), "public", professional.photoPath.replace(/^\//, ""));
   if (!reference || path.resolve(reference) !== officialReferencePath) {

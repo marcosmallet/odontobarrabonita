@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { blogCategories, type BlogCategoryId } from "./categories";
 import { dentalServices, type DentalServiceId } from "./services";
+import { dentists } from "@/lib/site-data";
 
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 const isoDateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2})$/;
@@ -31,6 +32,11 @@ const isoDateTimeValue = z.preprocess(
   ),
 );
 
+const professionalIdValue = z.string().trim().min(1).refine(
+  (value) => dentists.some((dentist) => dentist.id === value),
+  "Profissional inexistente.",
+);
+
 export const searchIntentSchema = z.enum(["informational", "commercial", "commercial-local"]);
 
 const blogFrontmatterFields = {
@@ -41,6 +47,7 @@ const blogFrontmatterFields = {
   updatedAt: isoDateValue.optional(),
   category: z.string().refine((value): value is BlogCategoryId => value in blogCategories, "Categoria inexistente."),
   service: z.string().refine((value): value is DentalServiceId => value in dentalServices, "Serviço inexistente."),
+  professionalId: professionalIdValue.optional(),
   searchIntent: searchIntentSchema,
   primaryQuery: z.string().trim().min(1),
   secondaryQueries: z.array(z.string().trim().min(1)).default([]),
