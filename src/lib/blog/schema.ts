@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isDentistId } from "./authors";
 import { blogCategories, type BlogCategoryId } from "./categories";
 import { dentalServices, type DentalServiceId } from "./services";
 
@@ -41,6 +42,7 @@ const blogFrontmatterFields = {
   updatedAt: isoDateValue.optional(),
   category: z.string().refine((value): value is BlogCategoryId => value in blogCategories, "Categoria inexistente."),
   service: z.string().refine((value): value is DentalServiceId => value in dentalServices, "Serviço inexistente."),
+  featuredProfessional: z.string().refine(isDentistId, "Profissional inexistente.").optional(),
   searchIntent: searchIntentSchema,
   primaryQuery: z.string().trim().min(1),
   secondaryQueries: z.array(z.string().trim().min(1)).default([]),
